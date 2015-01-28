@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -76,47 +77,68 @@ public class RMSController {
     @RequestMapping("/login")
     public ModelAndView login() {   
         ModelAndView mav = new ModelAndView("login", "title", "RMS | Log in"); 
-        
         return mav;
     }  
     
     @RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
-    public ModelAndView loginSubmit(@ModelAttribute("user")User user, ModelMap model) throws Exception {
+    public ModelAndView loginSubmit(@ModelAttribute("user")User user, ModelMap model,HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView("login"); 
         mav.addObject("title","RMS | Log in");   
         if(dbModel.canLogin(user.getUsername(), user.getPassword()))
         {
+            request.getSession(true).setAttribute("sessVar",user.getUsername());
             mav = new ModelAndView("projectoutlook"); 
             mav.addObject("title","RMS | Project Outlook");
             mav.addObject("projects", getOutlook());
         }
         return mav;
-    } 
+    }
+    
+    @RequestMapping(value = "/logoutSubmit", method = RequestMethod.POST)
+    public ModelAndView logoutSubmit(ModelMap model,HttpServletRequest request) throws Exception {
+        ModelAndView mav = new ModelAndView("login"); 
+        mav.addObject("title","RMS | Log in");
+        request.getSession().invalidate();
+        return mav;
+    }
     
     @RequestMapping("/outlook")
-    public ModelAndView viewOutlook() throws Exception {   
-        ModelAndView mav = new ModelAndView("projectoutlook"); 
-        mav.addObject("title","RMS | Project Outlook");
-        mav.addObject("projects", getOutlook());
+    public ModelAndView viewOutlook(HttpServletRequest request) throws Exception {  
         
+        ModelAndView mav = new ModelAndView("projectoutlook"); 
+        if(request.getSession().getAttribute("sessVar")!=null){
+            mav.addObject("title","RMS | Project Outlook");
+            mav.addObject("projects", getOutlook());
+        }else{
+            mav=new ModelAndView("login"); 
+            mav.addObject("title","RMS | Log in"); 
+        }
         return mav;
     }  
     
     @RequestMapping("/pSummary")
-    public ModelAndView viewPSummary() throws Exception {   
+    public ModelAndView viewPSummary(HttpServletRequest request) throws Exception {   
         ModelAndView mav = new ModelAndView("projectsummary"); 
-        mav.addObject("title","RMS | Project Summary");
-        mav.addObject("projects", getSummary());
-        
+        if(request.getSession().getAttribute("sessVar")!=null){
+            mav.addObject("title","RMS | Project Summary");
+            mav.addObject("projects", getSummary());
+        }else{
+            mav=new ModelAndView("login"); 
+            mav.addObject("title","RMS | Log in"); 
+        }
         return mav;
     }  
     
     @RequestMapping("/rSummary")
-    public ModelAndView viewRSummary() throws Exception {   
+    public ModelAndView viewRSummary(HttpServletRequest request) throws Exception {   
         ModelAndView mav = new ModelAndView("resourcesummary"); 
-        mav.addObject("title","RMS | Resource Summary");
-        mav.addObject("resources", getResources());
-        
+        if(request.getSession().getAttribute("sessVar")!=null){
+            mav.addObject("title","RMS | Resource Summary");
+            mav.addObject("resources", getResources());
+        }else{
+            mav=new ModelAndView("login"); 
+            mav.addObject("title","RMS | Log in"); 
+        }
         return mav;
     }  
     

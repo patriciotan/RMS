@@ -81,7 +81,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Business Unit</label>
-                                    <select class="form-control" name="business_unit" required="required">
+                                    <select class="form-control" name="bUnit" required="required">
                                         <option disabled="true" selected default></option>
                                         <option value="Philippines">Philippines</option>
                                         <option value="Japan">Japan</option>
@@ -140,19 +140,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Business Unit</label>
-<<<<<<< HEAD
-                                    <select class="form-control" name="business_unit" required="required" id="field5">
+                                    <select class="form-control" name="bUnit" required="required" id="field5">
                                         <option disabled="true" selected default></option>
                                         <option value="Philippines">Philippines</option>
                                         <option value="Japan">Japan</option>
                                         <option value="Rest of the World">Rest of the World</option>
-=======
-                                    <select class="form-control" name="bUnit" required="required" id="field5">
-                                        <option disabled="true" selected default></option>
-                                        <option value="Local">Local</option>
-                                        <option value="JP Independent">JP Independent</option>
-                                        <option value="ROW">ROW</option>
->>>>>>> 356b3ef007c7b0d3c56098f73daabc9e21e45522
                                         <option value="Alliance">Alliance</option>
                                     </select>
                                 </div>

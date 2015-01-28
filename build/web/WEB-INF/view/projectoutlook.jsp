@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Business Unit</label>
-                                    <select class="form-control" name="business_unit" required="required">
+                                    <select class="form-control" name="bUnit" required="required">
                                         <option disabled="true" selected default></option>
                                         <option value="Philippines">Philippines</option>
                                         <option value="Japan">Japan</option>
@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Resources Needed</label>
-                                    <input class="form-control" autocomplete="off"  required="required" type="number" min="1" name="resources_needed" size="20">
+                                    <input class="form-control" autocomplete="off"  required="required" type="number" min="1" name="resNeeded" size="20">
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -157,11 +157,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Business Unit</label>
-<<<<<<< HEAD
-                                    <select class="form-control" name="business_unit" required="required" id="field5">
-=======
                                     <select class="form-control" name="bUnit" required="required" id="field5">
->>>>>>> 356b3ef007c7b0d3c56098f73daabc9e21e45522
                                         <option disabled="true" selected default></option>
                                         <option value="Philippines">Philippines</option>
                                         <option value="Japan">Japan</option>
@@ -171,11 +167,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Resources Needed</label>
-<<<<<<< HEAD
-                                    <input class="form-control" autocomplete="off" id="field7" required="required" type="number" min="0" name="resources_needed" size="20">
-=======
                                     <input class="form-control" autocomplete="off" id="field7" required="required" type="number" min="0" name="resNeeded" size="20">
->>>>>>> 356b3ef007c7b0d3c56098f73daabc9e21e45522
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -205,12 +197,8 @@
                         <form id="del" name="del" action='<c:url value="delProject"/>' method="post" modelAttribute="project">
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
-<<<<<<< HEAD
                                     <br/>
-                                    <label>Are you sure to delete <b id="delName"></b>?</label>
-=======
                                     <label>Drop Project <b id="delName"></b>?</label>
->>>>>>> 356b3ef007c7b0d3c56098f73daabc9e21e45522
                                 </div>
                             </div>
                             <div class="panel-footer">
