@@ -107,6 +107,7 @@ public class RMSController {
         ModelAndView mav = new ModelAndView("projectsummary"); 
         mav.addObject("title","RMS | Project Summary");
         mav.addObject("projects", getSummary());
+        mav.addObject("resources", getResources());
         
         return mav;
     }  
@@ -195,5 +196,19 @@ public class RMSController {
         }
         return mav;
     } 
+    
+    @RequestMapping(value = "/assignResource", method = RequestMethod.POST)
+    public ModelAndView assignResource(@ModelAttribute("effort")Effort effort, ModelMap model) throws Exception
+    {
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
+        
+        if(dbModel.assignResource(effort.getEmpName(),effort.getProjName(),effort.getYear(),effort.getMonths()))
+        {
+            mav = new ModelAndView("projectsummary"); 
+            mav.addObject("title","RMS | Project Summary");
+            mav.addObject("projects", getSummary());
+        }
+        return mav;
+    }
     
 }
