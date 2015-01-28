@@ -70,13 +70,9 @@ public class RMSModel {
     
     public ResultSet getOutlook() throws Exception
     {
-<<<<<<< HEAD
         Class.forName(JDBC_DRIVER);
         con = DriverManager.getConnection(DB_URL,USER,PASS);
         sql = "select * from project where reference=? and status!=?";
-=======
-        sql = "select * from project where reference=?";
->>>>>>> 356b3ef007c7b0d3c56098f73daabc9e21e45522
         ps = con.prepareStatement(sql);
         ps.setString(1, "Outlook");
         ps.setString(2, "Dropped");
@@ -87,13 +83,9 @@ public class RMSModel {
     
     public ResultSet getSummary() throws Exception
     {
-<<<<<<< HEAD
         Class.forName(JDBC_DRIVER);
         con = DriverManager.getConnection(DB_URL,USER,PASS);
         sql = "select * from project where reference=? and status!=?";
-=======
-        sql = "select * from project where reference=?";
->>>>>>> 356b3ef007c7b0d3c56098f73daabc9e21e45522
         ps = con.prepareStatement(sql);
         ps.setString(1, "Summary");
         ps.setString(2, "Closed");

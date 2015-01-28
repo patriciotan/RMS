@@ -24,11 +24,7 @@ public class RMSController {
     
     RMSModel dbModel = new RMSModel();
      
-<<<<<<< HEAD
-    public List getOutlook() throws ClassNotFoundException, SQLException {  
-=======
-    public ModelAndView getOutlook() throws Exception {  
->>>>>>> 356b3ef007c7b0d3c56098f73daabc9e21e45522
+    public List getOutlook() throws Exception {
         ResultSet rs = dbModel.getOutlook();
         List<Project> projects=new ArrayList<>();
         while(rs.next()){
@@ -45,11 +41,7 @@ public class RMSController {
         }
         return projects;
     }  
-<<<<<<< HEAD
-    public List getSummary() throws ClassNotFoundException, SQLException {  
-=======
-    public ModelAndView getSummary() throws Exception {  
->>>>>>> 356b3ef007c7b0d3c56098f73daabc9e21e45522
+    public List getSummary() throws Exception {  
         ResultSet rs = dbModel.getSummary();
         List<Project> projects=new ArrayList<>();
         while(rs.next()){
@@ -65,11 +57,7 @@ public class RMSController {
         }
         return projects;
     } 
-<<<<<<< HEAD
-    public List getResources() throws ClassNotFoundException, SQLException {  
-=======
-    public ModelAndView getResources() throws Exception {  
->>>>>>> 356b3ef007c7b0d3c56098f73daabc9e21e45522
+    public List getResources() throws Exception { 
         ResultSet rs = dbModel.getResources();
         List<Resource> resources=new ArrayList<>();
         while(rs.next()){
@@ -106,8 +94,7 @@ public class RMSController {
     } 
     
     @RequestMapping("/outlook")
-<<<<<<< HEAD
-    public ModelAndView viewOutlook() throws ClassNotFoundException, SQLException {   
+    public ModelAndView viewOutlook() throws Exception {   
         ModelAndView mav = new ModelAndView("projectoutlook"); 
         mav.addObject("title","RMS | Project Outlook");
         mav.addObject("projects", getOutlook());
@@ -116,7 +103,7 @@ public class RMSController {
     }  
     
     @RequestMapping("/pSummary")
-    public ModelAndView viewPSummary() throws ClassNotFoundException, SQLException {   
+    public ModelAndView viewPSummary() throws Exception {   
         ModelAndView mav = new ModelAndView("projectsummary"); 
         mav.addObject("title","RMS | Project Summary");
         mav.addObject("projects", getSummary());
@@ -125,26 +112,12 @@ public class RMSController {
     }  
     
     @RequestMapping("/rSummary")
-    public ModelAndView viewRSummary() throws ClassNotFoundException, SQLException {   
+    public ModelAndView viewRSummary() throws Exception {   
         ModelAndView mav = new ModelAndView("resourcesummary"); 
         mav.addObject("title","RMS | Resource Summary");
         mav.addObject("resources", getResources());
         
         return mav;
-=======
-    public ModelAndView viewOutlook() throws Exception {   
-        return getOutlook();
-    }  
-    
-    @RequestMapping("/pSummary")
-    public ModelAndView viewPSummary() throws Exception {   
-        return getSummary();
-    }  
-    
-    @RequestMapping("/rSummary")
-    public ModelAndView viewRSummary() throws Exception {     
-        return getResources();
->>>>>>> 356b3ef007c7b0d3c56098f73daabc9e21e45522
     }  
     
     @RequestMapping(value = "/addOutlook", method = RequestMethod.POST)
@@ -178,7 +151,9 @@ public class RMSController {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
         
         if(dbModel.delProject(project.getProjectId())){
-            return getOutlook();
+            mav = new ModelAndView("projectoutlook"); 
+            mav.addObject("title","RMS | Project Outlook");
+            mav.addObject("projects", getOutlook());
         }
         return mav;
     }
@@ -188,7 +163,9 @@ public class RMSController {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
         
         if(dbModel.delSummary(project.getProjectId())){
-            return getSummary();
+            mav = new ModelAndView("projectsummary"); 
+            mav.addObject("title","RMS | Project Summary");
+            mav.addObject("projects", getSummary());
         }
         return mav;
     }
@@ -199,7 +176,9 @@ public class RMSController {
         
         if(dbModel.editOutlook(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getResNeeded(),project.getProjectId()))
         {
-            return getOutlook();
+            mav = new ModelAndView("projectoutlook"); 
+            mav.addObject("title","RMS | Project Outlook");
+            mav.addObject("projects", getOutlook());
         }
         return mav;
     } 
@@ -210,7 +189,9 @@ public class RMSController {
         
         if(dbModel.editSummary(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getbUnit(),project.getProjectId()))
         {
-            return getSummary();
+            mav = new ModelAndView("projectsummary"); 
+            mav.addObject("title","RMS | Project Summary");
+            mav.addObject("projects", getSummary());
         }
         return mav;
     } 
