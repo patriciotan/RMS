@@ -87,8 +87,10 @@
                                         <table class="table table-hover">
                                             <col width="250">
                                             <col width="118">
+                                            <thead>
+                                                <th style="font-weight: bold; text-align: right;">Total Head Count</th><th>#</th></th>
+                                            </thead>
                                             <tbody>
-                                                <tr><td style="font-weight: bold; text-align: right;">Total Head Count</td><td>#</td></tr>
                                                 <tr><td style="font-weight: bold; text-align: right;">Employees per business unit</td><td></td></tr>
                                                 <tr><td style="text-align: right;">Philippines</td><td>#</td></tr>
                                                 <tr><td style="text-align: right;">Japan</td><td>#</td></tr>

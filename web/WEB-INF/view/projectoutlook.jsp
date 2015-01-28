@@ -82,17 +82,17 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Business Unit</label>
-                                    <select class="form-control" name="bUnit" required="required" >
+                                    <select class="form-control" name="business_unit" required="required">
                                         <option disabled="true" selected default></option>
-                                        <option value="Local">Local</option>
-                                        <option value="JP Independent">JP Independent</option>
-                                        <option value="ROW">ROW</option>
+                                        <option value="Philippines">Philippines</option>
+                                        <option value="Japan">Japan</option>
+                                        <option value="Rest of the World">Rest of the World</option>
                                         <option value="Alliance">Alliance</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Resources Needed</label>
-                                    <input class="form-control" autocomplete="off"  required="required" type="number" min="1" name="resNeeded" size="20">
+                                    <input class="form-control" autocomplete="off"  required="required" type="number" min="1" name="resources_needed" size="20">
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -123,19 +123,19 @@
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Name</label>
-                                    <input class="form-control" autocomplete="off" required="required" id="field1" type="text" name="projectname" size="20">
+                                    <input class="form-control" autocomplete="off" required="required" id="field1" type="text" name="name" size="20">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Start Date</label>
-                                    <input class="form-control" type="date" id="field2" required="required" name="from" value="yyyy-mm-dd">
+                                    <input class="form-control" type="date" id="field2" required="required" name="start" value="yyyy-mm-dd">
                                 </div>
                                 <div class="form-group">
                                     <label for="">End Date</label>
-                                    <input class="form-control" type="date" id="field3" required="required" name="to" value="yyyy-mm-dd">
+                                    <input class="form-control" type="date" id="field3" required="required" name="end" value="yyyy-mm-dd">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Type</label>
-                                    <select class="form-control" name="projecttype" required="required" id="field6">
+                                    <select class="form-control" name="type" required="required" id="field6">
                                         <option disabled="true" selected default></option>
                                         <option value="Project-Based">Project-Based</option>
                                         <option value="Time and Material">Time and Material</option>
@@ -156,17 +156,17 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Business Unit</label>
-                                    <select class="form-control" name="businessunit" required="required" id="field5">
+                                    <select class="form-control" name="business_unit" required="required" id="field5">
                                         <option disabled="true" selected default></option>
-                                        <option value="Local">Local</option>
-                                        <option value="JP Independent">JP Independent</option>
-                                        <option value="ROW">ROW</option>
+                                        <option value="Philippines">Philippines</option>
+                                        <option value="Japan">Japan</option>
+                                        <option value="Rest of the World">Rest of the World</option>
                                         <option value="Alliance">Alliance</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Resources Needed</label>
-                                    <input class="form-control" autocomplete="off" id="field7" required="required" type="number" min="0" name="resourcesneeded" size="20">
+                                    <input class="form-control" autocomplete="off" id="field7" required="required" type="number" min="0" name="resources_needed" size="20">
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -196,7 +196,8 @@
                         <form id="add" name="add" action="" method="post">
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
-                                    <label>Delete Project <b id="delName"></b>?</label>
+                                    <br/>
+                                    <label>Are you sure to delete <b id="delName"></b>?</label>
                                 </div>
                             </div>
                             <div class="panel-footer">

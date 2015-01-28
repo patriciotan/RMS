@@ -71,9 +71,10 @@ public class RMSModel {
     {
         Class.forName(JDBC_DRIVER);
         con = DriverManager.getConnection(DB_URL,USER,PASS);
-        sql = "select * from project where reference=?";
+        sql = "select * from project where reference=? and status!=?";
         ps = con.prepareStatement(sql);
-        ps.setString(1, "outlook");
+        ps.setString(1, "Outlook");
+        ps.setString(2, "Dropped");
         rs = ps.executeQuery();
         
         return rs;
@@ -83,9 +84,10 @@ public class RMSModel {
     {
         Class.forName(JDBC_DRIVER);
         con = DriverManager.getConnection(DB_URL,USER,PASS);
-        sql = "select * from project where reference=?";
+        sql = "select * from project where reference=? and status!=?";
         ps = con.prepareStatement(sql);
-        ps.setString(1, "summary");
+        ps.setString(1, "Summary");
+        ps.setString(2, "Closed");
         rs = ps.executeQuery();
         
         return rs;
