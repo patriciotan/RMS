@@ -153,7 +153,6 @@
                                         <option value="Verbal go"> Verbal go</option>
                                         <option value="For estimation"> For estimation</option>
                                         <option value="Ongoing estimation"> Ongoing estimation</option>
-                                        <option value="Dropped"> Dropped</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -198,7 +197,7 @@
                         <form id="del" name="del" action='<c:url value="delProject"/>' method="post" modelAttribute="project">
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
-                                    <label>Delete Project <b id="delName"></b>?</label>
+                                    <label>Drop Project <b id="delName"></b>?</label>
                                 </div>
                             </div>
                             <div class="panel-footer">

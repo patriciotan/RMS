@@ -23,8 +23,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-toggle="modal" data-target="#resInfo">                            
-                            <td>name</td>						
+                        <c:forEach items="${resources}" var="resource">
+                        <tr class="resourceRow" data-toggle="modal" data-target="#resInfo">   
+                            <input type="hidden" class="resId" value="${resource.resourceId}"/>
+                            <td style="text-align: left;" class="resName"><c:out value="${resource.fname} ${resource.lname}" /></td>						
                             <td>yyyy</td>   
                             <td>#</td>
                             <td>#</td>   
@@ -39,70 +41,7 @@
                             <td>#</td>
                             <td>#</td>
                         </tr>
-                        <tr data-toggle="modal" data-target="#resInfo">                            
-                            <td>name</td>						
-                            <td>yyyy</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr data-toggle="modal" data-target="#resInfo">                            
-                            <td>name</td>						
-                            <td>yyyy</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr data-toggle="modal" data-target="#resInfo">                            
-                            <td>name</td>						
-                            <td>yyyy</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr data-toggle="modal" data-target="#resInfo">                            
-                            <td>name</td>						
-                            <td>yyyy</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             
@@ -113,13 +52,13 @@
                             <div class="modal-body-sm">
                                 <div class="panel panel-primary">  
                                     <div class="panel-heading">
-                                        <b>Employee Information</b>
+                                        <b id="employeeName"></b>
                                     </div>
                                     <div class="panel-body">
                                         <table>
                                             <tbody>
-                                                <tr><td>Name<td></tr>
-                                                <tr><td>Business Unit</td></tr>
+                                                <tr><td>Business Unit:<b></b></td></tr>
+                                                <tr><td>Date Hired:<b></b><td></tr>
                                                 <tr><td>Current projects</td></tr>
                                             </tbody>
                                         </table>
@@ -179,6 +118,11 @@
         $(document).ready(function(){
            $("#3").attr("class","active"); 
            $("#resSummary").dataTable();
+           
+           $(".resourceRow").click(function(){
+               alert($(this).children(".resId").val());
+               $("#employeeName").text($(this).children(".resName").text());
+           });
         });
     </script>
 </html>

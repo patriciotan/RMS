@@ -51,6 +51,7 @@ public class RMSController {
         List<Project> projects=new ArrayList<Project>();
         while(rs.next()){
             Project project = new Project();
+            project.setProjectId(rs.getInt("project_id"));
             project.setName(rs.getString("name"));
             project.setStart(rs.getString("start_date"));
             project.setEnd(rs.getString("end_date"));
@@ -60,6 +61,24 @@ public class RMSController {
             projects.add(project);
         }
         mav.addObject("projects", projects);
+        return mav;
+    } 
+    public ModelAndView getResources() throws Exception {  
+        ResultSet rs = dbModel.getResources();
+        ModelAndView mav = new ModelAndView("resourcesummary"); 
+        mav.addObject("title","RMS | Resource Summary");
+        List<Resource> resources=new ArrayList<Resource>();
+        while(rs.next()){
+            Resource resource = new Resource();
+            resource.setResourceId(rs.getInt("resource_id"));
+            resource.setFname(rs.getString("first_name"));
+            resource.setMname(rs.getString("middle_name"));
+            resource.setLname(rs.getString("last_name"));
+            resource.setbUnit(rs.getString("business_unit"));
+            resource.setDateHired(rs.getString("date_hired"));
+            resources.add(resource);
+        }
+        mav.addObject("resources", resources);
         return mav;
     } 
     
@@ -92,11 +111,8 @@ public class RMSController {
     }  
     
     @RequestMapping("/rSummary")
-    public ModelAndView viewRSummary() {   
-        ModelAndView mav = new ModelAndView("resourcesummary"); 
-        mav.addObject("title","RMS | Resource Summary");
-        
-        return mav;
+    public ModelAndView viewRSummary() throws Exception {     
+        return getResources();
     }  
     
     @RequestMapping(value = "/addOutlook", method = RequestMethod.POST)
@@ -131,6 +147,16 @@ public class RMSController {
         return mav;
     }
     
+    @RequestMapping(value = "/delSummary", method = RequestMethod.POST)
+    public ModelAndView delSummary(@ModelAttribute("project")Project project,ModelMap model) throws Exception{
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
+        
+        if(dbModel.delSummary(project.getProjectId())){
+            return getSummary();
+        }
+        return mav;
+    }
+    
     @RequestMapping(value = "/editOutlook", method = RequestMethod.POST)
     public ModelAndView editOutlook(@ModelAttribute("project")Project project, ModelMap model) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
@@ -138,6 +164,17 @@ public class RMSController {
         if(dbModel.editOutlook(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getResNeeded(),project.getProjectId()))
         {
             return getOutlook();
+        }
+        return mav;
+    } 
+    
+    @RequestMapping(value = "/editSummary", method = RequestMethod.POST)
+    public ModelAndView editSummary(@ModelAttribute("project")Project project, ModelMap model) throws Exception {
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
+        
+        if(dbModel.editSummary(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getbUnit(),project.getProjectId()))
+        {
+            return getSummary();
         }
         return mav;
     } 

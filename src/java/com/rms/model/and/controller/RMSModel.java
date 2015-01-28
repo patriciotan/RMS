@@ -87,9 +87,26 @@ public class RMSModel {
         
         return rs;
     }
+    
+    public ResultSet getResources() throws Exception
+    {
+        sql = "select * from resource";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
         
     public boolean delProject(int projectId)throws Exception{
-        sql="DELETE FROM project WHERE project_id="+projectId;
+        sql="UPDATE project SET status='Dropped' WHERE project_id="+projectId;
+        System.out.println(sql);
+        if(st.executeUpdate(sql) > 0)
+            return true;
+        return false;
+    }
+    
+    public boolean delSummary(int projectId)throws Exception{
+        sql="UPDATE project SET status='Closed' WHERE project_id="+projectId;
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;
@@ -98,6 +115,14 @@ public class RMSModel {
         
     public boolean editOutlook(String name, String start, String end, String type, String status, String bUnit, int resNeeded,int projectId) throws Exception {
         sql = "UPDATE project SET name='"+name+"',start_date='"+start+"',end_date='"+end+"',type='"+type+"',status='"+status+"',business_unit='"+bUnit+"',resources_needed="+resNeeded+" WHERE project_id="+projectId;
+        System.out.println(sql);
+        if(st.executeUpdate(sql) > 0)
+            return true;
+        return false;
+    }
+    
+    public boolean editSummary(String name, String start, String end, String type, String bUnit,int projectId) throws Exception {
+        sql = "UPDATE project SET name='"+name+"',start_date='"+start+"',end_date='"+end+"',type='"+type+"',business_unit='"+bUnit+"' WHERE project_id="+projectId;
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;

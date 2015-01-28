@@ -18,6 +18,7 @@
             <tbody>
                 <c:forEach items="${projects}" var="project">
                 <tr>
+                    <input type="hidden" class="projId" value="${project.projectId}"/>
                     <td class="projectName"><c:out value="${project.name}" /></td>
                     <td class="startDate"><c:out value="${project.start}" /></td>
                     <td class="endDate"><c:out value="${project.end}" /></td>
@@ -43,6 +44,8 @@
             </tbody>
         </table>
     </div>
+</div>
+</div>
 </div><!-- closing div from navigation-->
 
     <!-- Start modal for add project-->                
@@ -112,7 +115,8 @@
                         <div class="panel-heading">
                             <b>Edit Project</b>
                         </div>
-                        <form id="edit" name="edit" action='<c:url value="editProject"/>' method="post" modelAttribute="project">
+                        <form id="edit" name="edit" action='<c:url value="editSummary"/>' method="post" modelAttribute="project">
+                            <input type="text" name="projectId" id="editProjId"/>
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Name</label>
@@ -135,16 +139,13 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Status</label>
-                                    <select class="form-control" name="status" required="required" id="field5">
+                                    <label for="">Business Unit</label>
+                                    <select class="form-control" name="bUnit" required="required" id="field5">
                                         <option disabled="true" selected default></option>
-                                        <option value="No movement"> No movement </option>
-                                        <option value="Proposal"> Proposal </option>
-                                        <option value="Official go"> Official go</option>
-                                        <option value="Verbal go"> Verbal go</option>
-                                        <option value="For estimation"> For estimation</option>
-                                        <option value="Ongoing estimation"> Ongoing estimation</option>
-                                        <option value="Dropped"> Dropped</option>
+                                        <option value="Local">Local</option>
+                                        <option value="JP Independent">JP Independent</option>
+                                        <option value="ROW">ROW</option>
+                                        <option value="Alliance">Alliance</option>
                                     </select>
                                 </div>
                             </div>
@@ -380,7 +381,8 @@
                         <div class="panel-heading">
                             <b>End Project</b>
                         </div>
-                        <form id="add" name="add" action="" method="post">
+                        <form id="del" name="del" action='<c:url value="delSummary"/>' method="post" modelAttribute="project">
+                            <input type="text" name="projectId" id="delProjId"/>
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
                                     <label>End Project <b id="endName"></b>?</label>
@@ -409,7 +411,7 @@
                         <div class="panel-heading">
                             <b>Remove Resource</b>
                         </div>
-                        <form id="add" name="add" action="" method="post">
+                        <form id="del" name="del" action='<c:url value="delSummary"/>' method="post" modelAttribute="project">
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
                                     <label>Remove Employee <b id="remName"></b>?</label>
@@ -435,6 +437,7 @@
            
            $(".end").click(function(){
                 $("#endName").text($(this).parent().siblings(".projectName").text());
+                $("#delProjId").val($(this).parent().siblings(".projId").val());
            });
            
            $(".vRes").click(function(){
@@ -446,11 +449,12 @@
            });
            
            $(".editOption").click(function(){
+               $("#editProjId").val($(this).parent().parent().parent().parent().siblings(".projId").val());
                $("#field1").val($(this).parent().parent().parent().parent().siblings(".projectName").text());
                $("#field2").val($(this).parent().parent().parent().parent().siblings(".startDate").text());
                $("#field3").val($(this).parent().parent().parent().parent().siblings(".endDate").text());
                $("#field4").val($(this).parent().parent().parent().parent().siblings(".projType").text());
-               $("#field5").val($(this).parent().parent().parent().parent().siblings(".projStat").text()); 
+               $("#field5").val($(this).parent().parent().parent().parent().siblings(".bUnit").text()); 
            });
            
            $(".assignOption").click(function(){
