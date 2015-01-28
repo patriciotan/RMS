@@ -15,9 +15,10 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="projects">
                 <c:forEach items="${projects}" var="project">
                 <tr>
+                    <input type="hidden" class="projId" value="${project.projectId}"/>
                     <td class="projectName"><c:out value="${project.name}" /></td>
                     <td class="startDate"><c:out value="${project.start}" /></td>
                     <td class="endDate"><c:out value="${project.end}" /></td>
@@ -119,23 +120,24 @@
                         <div class="panel-heading">
                             <b>Edit Project</b>
                         </div>
-                        <form id="add" name="add" action="" method="post">
+                        <form id="edit" name="edit" action='<c:url value="editOutlook"/>' method="post" modelAttribute="project">
+                            <input type="text" name="projectId" id="editProjId"/>
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Name</label>
-                                    <input class="form-control" autocomplete="off" required="required" id="field1" type="text" name="projectname" size="20">
+                                    <input class="form-control" autocomplete="off" required="required" id="field1" type="text" name="name" size="20">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Start Date</label>
-                                    <input class="form-control" type="date" id="field2" required="required" name="from" value="yyyy-mm-dd">
+                                    <input class="form-control" type="date" id="field2" required="required" name="start" value="yyyy-mm-dd">
                                 </div>
                                 <div class="form-group">
                                     <label for="">End Date</label>
-                                    <input class="form-control" type="date" id="field3" required="required" name="to" value="yyyy-mm-dd">
+                                    <input class="form-control" type="date" id="field3" required="required" name="end" value="yyyy-mm-dd">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Type</label>
-                                    <select class="form-control" name="projecttype" required="required" id="field6">
+                                    <select class="form-control" name="type" required="required" id="field6">
                                         <option disabled="true" selected default></option>
                                         <option value="Project-Based">Project-Based</option>
                                         <option value="Time and Material">Time and Material</option>
@@ -156,7 +158,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Business Unit</label>
-                                    <select class="form-control" name="businessunit" required="required" id="field5">
+                                    <select class="form-control" name="bUnit" required="required" id="field5">
                                         <option disabled="true" selected default></option>
                                         <option value="Local">Local</option>
                                         <option value="JP Independent">JP Independent</option>
@@ -166,7 +168,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Resources Needed</label>
-                                    <input class="form-control" autocomplete="off" id="field7" required="required" type="number" min="0" name="resourcesneeded" size="20">
+                                    <input class="form-control" autocomplete="off" id="field7" required="required" type="number" min="0" name="resNeeded" size="20">
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -193,7 +195,7 @@
                         <div class="panel-heading">
                             <b>Delete Project</b>
                         </div>
-                        <form id="add" name="add" action="" method="post">
+                        <form id="del" name="del" action='<c:url value="delProject"/>' method="post" modelAttribute="project">
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
                                     <label>Delete Project <b id="delName"></b>?</label>
@@ -201,6 +203,7 @@
                             </div>
                             <div class="panel-footer">
                                 <div style="text-align: right;">
+                                    <input type="text" name="projectId" id="delProjId"/>
                                     <input class="btn btn-success" id="add-but" type="submit" value="Yes"/>&nbsp;
                                     <button class="btn btn-danger" type="button" data-dismiss="modal"><span>No</span></button>
                                 </div>
@@ -216,6 +219,13 @@
     </body>
     <script>
         $(document).ready(function(){
+           $("#projects").on("click",".deleteButton",function(){
+              $("#delProjId").val($(this).parent().siblings(".projId").val()); 
+           });
+           
+           $("#projects").on("click",".editButton",function(){
+              $("#editProjId").val($(this).parent().siblings(".projId").val()); 
+           });
            
            var val="";
            $("#1").attr("class","active");

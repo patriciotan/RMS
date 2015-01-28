@@ -16,7 +16,6 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
                 <c:forEach items="${projects}" var="project">
                 <tr>
                     <td class="projectName"><c:out value="${project.name}" /></td>
@@ -113,23 +112,23 @@
                         <div class="panel-heading">
                             <b>Edit Project</b>
                         </div>
-                        <form id="add" name="add" action="" method="post">
+                        <form id="edit" name="edit" action='<c:url value="editProject"/>' method="post" modelAttribute="project">
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Name</label>
-                                    <input class="form-control" autocomplete="off" required="required" id="field1" type="text" name="projectname" size="20">
+                                    <input class="form-control" autocomplete="off" required="required" id="field1" type="text" name="name" size="20">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Start Date</label>
-                                    <input class="form-control" type="date" id="field2" required="required" name="from" value="yyyy-mm-dd">
+                                    <input class="form-control" type="date" id="field2" required="required" name="start" value="yyyy-mm-dd">
                                 </div>
                                 <div class="form-group">
                                     <label for="">End Date</label>
-                                    <input class="form-control" type="date" id="field3" required="required" name="to" value="yyyy-mm-dd">
+                                    <input class="form-control" type="date" id="field3" required="required" name="end" value="yyyy-mm-dd">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Type</label>
-                                    <select class="form-control" name="projecttype" required="required" id="field4">
+                                    <select class="form-control" name="type" required="required" id="field4">
                                         <option disabled="true" selected default></option>
                                         <option value="Project-Based">Project-Based</option>
                                         <option value="Time and Material">Time and Material</option>

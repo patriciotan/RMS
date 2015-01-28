@@ -31,9 +31,16 @@ public class RMSModel {
     Connection con;
     ResultSet rs;
     
-    public boolean canLogin(String username, String password) throws SQLException, ClassNotFoundException {
-        Class.forName(JDBC_DRIVER);
-        con = DriverManager.getConnection(DB_URL,USER,PASS);
+    public RMSModel(){
+        try{ 
+            Class.forName(JDBC_DRIVER);
+            con = DriverManager.getConnection(DB_URL,USER,PASS);
+            st=con.createStatement();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    public boolean canLogin(String username, String password) throws Exception {
         sql = "select * from user where username=? and password=?";
         ps = con.prepareStatement(sql);
         ps.setString(1, username);
@@ -45,32 +52,24 @@ public class RMSModel {
         return false;
     }
 
-    public boolean addOutlook(String name, String start, String end, String type, String status, String bUnit, int resNeeded, String reference) throws ClassNotFoundException, SQLException {
-        Class.forName(JDBC_DRIVER);
-        con = DriverManager.getConnection(DB_URL,USER,PASS);
+    public boolean addOutlook(String name, String start, String end, String type, String status, String bUnit, int resNeeded, String reference) throws Exception {
         sql = "insert into project (name,start_date,end_date,type,status,business_unit,resources_needed,reference) values ('"+name+"','"+start+"','"+end+"','"+type+"','"+status+"','"+bUnit+"','"+resNeeded+"','"+reference+"')";
         System.out.println(sql);
-        st = con.createStatement();
         if(st.executeUpdate(sql) > 0)
             return true;
         return false;
     }
 
-    public boolean addProject(String name, String start, String end, String type, String status, String bUnit, String reference) throws ClassNotFoundException, SQLException {
-        Class.forName(JDBC_DRIVER);
-        con = DriverManager.getConnection(DB_URL,USER,PASS);
+    public boolean addProject(String name, String start, String end, String type, String status, String bUnit, String reference) throws Exception{
         sql = "insert into project (name,start_date,end_date,type,status,business_unit,reference) values ('"+name+"','"+start+"','"+end+"','"+type+"','"+status+"','"+bUnit+"','"+reference+"')";
         System.out.println(sql);
-        st = con.createStatement();
         if(st.executeUpdate(sql) > 0)
             return true;
         return false;
     }
     
-    public ResultSet getOutlook() throws ClassNotFoundException, SQLException
+    public ResultSet getOutlook() throws Exception
     {
-        Class.forName(JDBC_DRIVER);
-        con = DriverManager.getConnection(DB_URL,USER,PASS);
         sql = "select * from project where reference=?";
         ps = con.prepareStatement(sql);
         ps.setString(1, "outlook");
@@ -79,10 +78,8 @@ public class RMSModel {
         return rs;
     }
     
-    public ResultSet getSummary() throws ClassNotFoundException, SQLException
+    public ResultSet getSummary() throws Exception
     {
-        Class.forName(JDBC_DRIVER);
-        con = DriverManager.getConnection(DB_URL,USER,PASS);
         sql = "select * from project where reference=?";
         ps = con.prepareStatement(sql);
         ps.setString(1, "summary");
@@ -91,6 +88,19 @@ public class RMSModel {
         return rs;
     }
         
+    public boolean delProject(int projectId)throws Exception{
+        sql="DELETE FROM project WHERE project_id="+projectId;
+        System.out.println(sql);
+        if(st.executeUpdate(sql) > 0)
+            return true;
+        return false;
+    }
         
-    
+    public boolean editOutlook(String name, String start, String end, String type, String status, String bUnit, int resNeeded,int projectId) throws Exception {
+        sql = "UPDATE project SET name='"+name+"',start_date='"+start+"',end_date='"+end+"',type='"+type+"',status='"+status+"',business_unit='"+bUnit+"',resources_needed="+resNeeded+" WHERE project_id="+projectId;
+        System.out.println(sql);
+        if(st.executeUpdate(sql) > 0)
+            return true;
+        return false;
+    }
 }

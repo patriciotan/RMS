@@ -24,13 +24,14 @@ public class RMSController {
     
     RMSModel dbModel = new RMSModel();
      
-    public ModelAndView getOutlook() throws ClassNotFoundException, SQLException {  
+    public ModelAndView getOutlook() throws Exception {  
         ResultSet rs = dbModel.getOutlook();
-        ModelAndView mav = null;mav = new ModelAndView("projectoutlook"); 
+        ModelAndView mav = new ModelAndView("projectoutlook"); 
         mav.addObject("title","RMS | Project Outlook");
         List<Project> projects=new ArrayList<Project>();
         while(rs.next()){
             Project project = new Project();
+            project.setProjectId(rs.getInt("project_id"));
             project.setName(rs.getString("name"));
             project.setStart(rs.getString("start_date"));
             project.setEnd(rs.getString("end_date"));
@@ -43,9 +44,9 @@ public class RMSController {
         mav.addObject("projects", projects);
         return mav;
     }  
-    public ModelAndView getSummary() throws ClassNotFoundException, SQLException {  
+    public ModelAndView getSummary() throws Exception {  
         ResultSet rs = dbModel.getSummary();
-        ModelAndView mav = null;mav = new ModelAndView("projectsummary"); 
+        ModelAndView mav = new ModelAndView("projectsummary"); 
         mav.addObject("title","RMS | Project Summary");
         List<Project> projects=new ArrayList<Project>();
         while(rs.next()){
@@ -70,7 +71,7 @@ public class RMSController {
     }  
     
     @RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
-    public ModelAndView loginSubmit(@ModelAttribute("user")User user, ModelMap model) throws SQLException, ClassNotFoundException {
+    public ModelAndView loginSubmit(@ModelAttribute("user")User user, ModelMap model) throws Exception {
         ModelAndView mav = new ModelAndView("login"); 
         mav.addObject("title","RMS | Log in");   
         if(dbModel.canLogin(user.getUsername(), user.getPassword()))
@@ -81,12 +82,12 @@ public class RMSController {
     } 
     
     @RequestMapping("/outlook")
-    public ModelAndView viewOutlook() throws ClassNotFoundException, SQLException {   
+    public ModelAndView viewOutlook() throws Exception {   
         return getOutlook();
     }  
     
     @RequestMapping("/pSummary")
-    public ModelAndView viewPSummary() throws ClassNotFoundException, SQLException {   
+    public ModelAndView viewPSummary() throws Exception {   
         return getSummary();
     }  
     
@@ -99,7 +100,7 @@ public class RMSController {
     }  
     
     @RequestMapping(value = "/addOutlook", method = RequestMethod.POST)
-    public ModelAndView addOutlook(@ModelAttribute("project")Project project, ModelMap model) throws ClassNotFoundException, SQLException, ParseException {
+    public ModelAndView addOutlook(@ModelAttribute("project")Project project, ModelMap model) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
         
         if(dbModel.addOutlook(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getResNeeded(),project.getReference()))
@@ -110,7 +111,7 @@ public class RMSController {
     } 
     
     @RequestMapping(value = "/addProject", method = RequestMethod.POST)
-    public ModelAndView addProject(@ModelAttribute("project")Project project, ModelMap model) throws ClassNotFoundException, SQLException, ParseException {
+    public ModelAndView addProject(@ModelAttribute("project")Project project, ModelMap model) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
         
         if(dbModel.addProject(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getReference()))
@@ -119,5 +120,26 @@ public class RMSController {
         }
         return mav;
     }
+    
+    @RequestMapping(value = "/delProject", method = RequestMethod.POST)
+    public ModelAndView delProject(@ModelAttribute("project")Project project,ModelMap model) throws Exception{
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
+        
+        if(dbModel.delProject(project.getProjectId())){
+            return getOutlook();
+        }
+        return mav;
+    }
+    
+    @RequestMapping(value = "/editOutlook", method = RequestMethod.POST)
+    public ModelAndView editOutlook(@ModelAttribute("project")Project project, ModelMap model) throws Exception {
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
+        
+        if(dbModel.editOutlook(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getResNeeded(),project.getProjectId()))
+        {
+            return getOutlook();
+        }
+        return mav;
+    } 
     
 }
