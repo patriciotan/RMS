@@ -24,8 +24,9 @@
                     </thead>
                     <tbody>
                         <c:forEach items="${resources}" var="resource">
-                        <tr data-toggle="modal" data-target="#resInfo">                            
-                            <td style="text-align: left;"><c:out value="${resource.fname} ${resource.lname}" /></td>						
+                        <tr class="resourceRow" data-toggle="modal" data-target="#resInfo">   
+                            <input type="hidden" class="resId" value="${resource.resourceId}"/>
+                            <td style="text-align: left;" class="resName"><c:out value="${resource.fname} ${resource.lname}" /></td>						
                             <td>yyyy</td>   
                             <td>#</td>
                             <td>#</td>   
@@ -51,13 +52,13 @@
                             <div class="modal-body-sm">
                                 <div class="panel panel-primary">  
                                     <div class="panel-heading">
-                                        <b>Employee full name</b>
+                                        <b id="employeeName"></b>
                                     </div>
                                     <div class="panel-body">
                                         <table>
                                             <tbody>
-                                                <tr><td><b>Business Unit</b></td></tr>
-                                                <tr><td><b>Date Hired</b><td></tr>
+                                                <tr><td>Business Unit:<b></b></td></tr>
+                                                <tr><td>Date Hired:<b></b><td></tr>
                                                 <tr><td>Current projects</td></tr>
                                             </tbody>
                                         </table>
@@ -119,6 +120,11 @@
         $(document).ready(function(){
            $("#3").attr("class","active"); 
            $("#resSummary").dataTable();
+           
+           $(".resourceRow").click(function(){
+               alert($(this).children(".resId").val());
+               $("#employeeName").text($(this).children(".resName").text());
+           });
         });
     </script>
 </html>

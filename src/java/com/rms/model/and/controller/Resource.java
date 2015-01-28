@@ -10,8 +10,26 @@ package com.rms.model.and.controller;
  */
 public class Resource {
     
-    private String fname,lname,bUnit,dateHired;
+    private String fname,lname,mname,bUnit,dateHired;
+    private int resourceId;
 
+    public int getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(int resourceId) {
+        this.resourceId = resourceId;
+    }
+    
+
+    public String getMname() {
+        return mname;
+    }
+
+    public void setMname(String mname) {
+        this.mname = mname;
+    }
+    
     public String getbUnit() {
         return bUnit;
     }

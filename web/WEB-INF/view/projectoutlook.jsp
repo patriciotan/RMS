@@ -15,9 +15,10 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="projects">
                 <c:forEach items="${projects}" var="project">
                 <tr>
+                    <input type="hidden" class="projId" value="${project.projectId}"/>
                     <td class="projectName"><c:out value="${project.name}" /></td>
                     <td class="startDate"><c:out value="${project.start}" /></td>
                     <td class="endDate"><c:out value="${project.end}" /></td>
@@ -119,7 +120,8 @@
                         <div class="panel-heading">
                             <b>Edit Project</b>
                         </div>
-                        <form id="add" name="add" action="" method="post">
+                        <form id="edit" name="edit" action='<c:url value="editOutlook"/>' method="post" modelAttribute="project">
+                            <input type="text" name="projectId" id="editProjId"/>
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Name</label>
@@ -151,12 +153,15 @@
                                         <option value="Verbal go"> Verbal go</option>
                                         <option value="For estimation"> For estimation</option>
                                         <option value="Ongoing estimation"> Ongoing estimation</option>
-                                        <option value="Dropped"> Dropped</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Business Unit</label>
+<<<<<<< HEAD
                                     <select class="form-control" name="business_unit" required="required" id="field5">
+=======
+                                    <select class="form-control" name="bUnit" required="required" id="field5">
+>>>>>>> 356b3ef007c7b0d3c56098f73daabc9e21e45522
                                         <option disabled="true" selected default></option>
                                         <option value="Philippines">Philippines</option>
                                         <option value="Japan">Japan</option>
@@ -166,7 +171,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Resources Needed</label>
+<<<<<<< HEAD
                                     <input class="form-control" autocomplete="off" id="field7" required="required" type="number" min="0" name="resources_needed" size="20">
+=======
+                                    <input class="form-control" autocomplete="off" id="field7" required="required" type="number" min="0" name="resNeeded" size="20">
+>>>>>>> 356b3ef007c7b0d3c56098f73daabc9e21e45522
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -193,15 +202,20 @@
                         <div class="panel-heading">
                             <b>Delete Project</b>
                         </div>
-                        <form id="add" name="add" action="" method="post">
+                        <form id="del" name="del" action='<c:url value="delProject"/>' method="post" modelAttribute="project">
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
+<<<<<<< HEAD
                                     <br/>
                                     <label>Are you sure to delete <b id="delName"></b>?</label>
+=======
+                                    <label>Drop Project <b id="delName"></b>?</label>
+>>>>>>> 356b3ef007c7b0d3c56098f73daabc9e21e45522
                                 </div>
                             </div>
                             <div class="panel-footer">
                                 <div style="text-align: right;">
+                                    <input type="text" name="projectId" id="delProjId"/>
                                     <input class="btn btn-success" id="add-but" type="submit" value="Yes"/>&nbsp;
                                     <button class="btn btn-danger" type="button" data-dismiss="modal"><span>No</span></button>
                                 </div>
@@ -217,6 +231,13 @@
     </body>
     <script>
         $(document).ready(function(){
+           $("#projects").on("click",".deleteButton",function(){
+              $("#delProjId").val($(this).parent().siblings(".projId").val()); 
+           });
+           
+           $("#projects").on("click",".editButton",function(){
+              $("#editProjId").val($(this).parent().siblings(".projId").val()); 
+           });
            
            var val="";
            $("#1").attr("class","active");

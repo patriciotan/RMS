@@ -15,7 +15,16 @@ import java.sql.Date;
 public class Project {
     
     private String name,type,status,bUnit,start,end,reference;
-    int resNeeded;
+    int resNeeded,projectId;
+
+    public int getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
+    }
+    
 
     public String getName() {
         return name;

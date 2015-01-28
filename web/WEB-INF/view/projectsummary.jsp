@@ -18,6 +18,7 @@
             <tbody>
                 <c:forEach items="${projects}" var="project">
                 <tr>
+                    <input type="hidden" class="projId" value="${project.projectId}"/>
                     <td class="projectName"><c:out value="${project.name}" /></td>
                     <td class="startDate"><c:out value="${project.start}" /></td>
                     <td class="endDate"><c:out value="${project.end}" /></td>
@@ -114,7 +115,8 @@
                         <div class="panel-heading">
                             <b>Edit Project</b>
                         </div>
-                        <form id="add" name="add" action="" method="post">
+                        <form id="edit" name="edit" action='<c:url value="editSummary"/>' method="post" modelAttribute="project">
+                            <input type="text" name="projectId" id="editProjId"/>
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Name</label>
@@ -138,11 +140,19 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Business Unit</label>
+<<<<<<< HEAD
                                     <select class="form-control" name="business_unit" required="required" id="field5">
                                         <option disabled="true" selected default></option>
                                         <option value="Philippines">Philippines</option>
                                         <option value="Japan">Japan</option>
                                         <option value="Rest of the World">Rest of the World</option>
+=======
+                                    <select class="form-control" name="bUnit" required="required" id="field5">
+                                        <option disabled="true" selected default></option>
+                                        <option value="Local">Local</option>
+                                        <option value="JP Independent">JP Independent</option>
+                                        <option value="ROW">ROW</option>
+>>>>>>> 356b3ef007c7b0d3c56098f73daabc9e21e45522
                                         <option value="Alliance">Alliance</option>
                                     </select>
                                 </div>
@@ -379,7 +389,8 @@
                         <div class="panel-heading">
                             <b>End Project</b>
                         </div>
-                        <form id="add" name="add" action="" method="post">
+                        <form id="del" name="del" action='<c:url value="delSummary"/>' method="post" modelAttribute="project">
+                            <input type="text" name="projectId" id="delProjId"/>
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
                                     <br/>
@@ -409,7 +420,7 @@
                         <div class="panel-heading">
                             <b>Remove Resource</b>
                         </div>
-                        <form id="add" name="add" action="" method="post">
+                        <form id="del" name="del" action='<c:url value="delSummary"/>' method="post" modelAttribute="project">
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
                                     <label>Remove Employee <b id="remName"></b>?</label>
@@ -435,6 +446,7 @@
            
            $(".end").click(function(){
                 $("#endName").text($(this).parent().siblings(".projectName").text());
+                $("#delProjId").val($(this).parent().siblings(".projId").val());
            });
            
            $(".vRes").click(function(){
@@ -446,6 +458,7 @@
            });
            
            $(".editOption").click(function(){
+               $("#editProjId").val($(this).parent().parent().parent().parent().siblings(".projId").val());
                $("#field1").val($(this).parent().parent().parent().parent().siblings(".projectName").text());
                $("#field2").val($(this).parent().parent().parent().parent().siblings(".startDate").text());
                $("#field3").val($(this).parent().parent().parent().parent().siblings(".endDate").text());
