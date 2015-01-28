@@ -1,5 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page session="true"%>
+<%      response.setDateHeader("Expires", 0);
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache,no-store,must-revalidate");%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -28,9 +32,11 @@
                         <img src='<c:url value="/res/images/flag_ph_b.gif"/>'>
                     </p>
                     <p align="right">
-                        <b id="username">${user.username}</b>
+                        <b id="username">${sessVar}</b>
                         <br/>
-                        <a href="login" id="logout">Log out</a>
+                        <form action='<c:url value="logoutSubmit"/>' method="post">
+                            <input type="submit" class="btn btn-danger btn-sm btn-block" value="Logout"/>
+                        </form>
                     </p>
                 </div>
             </div>

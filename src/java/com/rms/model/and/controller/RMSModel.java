@@ -42,7 +42,7 @@ public class RMSModel {
         }
     }
     public boolean canLogin(String username, String password) throws Exception {
-        sql = "select * from user where username=? and password=?";
+        sql = "select * from user where binary username=? and binary password=?";
         ps = con.prepareStatement(sql);
         ps.setString(1, username);
         ps.setString(2, password);
