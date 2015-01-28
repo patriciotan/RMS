@@ -16,7 +16,6 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
                 <c:forEach items="${projects}" var="project">
                 <tr>
                     <td class="projectName"><c:out value="${project.name}" /></td>
@@ -44,6 +43,8 @@
             </tbody>
         </table>
     </div>
+</div>
+</div>
 </div><!-- closing div from navigation-->
 
     <!-- Start modal for add project-->                

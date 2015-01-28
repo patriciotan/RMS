@@ -90,6 +90,17 @@ public class RMSModel {
         
         return rs;
     }
+    
+    public ResultSet getResources() throws ClassNotFoundException, SQLException
+    {
+        Class.forName(JDBC_DRIVER);
+        con = DriverManager.getConnection(DB_URL,USER,PASS);
+        sql = "select * from resource";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
         
         
     

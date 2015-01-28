@@ -26,7 +26,7 @@ public class RMSController {
      
     public ModelAndView getOutlook() throws ClassNotFoundException, SQLException {  
         ResultSet rs = dbModel.getOutlook();
-        ModelAndView mav = null;mav = new ModelAndView("projectoutlook"); 
+        ModelAndView mav = new ModelAndView("projectoutlook"); 
         mav.addObject("title","RMS | Project Outlook");
         List<Project> projects=new ArrayList<Project>();
         while(rs.next()){
@@ -45,7 +45,7 @@ public class RMSController {
     }  
     public ModelAndView getSummary() throws ClassNotFoundException, SQLException {  
         ResultSet rs = dbModel.getSummary();
-        ModelAndView mav = null;mav = new ModelAndView("projectsummary"); 
+        ModelAndView mav = new ModelAndView("projectsummary"); 
         mav.addObject("title","RMS | Project Summary");
         List<Project> projects=new ArrayList<Project>();
         while(rs.next()){
@@ -59,6 +59,22 @@ public class RMSController {
             projects.add(project);
         }
         mav.addObject("projects", projects);
+        return mav;
+    } 
+    public ModelAndView getResources() throws ClassNotFoundException, SQLException {  
+        ResultSet rs = dbModel.getResources();
+        ModelAndView mav = new ModelAndView("resourcesummary"); 
+        mav.addObject("title","RMS | Resource Summary");
+        List<Resource> resources=new ArrayList<Resource>();
+        while(rs.next()){
+            Resource resource = new Resource();
+            resource.setFname(rs.getString("first_name"));
+            resource.setLname(rs.getString("last_name"));
+            resource.setbUnit(rs.getString("business_unit"));
+            resource.setDateHired(rs.getString("date_hired"));
+            resources.add(resource);
+        }
+        mav.addObject("resources", resources);
         return mav;
     } 
     
@@ -91,11 +107,8 @@ public class RMSController {
     }  
     
     @RequestMapping("/rSummary")
-    public ModelAndView viewRSummary() {   
-        ModelAndView mav = new ModelAndView("resourcesummary"); 
-        mav.addObject("title","RMS | Resource Summary");
-        
-        return mav;
+    public ModelAndView viewRSummary() throws ClassNotFoundException, SQLException {     
+        return getResources();
     }  
     
     @RequestMapping(value = "/addOutlook", method = RequestMethod.POST)
