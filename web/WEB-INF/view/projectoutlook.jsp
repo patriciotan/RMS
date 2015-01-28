@@ -198,12 +198,12 @@
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
                                     <br/>
-                                    <label>Drop Project <b id="delName"></b>?</label>
+                                    <label>Are you sure you want to delete <b id="delName"></b>?</label>
                                 </div>
                             </div>
                             <div class="panel-footer">
                                 <div style="text-align: right;">
-                                    <input type="text" name="projectId" id="delProjId"/>
+                                    <input type="text" name="projectId" id="delProjId" hidden="hidden"/>
                                     <input class="btn btn-success" id="add-but" type="submit" value="Yes"/>&nbsp;
                                     <button class="btn btn-danger" type="button" data-dismiss="modal"><span>No</span></button>
                                 </div>

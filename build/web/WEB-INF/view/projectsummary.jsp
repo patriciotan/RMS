@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@include file="navigation.jsp" %>
@@ -116,7 +117,7 @@
                             <b>Edit Project</b>
                         </div>
                         <form id="edit" name="edit" action='<c:url value="editSummary"/>' method="post" modelAttribute="project">
-                            <input type="text" name="projectId" id="editProjId"/>
+                            <input type="text" name="projectId" id="editProjId" hidden="hidden"/>
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Name</label>
@@ -174,11 +175,13 @@
                         </div>
                         <div class="panel-body">
                             <div class="form-group">
+                                <label for=""><b id="aResource">EmpName</b></label>
+                            </div>
+                            <div class="form-group">
                                 <label for="">Effort</label>
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
                                             <th>Year</th>
                                             <th>Jan</th>
                                             <th>Feb</th>
@@ -196,7 +199,6 @@
                                     </thead>
                                     <tbody>
                                         <tr class="vRes" data-dismiss="modal" data-toggle="modal" data-target="#editResource">
-                                            <td id="aResource">EmpName</td>
                                             <td>yyyy</td>
                                             <td>#</td>
                                             <td>#</td>
@@ -236,14 +238,15 @@
                         <div class="panel-heading">
                             <b>Assign resource</b>
                         </div>
+                        <form id="assign" name="assign" action='<c:url value="assignResource"/>' method="post" modelAttribute="effort">
                         <div class="panel-body">
                             <div class="form-group">
                                 <label for="">Name:</label>
-                                <select class="form-control" name="status" required="required" id="empName">
+                                <select class="form-control" name="empName" required="required" id="empName">
                                     <option disabled="true" value="default" selected default></option>
-                                    <option value=""> Emp name </option>
-                                    <option value=""> Emp name </option>
-                                    <option value=""> Emp name </option>
+                                    <c:forEach items="${resources}" var="resource">
+                                        <option value="${resource.fname} ${resource.lname}"><c:out value="${resource.fname} ${resource.lname}" /></option>
+                                    </c:forEach>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -270,19 +273,20 @@
                                         <tr>
                                             <input type="hidden" id="selectedStart"/>
                                             <input type="hidden" id="selectedEnd"/>
-                                            <td><input type="number" step="1" class="year"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1" class="month1"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1" class="month2"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1" class="month3"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1" class="month4"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1" class="month5"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1" class="month6"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1" class="month7"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1" class="month8"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1" class="month9"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1" class="month10"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1" class="month11"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1" class="month12"/></td>
+                                            <input type="text" name="projName" id="projName" value=""/>
+                                            <td><input type="number" name="year" step="1" class="year"/></td>
+                                            <td><input type="number" name="months[0]" min="0" max="1" step="0.1" class="month1"/></td>
+                                            <td><input type="number" name="months[1]" min="0" max="1" step="0.1" class="month2"/></td>
+                                            <td><input type="number" name="months[2]" min="0" max="1" step="0.1" class="month3"/></td>
+                                            <td><input type="number" name="months[3]" min="0" max="1" step="0.1" class="month4"/></td>
+                                            <td><input type="number" name="months[4]" min="0" max="1" step="0.1" class="month5"/></td>
+                                            <td><input type="number" name="months[5]" min="0" max="1" step="0.1" class="month6"/></td>
+                                            <td><input type="number" name="months[6]" min="0" max="1" step="0.1" class="month7"/></td>
+                                            <td><input type="number" name="months[7]" min="0" max="1" step="0.1" class="month8"/></td>
+                                            <td><input type="number" name="months[8]" min="0" max="1" step="0.1" class="month9"/></td>
+                                            <td><input type="number" name="months[9]" min="0" max="1" step="0.1" class="month10"/></td>
+                                            <td><input type="number" name="months[10]" min="0" max="1" step="0.1" class="month11"/></td>
+                                            <td><input type="number" name="months[11]" min="0" max="1" step="0.1" class="month12"/></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -294,11 +298,12 @@
                                 <button class="btn btn-danger" type="button" data-dismiss="modal"><span>Cancel</span></button>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
     <!-- End modal for assign resources-->
     
     
@@ -310,7 +315,7 @@
                     <div class="panel panel-primary">  
                         <div class="panel-heading">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <b>Edit resource</b>
+                            <b>Edit resource effort</b>
                         </div>
                         <div class="panel-body">
                             <div class="form-group">
@@ -382,11 +387,11 @@
                             <b>End Project</b>
                         </div>
                         <form id="del" name="del" action='<c:url value="delSummary"/>' method="post" modelAttribute="project">
-                            <input type="text" name="projectId" id="delProjId"/>
+                            <input type="text" name="projectId" id="delProjId" hidden="hidden"/>
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
                                     <br/>
-                                    <label>Are you sure to end <b id="endName"></b>?</label>
+                                    <label>Are you sure you want to end <b id="endName"></b>?</label>
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -415,7 +420,7 @@
                         <form id="del" name="del" action='<c:url value="delSummary"/>' method="post" modelAttribute="project">
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
-                                    <label>Remove Employee <b id="remName"></b>?</label>
+                                    <label>Are you sure you want to remove <b id="remName"></b>?</label>
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -442,7 +447,14 @@
            });
            
            $(".vRes").click(function(){
-              $("#eResource").html($(this).children("#aResource").text()); 
+               $("#eResource").html($(this).parent().parent().parent().prev().children().children("#aResource").text()); 
+           });
+           
+           /*diri dapita bai*/
+           $(".assignOption").click(function(){
+               alert($(this).parent().parent().parent().parent().siblings(".projId").val()); 
+               alert($(this).parent().parent().parent().parent().siblings(".projectName").text());
+               $("#projName").val($(this).parent().parent().parent().parent().siblings(".projectName").text());
            });
            
            $(".removeRes").click(function(){

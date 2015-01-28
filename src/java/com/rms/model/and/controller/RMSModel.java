@@ -7,6 +7,7 @@ package com.rms.model.and.controller;
 
 
 import java.sql.*;
+import java.util.List;
 import javax.sql.DataSource;
 import javax.swing.tree.RowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,6 +127,30 @@ public class RMSModel {
     public boolean editSummary(String name, String start, String end, String type, String bUnit,int projectId) throws Exception {
         sql = "UPDATE project SET name='"+name+"',start_date='"+start+"',end_date='"+end+"',type='"+type+"',business_unit='"+bUnit+"' WHERE project_id="+projectId;
         System.out.println(sql);
+        if(st.executeUpdate(sql) > 0)
+            return true;
+        return false;
+    }
+    
+    public boolean assignResource(String empName, String projName, int year, List<Float> months) throws Exception
+    {
+        sql = "select * from project where name=?";
+        ps = con.prepareStatement(sql);
+        ps.setString(1, projName);
+        rs = ps.executeQuery();
+        rs.next();
+        int projID = rs.getInt("project_id");
+        
+        String[] name = empName.split(" ");
+        sql = "select * from resource where first_name=? and last_name=?";
+        ps = con.prepareStatement(sql);
+        ps.setString(1, name[0]);
+        ps.setString(2, name[1]);
+        rs = ps.executeQuery();
+        rs.next();
+        int resID = rs.getInt("resource_id");
+        
+        sql = "insert into effort (project_id,resource_id,jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dec) values ('"+projID+"','"+resID+"','"+months.get(0)+"','"+months.get(1)+"','"+months.get(2)+"','"+months.get(3)+"','"+months.get(4)+"','"+months.get(5)+"','"+months.get(6)+"','"+months.get(7)+"','"+months.get(8)+"','"+months.get(9)+"','"+months.get(10)+"','"+months.get(11)+"')";
         if(st.executeUpdate(sql) > 0)
             return true;
         return false;

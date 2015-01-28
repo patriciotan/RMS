@@ -57,9 +57,9 @@
                                     <div class="panel-body">
                                         <table>
                                             <tbody>
-                                                <tr><td>Business Unit:<b></b></td></tr>
-                                                <tr><td>Date Hired:<b></b><td></tr>
-                                                <tr><td>Current projects</td></tr>
+                                                <tr><td><b>Business unit:</b></td></tr>
+                                                <tr><td><b>Date hired:</b><td></tr>
+                                                <tr><td><b>Current projects:</b></td></tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -92,7 +92,7 @@
                                                 <th style="font-weight: bold; text-align: right;">Total Head Count</th><th>#</th></th>
                                             </thead>
                                             <tbody>
-                                                <tr><td style="font-weight: bold; text-align: right;">Employees per business unit</td><td></td></tr>
+                                                <tr><td style="font-weight: bold; text-align: right;">Employees per Business Unit</td><td></td></tr>
                                                 <tr><td style="text-align: right;">Philippines</td><td>#</td></tr>
                                                 <tr><td style="text-align: right;">Japan</td><td>#</td></tr>
                                                 <tr><td style="text-align: right;">Rest of the World</td><td>#</td></tr>
@@ -122,7 +122,6 @@
            $("#resSummary").dataTable();
            
            $(".resourceRow").click(function(){
-               alert($(this).children(".resId").val());
                $("#employeeName").text($(this).children(".resName").text());
            });
         });
