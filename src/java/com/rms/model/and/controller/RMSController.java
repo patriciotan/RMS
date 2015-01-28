@@ -75,19 +75,22 @@ public class RMSController {
     } 
     
     @RequestMapping("/login")
-    public ModelAndView login() {   
+    public ModelAndView login(HttpServletRequest request) {   
         ModelAndView mav = new ModelAndView("login", "title", "RMS | Log in"); 
+        if(request.getSession().getAttribute("sessVar")!=null){
+            mav = new ModelAndView("redirect:/outlook");
+        }
         return mav;
     }  
     
     @RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
     public ModelAndView loginSubmit(@ModelAttribute("user")User user, ModelMap model,HttpServletRequest request) throws Exception {
-        ModelAndView mav = new ModelAndView("login"); 
+        ModelAndView mav = new ModelAndView("redirect:/login"); 
         mav.addObject("title","RMS | Log in");   
         if(dbModel.canLogin(user.getUsername(), user.getPassword()))
         {
             request.getSession(true).setAttribute("sessVar",user.getUsername());
-            mav = new ModelAndView("projectoutlook"); 
+            mav = new ModelAndView("redirect:/outlook"); 
             mav.addObject("title","RMS | Project Outlook");
             mav.addObject("projects", getOutlook());
         }
@@ -96,7 +99,7 @@ public class RMSController {
     
     @RequestMapping(value = "/logoutSubmit", method = RequestMethod.POST)
     public ModelAndView logoutSubmit(ModelMap model,HttpServletRequest request) throws Exception {
-        ModelAndView mav = new ModelAndView("login"); 
+        ModelAndView mav = new ModelAndView("redirect:/login"); 
         mav.addObject("title","RMS | Log in");
         request.getSession().invalidate();
         return mav;
@@ -110,7 +113,7 @@ public class RMSController {
             mav.addObject("title","RMS | Project Outlook");
             mav.addObject("projects", getOutlook());
         }else{
-            mav=new ModelAndView("login"); 
+            mav=new ModelAndView("redirect:/login"); 
             mav.addObject("title","RMS | Log in"); 
         }
         return mav;
@@ -123,7 +126,7 @@ public class RMSController {
             mav.addObject("title","RMS | Project Summary");
             mav.addObject("projects", getSummary());
         }else{
-            mav=new ModelAndView("login"); 
+            mav=new ModelAndView("redirect:/login"); 
             mav.addObject("title","RMS | Log in"); 
         }
         return mav;
@@ -136,7 +139,7 @@ public class RMSController {
             mav.addObject("title","RMS | Resource Summary");
             mav.addObject("resources", getResources());
         }else{
-            mav=new ModelAndView("login"); 
+            mav=new ModelAndView("redirect:/login"); 
             mav.addObject("title","RMS | Log in"); 
         }
         return mav;
@@ -148,7 +151,7 @@ public class RMSController {
         
         if(dbModel.addOutlook(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getResNeeded(),project.getReference()))
         {
-            mav = new ModelAndView("projectoutlook"); 
+            mav = new ModelAndView("redirect:/outlook"); 
             mav.addObject("title","RMS | Project Outlook");
             mav.addObject("projects", getOutlook());
         }
@@ -161,7 +164,7 @@ public class RMSController {
         
         if(dbModel.addProject(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getReference()))
         {
-            mav = new ModelAndView("projectsummary"); 
+            mav = new ModelAndView("redirect:/pSummary"); 
             mav.addObject("title","RMS | Project Summary");
             mav.addObject("projects", getSummary());
         }
@@ -173,7 +176,7 @@ public class RMSController {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
         
         if(dbModel.delProject(project.getProjectId())){
-            mav = new ModelAndView("projectoutlook"); 
+            mav = new ModelAndView("redirect:/outlook"); 
             mav.addObject("title","RMS | Project Outlook");
             mav.addObject("projects", getOutlook());
         }
@@ -185,7 +188,7 @@ public class RMSController {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
         
         if(dbModel.delSummary(project.getProjectId())){
-            mav = new ModelAndView("projectsummary"); 
+            mav = new ModelAndView("redirect:/pSummary"); 
             mav.addObject("title","RMS | Project Summary");
             mav.addObject("projects", getSummary());
         }
@@ -198,7 +201,7 @@ public class RMSController {
         
         if(dbModel.editOutlook(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getResNeeded(),project.getProjectId()))
         {
-            mav = new ModelAndView("projectoutlook"); 
+            mav = new ModelAndView("redirect:/outlook"); 
             mav.addObject("title","RMS | Project Outlook");
             mav.addObject("projects", getOutlook());
         }
@@ -211,7 +214,7 @@ public class RMSController {
         
         if(dbModel.editSummary(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getbUnit(),project.getProjectId()))
         {
-            mav = new ModelAndView("projectsummary"); 
+            mav = new ModelAndView("redirect:/pSummary"); 
             mav.addObject("title","RMS | Project Summary");
             mav.addObject("projects", getSummary());
         }

@@ -35,7 +35,7 @@
                         <b id="username">${sessVar}</b>
                         <br/>
                         <form action='<c:url value="logoutSubmit"/>' method="post">
-                            <input type="submit" class="btn btn-danger btn-sm btn-block" value="Logout"/>
+                            <input type="submit"  value="Logout"/>
                         </form>
                     </p>
                 </div>
