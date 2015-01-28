@@ -12,8 +12,7 @@ import java.util.List;
  */
 public class Effort {
     
-    private String empName,projName;
-    private int year;
+    private int year,projId,empId;
     private List<Float> months;
 
     public List<Float> getMonths() {
@@ -24,20 +23,20 @@ public class Effort {
         this.months = months;
     }
 
-    public String getProjName() {
-        return projName;
+    public int getProjId() {
+        return projId;
     }
 
-    public void setProjName(String projName) {
-        this.projName = projName;
+    public void setProjId(int projId) {
+        this.projId = projId;
     }
 
-    public String getEmpName() {
-        return empName;
+    public int getEmpId() {
+        return empId;
     }
 
-    public void setEmpName(String empName) {
-        this.empName = empName;
+    public void setEmpId(int empId) {
+        this.empId = empId;
     }
 
     public int getYear() {

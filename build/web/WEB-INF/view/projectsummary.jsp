@@ -245,7 +245,7 @@
                                 <select class="form-control" name="empName" required="required" id="empName">
                                     <option disabled="true" value="default" selected default></option>
                                     <c:forEach items="${resources}" var="resource">
-                                        <option value="${resource.fname} ${resource.lname}"><c:out value="${resource.fname} ${resource.lname}" /></option>
+                                        <option value="${resource.resource_id}"><c:out value="${resource.fname} ${resource.lname}" /></option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -273,7 +273,7 @@
                                         <tr>
                                             <input type="hidden" id="selectedStart"/>
                                             <input type="hidden" id="selectedEnd"/>
-                                            <input type="hidden" name="projName" id="projName" value=""/>
+                                            <input type="hidden" name="projID" id="projectID" value=""/>
                                             <td><input type="number" name="year" step="1" class="year"/></td>
                                             <td><input type="number" name="months[0]" min="0" max="1" step="0.1" class="month1"/></td>
                                             <td><input type="number" name="months[1]" min="0" max="1" step="0.1" class="month2"/></td>
@@ -452,9 +452,8 @@
            
            /*diri dapita bai*/
            $(".assignOption").click(function(){
-               alert($(this).parent().parent().parent().parent().siblings().find(".projId").val());
-               $("#projName").val($(this).parent().parent().parent().parent().siblings(".projId").val()); 
-               alert($("#projName").val());
+               $("#projectId").val($(this).parent().parent().parent().parent().siblings(".projId").val()); 
+               alert($("#projectId").val());
            });
            
            $(".removeRes").click(function(){
