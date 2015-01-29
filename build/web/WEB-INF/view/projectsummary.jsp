@@ -244,8 +244,8 @@
                                 <label for="">Name:</label>
                                 <select class="form-control" name="empId" required="required" id="empName">
                                     <option disabled="true" value="default" selected default></option>
-                                    <c:forEach items="${resources}" var="resource">
-                                        <option value="${resource.resourceId}"><c:out value="${resource.fname} ${resource.lname}" /></option>
+                                    <c:forEach items="${employees}" var="resource">
+                                        <option value="${employee.empId}"><c:out value="${employee.fname} ${employee.lname}" /></option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -435,16 +435,9 @@
                $("#eResource").html($(this).parent().parent().parent().prev().children().children("#aResource").text()); 
            });
            
-<<<<<<< HEAD
            $(".ass").click(function(){
                alert($(this).parent().parent().prev().children().next().children().next().children("#addResTable").children().children("#wasa").children(".month1").val());
-=======
-           /*diri dapita bai*/
-           $(".assignOption").click(function(){
-               $("#projectID").val($(this).parent().parent().parent().parent().siblings(".projId").val()); 
-               alert($("#projectID").val());
->>>>>>> e49d732b04fbb18f89060ca38716b6c79f1e2778
-           });
+            });
            
            $(".removeRes").click(function(){
                $("#remName").html($(this).parent().parent().parent().find("#eResource").text());

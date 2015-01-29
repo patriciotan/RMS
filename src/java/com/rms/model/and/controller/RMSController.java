@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.*;
 import org.springframework.stereotype.Controller;
@@ -60,21 +61,54 @@ public class RMSController {
         }
         return projects;
     } 
-    public List getResources() throws Exception { 
-        ResultSet rs = dbModel.getResources();
-        List<Resource> resources=new ArrayList<>();
+    public List getEmployees() throws Exception { 
+        ResultSet rs = dbModel.getEmployees();
+        List<Employee> employees=new ArrayList<>();
         while(rs.next()){
-            Resource resource = new Resource();
-            resource.setResourceId(rs.getInt("resource_id"));
-            resource.setFname(rs.getString("first_name"));
-            resource.setMname(rs.getString("middle_name"));
-            resource.setLname(rs.getString("last_name"));
-            resource.setbUnit(rs.getString("business_unit"));
-            resource.setDateHired(rs.getString("date_hired"));
-            resources.add(resource);
+            Employee employee = new Employee();
+            employee.setEmpId(rs.getInt("resource_id"));
+            employee.setFname(rs.getString("first_name"));
+            employee.setMname(rs.getString("middle_name"));
+            employee.setLname(rs.getString("last_name"));
+            employee.setbUnit(rs.getString("business_unit"));
+            employee.setStatus(rs.getString("status"));
+            employee.setDateHired(rs.getString("date_hired"));
+            employees.add(employee);
         }
-        return resources;
+        return employees;
     } 
+    public List getResources() throws Exception {
+        List<Employee> employees=new ArrayList<>();
+        List<Resource> resources=new ArrayList<>();
+        employees = getEmployees();
+        for(int i=0;i<employees.size();i++)
+        {
+            Resource resource = new Resource();
+            if(employees.get(i).getStatus().equals("Assigned")) {
+                ResultSet rs = dbModel.getResources(employees.get(i).getEmpId());
+                rs.next();
+                resource.setFname(rs.getString("resource.first_name"));
+                resource.setMname(rs.getString("middle_name"));
+                resource.setLname(rs.getString("last_name"));
+                resource.setYear(rs.getInt("year"));
+                resource.setJan(rs.getFloat("jan"));
+                resource.setFeb(rs.getFloat("feb"));
+                resource.setMar(rs.getFloat("mar"));
+                resource.setApr(rs.getFloat("apr"));
+                resource.setMay(rs.getFloat("may"));
+                resource.setJun(rs.getFloat("jun"));
+                resource.setJul(rs.getFloat("jul"));
+                resource.setAug(rs.getFloat("aug"));
+                resource.setSep(rs.getFloat("sep"));
+                resource.setOct(rs.getFloat("oct"));
+                resource.setNov(rs.getFloat("nov"));
+                resource.setDece(rs.getFloat("dece"));
+                resources.add(resource);
+            }
+        }
+        
+        return resources;
+    }
     
     @RequestMapping("/login")
     public ModelAndView login(HttpServletRequest request) {   

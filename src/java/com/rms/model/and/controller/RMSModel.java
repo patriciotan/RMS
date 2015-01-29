@@ -91,10 +91,21 @@ public class RMSModel {
         return rs;
     }
     
-    public ResultSet getResources() throws Exception
+    public ResultSet getEmployees() throws Exception
     {
         sql = "select * from resource";
         ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
+    
+    public ResultSet getResources(int resId) throws Exception
+    {
+        sql = "SELECT resource.*,effort.* FROM resource JOIN effort ON resource.resource_id = effort.resource_id WHERE resource.resource_id = ?";
+        System.out.println(sql);
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, resId);
         rs = ps.executeQuery();
         
         return rs;

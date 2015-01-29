@@ -16,30 +16,30 @@
                             <th>Jun</th>
                             <th>Jul</th>
                             <th>Aug</th>
-                            <th>Sept</th>
+                            <th>Sep</th>
                             <th>Oct</th>
                             <th>Nov</th>
                             <th>Dec</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${resources}" var="resource">
+                        <c:forEach items="${resources}" var="resource" varStatus="i">
                         <tr class="resourceRow" data-toggle="modal" data-target="#resInfo">   
-                            <input type="hidden" class="resId" value="${resource.resourceId}"/>
+                            <input type="hidden" class="resId" value="${resource.empId}"/>
                             <td style="text-align: left;" class="resName"><c:out value="${resource.fname} ${resource.lname}" /></td>						
-                            <td>yyyy</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>   
-                            <td>#</td>
-                            <td>#</td>
+                            <td><c:out value="${resource.year}" /></td>   
+                            <td><c:out value="${resource.jan}" /></td>   
+                            <td><c:out value="${resource.feb}" /></td>   
+                            <td><c:out value="${resource.mar}" /></td>   
+                            <td><c:out value="${resource.apr}" /></td>   
+                            <td><c:out value="${resource.may}" /></td>   
+                            <td><c:out value="${resource.jun}" /></td>   
+                            <td><c:out value="${resource.jul}" /></td>   
+                            <td><c:out value="${resource.aug}" /></td>   
+                            <td><c:out value="${resource.sep}" /></td>   
+                            <td><c:out value="${resource.oct}" /></td>   
+                            <td><c:out value="${resource.nov}" /></td>   
+                            <td><c:out value="${resource.dece}" /></td>
                         </tr>
                         </c:forEach>
                     </tbody>
@@ -139,6 +139,7 @@
                    
                });
            });
+        
         });
     </script>
 </html>
