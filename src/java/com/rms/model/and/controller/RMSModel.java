@@ -99,6 +99,16 @@ public class RMSModel {
         
         return rs;
     }
+    
+    public ResultSet getSpecificResource(int id) throws Exception
+    {
+        sql = "select * from resource WHERE resource_id=?";
+        ps = con.prepareStatement(sql);
+        ps.setInt(1,id);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
         
     public boolean delProject(int projectId)throws Exception{
         sql="UPDATE project SET status='Dropped' WHERE project_id="+projectId;

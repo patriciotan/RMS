@@ -245,7 +245,7 @@
                                 <select class="form-control" name="empName" required="required" id="empName">
                                     <option disabled="true" value="default" selected default></option>
                                     <c:forEach items="${resources}" var="resource">
-                                        <option value="${resource.resource_id}"><c:out value="${resource.fname} ${resource.lname}" /></option>
+                                        <option value="${resource.resourceId}"><c:out value="${resource.fname} ${resource.lname}" /></option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -452,8 +452,8 @@
            
            /*diri dapita bai*/
            $(".assignOption").click(function(){
-               $("#projectId").val($(this).parent().parent().parent().parent().siblings(".projId").val()); 
-               alert($("#projectId").val());
+               $("#projectID").val($(this).parent().parent().parent().parent().siblings(".projId").val()); 
+               alert($("#projectID").val());
            });
            
            $(".removeRes").click(function(){

@@ -57,9 +57,9 @@
                                     <div class="panel-body">
                                         <table>
                                             <tbody>
-                                                <tr><td><b>Business unit:</b></td></tr>
-                                                <tr><td><b>Date hired:</b><td></tr>
-                                                <tr><td><b>Current projects:</b></td></tr>
+                                                <tr><td><b>Business unit:<code id="resUnit"></code></b></td></tr>
+                                                <tr><td><b>Date hired:<code id="resHired"></code></b><td></tr>
+                                                <tr><td><b>Current projects:<code></code></b></td></tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -122,7 +122,22 @@
            $("#resSummary").dataTable();
            
            $(".resourceRow").click(function(){
-               $("#employeeName").text($(this).children(".resName").text());
+               $.ajax({
+                   url:'getSpecificResource.htm',
+                   type:'Get',
+                   data:{'id':$(this).children(".resId").val()},
+                   success:function(data,status){
+                       var x = data.toString();
+                       var res=x.split("%");
+                       $("#employeeName").text(res[0]+" "+res[1]+" "+res[2]);
+                       $("#resUnit").text(res[3]);
+                       $("#resHired").text(res[4]);
+                   },  
+                        error : function(e) {  
+                        alert('Error: ' + e);   
+                    }
+                   
+               });
            });
         });
     </script>
