@@ -227,7 +227,7 @@ public class RMSController {
     {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
         
-        if(dbModel.assignResource(effort.getEmpId(),effort.getProjId(),effort.getYear(),effort.getMonths()))
+        if(dbModel.assignResource(effort.getCount(),effort.getEmpId(),effort.getProjId(),effort.getYear(),effort.getJan(),effort.getFeb(),effort.getMar(),effort.getApr(),effort.getMay(),effort.getJun(),effort.getJul(),effort.getAug(),effort.getSep(),effort.getOct(),effort.getNov(),effort.getDece()))
         {
             mav = new ModelAndView("projectsummary"); 
             mav.addObject("title","RMS | Project Summary");

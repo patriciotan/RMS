@@ -12,23 +12,40 @@ import java.util.List;
  */
 public class Effort {
     
-    private int year,projId,empId;
-    private List<Float> months;
+    private int projId,empId,count;
+    private List<Float> jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dece;
+    private List<Integer> year;
 
-    public List<Float> getMonths() {
-        return months;
+    public int getCount() {
+        return count;
     }
 
-    public void setMonths(List<Float> months) {
-        this.months = months;
+    public void setCount(int count) {
+        this.count = count;
     }
 
-    public int getProjId() {
-        return projId;
+    public List<Float> getApr() {
+        return apr;
     }
 
-    public void setProjId(int projId) {
-        this.projId = projId;
+    public void setApr(List<Float> apr) {
+        this.apr = apr;
+    }
+
+    public List<Float> getAug() {
+        return aug;
+    }
+
+    public void setAug(List<Float> aug) {
+        this.aug = aug;
+    }
+
+    public List<Float> getDece() {
+        return dece;
+    }
+
+    public void setDece(List<Float> dece) {
+        this.dece = dece;
     }
 
     public int getEmpId() {
@@ -39,13 +56,95 @@ public class Effort {
         this.empId = empId;
     }
 
-    public int getYear() {
+    public List<Float> getFeb() {
+        return feb;
+    }
+
+    public void setFeb(List<Float> feb) {
+        this.feb = feb;
+    }
+
+    public List<Float> getJan() {
+        return jan;
+    }
+
+    public void setJan(List<Float> jan) {
+        this.jan = jan;
+    }
+
+    public List<Float> getJul() {
+        return jul;
+    }
+
+    public void setJul(List<Float> jul) {
+        this.jul = jul;
+    }
+
+    public List<Float> getJun() {
+        return jun;
+    }
+
+    public void setJun(List<Float> jun) {
+        this.jun = jun;
+    }
+
+    public List<Float> getMar() {
+        return mar;
+    }
+
+    public void setMar(List<Float> mar) {
+        this.mar = mar;
+    }
+
+    public List<Float> getMay() {
+        return may;
+    }
+
+    public void setMay(List<Float> may) {
+        this.may = may;
+    }
+
+    public List<Float> getNov() {
+        return nov;
+    }
+
+    public void setNov(List<Float> nov) {
+        this.nov = nov;
+    }
+
+    public List<Float> getOct() {
+        return oct;
+    }
+
+    public void setOct(List<Float> oct) {
+        this.oct = oct;
+    }
+
+    public int getProjId() {
+        return projId;
+    }
+
+    public void setProjId(int projId) {
+        this.projId = projId;
+    }
+
+    public List<Float> getSep() {
+        return sep;
+    }
+
+    public void setSep(List<Float> sep) {
+        this.sep = sep;
+    }
+
+    public List<Integer> getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(List<Integer> year) {
         this.year = year;
     }
+
+    
     
     
 }

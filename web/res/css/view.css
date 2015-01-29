@@ -23,7 +23,18 @@ body
     width: 1200px;
     padding:25px;
     background:#F3F3F3;
-    border-radius:0.9em;
+    border-radius:0.5em;
+    box-shadow: 0 0 50px 10px rgba(0,0,0,1);
+    overflow: hidden;
+}
+
+.inner-login {
+    margin-left: auto;
+    margin-right: auto; 
+    width: 800px;
+    padding:25px;
+    background:#F3F3F3;
+    border-radius:0.5em;
     box-shadow: 0 0 50px 10px rgba(0,0,0,1);
     overflow: hidden;
 }
@@ -42,4 +53,31 @@ body
 
 #projectOutlook,#projectSummary,#resourceSummary{
     margin-top:20px;
+}
+
+.btn-logout {
+  background-color: #ada2a6;
+  border-color: #ada2a6;
+}
+.btn-logout:hover,
+.btn-logout:focus,
+.btn-logout:active,
+.btn-logout.active {
+  background-color: #a19499;
+  border-color: #95878c;
+}
+.btn-logout.disabled:hover,
+.btn-logout.disabled:focus,
+.btn-logout.disabled:active,
+.btn-logout.disabled.active,
+.btn-logout[disabled]:hover,
+.btn-logout[disabled]:focus,
+.btn-logout[disabled]:active,
+.btn-logout[disabled].active,
+fieldset[disabled] .btn-logout:hover,
+fieldset[disabled] .btn-logout:focus,
+fieldset[disabled] .btn-logout:active,
+fieldset[disabled] .btn-logout.active {
+  background-color: #ada2a6;
+  border-color: #ada2a6;
 }

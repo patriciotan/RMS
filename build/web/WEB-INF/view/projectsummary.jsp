@@ -242,10 +242,10 @@
                         <div class="panel-body">
                             <div class="form-group">
                                 <label for="">Name:</label>
-                                <select class="form-control" name="empName" required="required" id="empName">
+                                <select class="form-control" name="empId" required="required" id="empName">
                                     <option disabled="true" value="default" selected default></option>
                                     <c:forEach items="${resources}" var="resource">
-                                        <option value="${resource.resource_id}"><c:out value="${resource.fname} ${resource.lname}" /></option>
+                                        <option value="${resource.resourceId}"><c:out value="${resource.fname} ${resource.lname}" /></option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -270,30 +270,15 @@
                                         </tr>
                                     </thead>
                                     <tbody id="addResTable">
-                                        <tr>
-                                            <input type="hidden" id="selectedStart"/>
-                                            <input type="hidden" id="selectedEnd"/>
-                                            <input type="hidden" name="projID" id="projectID" value=""/>
-                                            <td><input type="number" name="year" step="1" class="year"/></td>
-                                            <td><input type="number" name="months[0]" min="0" max="1" step="0.1" class="month1"/></td>
-                                            <td><input type="number" name="months[1]" min="0" max="1" step="0.1" class="month2"/></td>
-                                            <td><input type="number" name="months[2]" min="0" max="1" step="0.1" class="month3"/></td>
-                                            <td><input type="number" name="months[3]" min="0" max="1" step="0.1" class="month4"/></td>
-                                            <td><input type="number" name="months[4]" min="0" max="1" step="0.1" class="month5"/></td>
-                                            <td><input type="number" name="months[5]" min="0" max="1" step="0.1" class="month6"/></td>
-                                            <td><input type="number" name="months[6]" min="0" max="1" step="0.1" class="month7"/></td>
-                                            <td><input type="number" name="months[7]" min="0" max="1" step="0.1" class="month8"/></td>
-                                            <td><input type="number" name="months[8]" min="0" max="1" step="0.1" class="month9"/></td>
-                                            <td><input type="number" name="months[9]" min="0" max="1" step="0.1" class="month10"/></td>
-                                            <td><input type="number" name="months[10]" min="0" max="1" step="0.1" class="month11"/></td>
-                                            <td><input type="number" name="months[11]" min="0" max="1" step="0.1" class="month12"/></td>
-                                        </tr>
+                                        
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="panel-footer">
                             <div style="text-align: right">
+<!--                                <a href="#" class="ass">display jan value</a>-->
+                                <input name="count" id="count" type="hidden" value="">
                                 <input class="btn btn-success" id="add-but" type="submit" value="Assign">
                                 <button class="btn btn-danger" type="button" data-dismiss="modal"><span>Cancel</span></button>
                             </div>
@@ -346,19 +331,19 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><input type="number" min="2014" max="3000" step="1"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1"/></td>
-                                            <td><input type="number" min="0" max="1" step="0.1"/></td>
+                                            <td><input type="number" name="year" step="1"/></td>
+                                            <td id="wasa"><input type="number" name="jan" value="0" min="0" max="1" step="0.1" class="month1"/></td>
+                                            <td id="wasa2"><input type="number" name="feb" value="0" min="0" max="1" step="0.1" class="month2"/></td>
+                                            <td><input type="number" name="mar" value="0" min="0" max="1" step="0.1" class="month3"/></td>
+                                            <td><input type="number" name="apr" value="0" min="0" max="1" step="0.1" class="month4"/></td>
+                                            <td><input type="number" name="may" value="0" min="0" max="1" step="0.1" class="month5"/></td>
+                                            <td><input type="number" name="jun" value="0" min="0" max="1" step="0.1" class="month6"/></td>
+                                            <td><input type="number" name="jul" value="0" min="0" max="1" step="0.1" class="month7"/></td>
+                                            <td><input type="number" name="aug" value="0" min="0" max="1" step="0.1" class="month8"/></td>
+                                            <td><input type="number" name="sep" value="0" min="0" max="1" step="0.1" class="month9"/></td>
+                                            <td><input type="number" name="oct" value="0" min="0" max="1" step="0.1" class="month10"/></td>
+                                            <td><input type="number" name="nov" value="0" min="0" max="1" step="0.1" class="month11"/></td>
+                                            <td><input type="number" name="dece" value="0" min="0" max="1" step="0.1" class="month12"/></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -450,10 +435,8 @@
                $("#eResource").html($(this).parent().parent().parent().prev().children().children("#aResource").text()); 
            });
            
-           /*diri dapita bai*/
-           $(".assignOption").click(function(){
-               $("#projectId").val($(this).parent().parent().parent().parent().siblings(".projId").val()); 
-               alert($("#projectId").val());
+           $(".ass").click(function(){
+               alert($(this).parent().parent().prev().children().next().children().next().children("#addResTable").children().children("#wasa").children(".month1").val());
            });
            
            $(".removeRes").click(function(){
@@ -470,39 +453,37 @@
            });
            
            $(".assignOption").click(function(){
+               $("#projectId").val($(this).parent().parent().parent().parent().siblings(".projId").val()); 
+               $("#addResTable").html("");
                var start = $(this).parent().parent().parent().parent().siblings(".startDate").text();
                var end = $(this).parent().parent().parent().parent().siblings(".endDate").text();
                var startYear = start.substring(0,4);
                var endYear = end.substring(0,4);
                var diffYear=endYear-startYear;
-               for(var i=0;i<diffYear;i++){
-                   $("#addResTable").append("<tr>"+
-                                            "<td><input type='number' step='1' class='year'/></td>"+
-                                            "<td><input type='number' min='0' max='1' step='0.1' class='month1'/></td>"+
-                                            "<td><input type='number' min='0' max='1' step='0.1' class='month2'/></td>"+
-                                            "<td><input type='number' min='0' max='1' step='0.1' class='month3'/></td>"+
-                                            "<td><input type='number' min='0' max='1' step='0.1' class='month4'/></td>"+
-                                            "<td><input type='number' min='0' max='1' step='0.1' class='month5'/></td>"+
-                                            "<td><input type='number' min='0' max='1' step='0.1' class='month6'/></td>"+
-                                            "<td><input type='number' min='0' max='1' step='0.1' class='month7'/></td>"+
-                                            "<td><input type='number' min='0' max='1' step='0.1' class='month8'/></td>"+
-                                            "<td><input type='number' min='0' max='1' step='0.1' class='month9'/></td>"+
-                                            "<td><input type='number' min='0' max='1' step='0.1' class='month10'/></td>"+
-                                            "<td><input type='number' min='0' max='1' step='0.1' class='month11'/></td>"+
-                                            "<td><input type='number' min='0' max='1' step='0.1' class='month12'/></td>"+
+               $("#count").val(parseInt(diffYear)+1);
+               for(var i=0;i<=diffYear;i++){
+                   $("#addResTable").append("<tr>" +
+                                            "<input type='hidden' name='projId' id='projectId' value=''/>" +
+                                            "<input type='number' name='year[]' value='"+(parseInt(startYear)+i)+"' step='1' class='year'/>" +
+                                            "<td>"+(parseInt(startYear)+i)+"</td>" +
+                                            "<td id='wasa'><input type='number' name='jan[]' value='0' min='0' max='1' step='0.1' class='month1'/></td>" +
+                                            "<td id='wasa2'><input type='number' name='feb[]' value='0' min='0' max='1' step='0.1' class='month2'/></td>" +
+                                            "<td><input type='number' name='mar[]' value='0' min='0' max='1' step='0.1' class='month3'/></td>" +
+                                            "<td><input type='number' name='apr[]' value='0' min='0' max='1' step='0.1' class='month4'/></td>" +
+                                            "<td><input type='number' name='may[]' value='0' min='0' max='1' step='0.1' class='month5'/></td>" +
+                                            "<td><input type='number' name='jun[]' value='0' min='0' max='1' step='0.1' class='month6'/></td>" +
+                                            "<td><input type='number' name='jul[]' value='0' min='0' max='1' step='0.1' class='month7'/></td>" +
+                                            "<td><input type='number' name='aug[]' value='0' min='0' max='1' step='0.1' class='month8'/></td>" +
+                                            "<td><input type='number' name='sep[]' value='0' min='0' max='1' step='0.1' class='month9'/></td>" +
+                                            "<td><input type='number' name='oct[]' value='0' min='0' max='1' step='0.1' class='month10'/></td>" +
+                                            "<td><input type='number' name='nov[]' value='0' min='0' max='1' step='0.1' class='month11'/></td>" +
+                                            "<td><input type='number' name='dece[]' value='0' min='0' max='1' step='0.1' class='month12'/></td>" +
                                         "</tr>");
                }
                
                $("#empName").val("default");
-               $(".year").val(null);
-               $(".year").attr("min",startYear);
-               $(".year").attr("max",endYear);
-               $(".year").attr("disabled","true");
-               $("#selectedStart").val(start);
-               $("#selectedEnd").val(end);
                for(var i=1;i<=12;i++){
                    $(".month"+i).attr("disabled",true);
-                   $(".month"+i).val(null);
                 }
            });
            

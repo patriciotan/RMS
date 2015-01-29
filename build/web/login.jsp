@@ -4,10 +4,11 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>RMS | Log in</title>
+        <title>${title}</title>
         <link href='<c:url value="/res/css/bootstrap.css"/>' type="text/css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href='<c:url value="/res/css/dataTables.bootstrap.css"/>'>
         <link type="text/css" rel="stylesheet" href='<c:url value="/res/css/view.css"/>'>
+        <link rel="shortcut icon" href='<c:url value="/res/images/favicon.ico"/>'>
         <script src='<c:url value="/res/js/jquery.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/js/bootstrap.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/js/jquery.dataTables.js"/>' type="text/javascript"></script>    
@@ -16,7 +17,7 @@
         
         <div class="outer">
         <div class="middle">
-        <div class="inner">
+        <div class="inner-login">
             
             <div class="top">
                 <img src='<c:url value="/res/images/header_logo.png"/>' class="img-rounded" alt="Responsive image">

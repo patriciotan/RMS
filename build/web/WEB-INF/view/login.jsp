@@ -17,7 +17,7 @@
         
         <div class="outer">
         <div class="middle">
-        <div class="inner">
+        <div class="inner-login">
             
             <div class="top">
                 <img src='<c:url value="/res/images/header_logo.png"/>' class="img-rounded" alt="Responsive image">

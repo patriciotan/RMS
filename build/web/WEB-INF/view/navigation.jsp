@@ -27,15 +27,10 @@
                 <img style="height: 81px;" src='<c:url value="/res/images/header_logo.png"/>' class="img-rounded" alt="Responsive image">
                 <div class="pull-right">
                     <p align="right">
-                        <img src='<c:url value="/res/images/flag_jp.gif"/>'>
-                        <img src='<c:url value="/res/images/divider_flag.gif"/>'>
-                        <img src='<c:url value="/res/images/flag_ph_b.gif"/>'>
-                    </p>
-                    <p align="right">
-                        <b id="username">${sessVar}</b>
+                        Welcome, <b id="username">${sessVar}</b>!
                         <br/>
-                        <form action='<c:url value="logoutSubmit"/>' method="post">
-                            <input type="submit"  value="Logout"/>
+                    <form class="pull-right" action='<c:url value="logoutSubmit"/>' method="post">
+                            <input class="btn btn-logout" type="submit"  value="Log out"/>
                         </form>
                     </p>
                 </div>
