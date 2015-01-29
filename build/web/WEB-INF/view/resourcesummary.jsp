@@ -22,7 +22,7 @@
                             <th>Dec</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="resources">
                         <c:forEach items="${resources}" var="resource">
                         <tr class="resourceRow" data-toggle="modal" data-target="#resInfo">   
                             <input type="hidden" class="resId" value="${resource.resourceId}"/>
@@ -121,7 +121,7 @@
            $("#3").attr("class","active"); 
            $("#resSummary").dataTable();
            
-           $(".resourceRow").click(function(){
+            $("#resources").on('click',".resourceRow",function(){
                $.ajax({
                    url:'getSpecificResource.htm',
                    type:'Get',

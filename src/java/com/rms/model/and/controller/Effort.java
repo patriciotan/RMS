@@ -4,6 +4,7 @@
  */
 package com.rms.model.and.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,8 +14,8 @@ import java.util.List;
 public class Effort {
     
     private int projId,empId,count;
-    private List<Float> jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dece;
-    private List<Integer> year;
+    private List<Float> jan = new ArrayList<Float>(),feb = new ArrayList<Float>(),mar = new ArrayList<Float>(),apr = new ArrayList<Float>(),may = new ArrayList<Float>(),jun = new ArrayList<Float>(),jul = new ArrayList<Float>(),aug = new ArrayList<Float>(),sep = new ArrayList<Float>(),oct = new ArrayList<Float>(),nov = new ArrayList<Float>(),dece = new ArrayList<Float>();
+    private List<String> year = new ArrayList<String>();
 
     public int getCount() {
         return count;
@@ -136,15 +137,13 @@ public class Effort {
         this.sep = sep;
     }
 
-    public List<Integer> getYear() {
+    public List<String> getYear() {
         return year;
     }
 
-    public void setYear(List<Integer> year) {
+    public void setYear(List<String> year) {
         this.year = year;
     }
 
-    
-    
     
 }

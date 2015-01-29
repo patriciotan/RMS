@@ -16,7 +16,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="projTable">
                 <c:forEach items="${projects}" var="project">
                 <tr>
                     <input type="hidden" class="projId" value="${project.projectId}"/>
@@ -33,7 +33,7 @@
                                 <span class="sr-only">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#" data-toggle="modal" data-target="#view">View resources</a></li>
+                                <li><a href="#" class="viewOption" data-toggle="modal" data-target="#view">View resources</a></li>
                                 <li><a href="#" class="assignOption" data-toggle="modal" data-target="#assign">Assign new resource</a></li>
                                 <li><a href="#" class="editOption" data-toggle="modal" data-target="#editProject">Edit project</a></li>
                             </ul>
@@ -171,17 +171,15 @@
                 <div class="modal-body-sm">
                     <div class="panel panel-primary">  
                         <div class="panel-heading">
-                            <b>Resources assigned</b>
+                            <b>Resources assigned to <code id="vProj"></code></b>
                         </div>
                         <div class="panel-body">
-                            <div class="form-group">
-                                <label for=""><b id="aResource">EmpName</b></label>
-                            </div>
                             <div class="form-group">
                                 <label for="">Effort</label>
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
+                                            <th>Emp Name</th>
                                             <th>Year</th>
                                             <th>Jan</th>
                                             <th>Feb</th>
@@ -199,6 +197,7 @@
                                     </thead>
                                     <tbody>
                                         <tr class="vRes" data-dismiss="modal" data-toggle="modal" data-target="#editResource">
+                                            <td class="aResource">Mario Luigi</td>
                                             <td>yyyy</td>
                                             <td>#</td>
                                             <td>#</td>
@@ -248,6 +247,8 @@
                                         <option value="${resource.resourceId}"><c:out value="${resource.fname} ${resource.lname}" /></option>
                                     </c:forEach>
                                 </select>
+                                <input type="text" id="selectedStart"/>
+                                <input type="text" id="selectedEnd"/>
                             </div>
                             <div class="form-group">
                                 <label for="">Effort</label>
@@ -278,7 +279,8 @@
                         <div class="panel-footer">
                             <div style="text-align: right">
 <!--                                <a href="#" class="ass">display jan value</a>-->
-                                <input name="count" id="count" type="hidden" value="">
+                                PID:<input type="text" name="projId" id="projectId"/>
+                                COUNT:<input type="text" name="count" id="count"/>
                                 <input class="btn btn-success" id="add-but" type="submit" value="Assign">
                                 <button class="btn btn-danger" type="button" data-dismiss="modal"><span>Cancel</span></button>
                             </div>
@@ -332,8 +334,8 @@
                                     <tbody>
                                         <tr>
                                             <td><input type="number" name="year" step="1"/></td>
-                                            <td id="wasa"><input type="number" name="jan" value="0" min="0" max="1" step="0.1" class="month1"/></td>
-                                            <td id="wasa2"><input type="number" name="feb" value="0" min="0" max="1" step="0.1" class="month2"/></td>
+                                            <td><input type="number" name="jan" value="0" min="0" max="1" step="0.1" class="month1"/></td>
+                                            <td><input type="number" name="feb" value="0" min="0" max="1" step="0.1" class="month2"/></td>
                                             <td><input type="number" name="mar" value="0" min="0" max="1" step="0.1" class="month3"/></td>
                                             <td><input type="number" name="apr" value="0" min="0" max="1" step="0.1" class="month4"/></td>
                                             <td><input type="number" name="may" value="0" min="0" max="1" step="0.1" class="month5"/></td>
@@ -372,7 +374,7 @@
                             <b>End Project</b>
                         </div>
                         <form id="del" name="del" action='<c:url value="delSummary"/>' method="post" modelAttribute="project">
-                            <input type="text" name="projectId" id="delProjId" hidden="hidden"/>
+                            <input type="text" name="projectId" id="delProjId"/>
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
                                     <br/>
@@ -426,124 +428,136 @@
            $("#2").attr("class","active"); 
            $("#projSummary").dataTable();
            
-           $(".end").click(function(){
+            $("#projTable").on("click",".end",function(){
                 $("#endName").text($(this).parent().siblings(".projectName").text());
                 $("#delProjId").val($(this).parent().siblings(".projId").val());
-           });
+            });
            
            $(".vRes").click(function(){
-               $("#eResource").html($(this).parent().parent().parent().prev().children().children("#aResource").text()); 
+               $("#eResource").html($(this).children(".aResource").text()); 
            });
            
-<<<<<<< HEAD
-           $(".ass").click(function(){
-               alert($(this).parent().parent().prev().children().next().children().next().children("#addResTable").children().children("#wasa").children(".month1").val());
-=======
-           /*diri dapita bai*/
-           $(".assignOption").click(function(){
-               $("#projectID").val($(this).parent().parent().parent().parent().siblings(".projId").val()); 
-               alert($("#projectID").val());
->>>>>>> e49d732b04fbb18f89060ca38716b6c79f1e2778
-           });
+            $("#projTable").on("click",".viewOption",function(){
+                $("#vProj").text($(this).parent().parent().parent().parent().siblings(".projectName").text());
+            });
+//           $(".ass").click(function(){
+//               alert($(this).parent().parent().prev().children().next().children().next().children("#addResTable").children().children("#wasa").children(".month1").val());
+//           }
            
            $(".removeRes").click(function(){
                $("#remName").html($(this).parent().parent().parent().find("#eResource").text());
            });
            
-           $(".editOption").click(function(){
+           
+            $("#projTable").on("click",".editOption",function(){ 
                $("#editProjId").val($(this).parent().parent().parent().parent().siblings(".projId").val());
                $("#field1").val($(this).parent().parent().parent().parent().siblings(".projectName").text());
                $("#field2").val($(this).parent().parent().parent().parent().siblings(".startDate").text());
                $("#field3").val($(this).parent().parent().parent().parent().siblings(".endDate").text());
                $("#field4").val($(this).parent().parent().parent().parent().siblings(".projType").text());
                $("#field5").val($(this).parent().parent().parent().parent().siblings(".bUnit").text()); 
-           });
+            });
            
-           $(".assignOption").click(function(){
-               $("#projectId").val($(this).parent().parent().parent().parent().siblings(".projId").val()); 
+            $("#projTable").on("click",".assignOption",function(){ 
                $("#addResTable").html("");
+               
                var start = $(this).parent().parent().parent().parent().siblings(".startDate").text();
                var end = $(this).parent().parent().parent().parent().siblings(".endDate").text();
                var startYear = start.substring(0,4);
                var endYear = end.substring(0,4);
                var diffYear=endYear-startYear;
-               $("#count").val(parseInt(diffYear)+1);
+               $("#selectedStart").val(start);
+               $("#selectedEnd").val(end);
+               $("#count").val(diffYear+1);
+               $("#projectId").val($(this).parent().parent().parent().parent().siblings(".projId").val());
                for(var i=0;i<=diffYear;i++){
+                   var t=i*12;
                    $("#addResTable").append("<tr>" +
-                                            "<input type='hidden' name='projId' id='projectId' value=''/>" +
-                                            "<input type='number' name='year[]' value='"+(parseInt(startYear)+i)+"' step='1' class='year'/>" +
+                                            "<input type='hidden' name='year[]' value='"+(parseInt(startYear)+i)+"' class='year'/>" +
                                             "<td>"+(parseInt(startYear)+i)+"</td>" +
-                                            "<td id='wasa'><input type='number' name='jan[]' value='0' min='0' max='1' step='0.1' class='month1'/></td>" +
-                                            "<td id='wasa2'><input type='number' name='feb[]' value='0' min='0' max='1' step='0.1' class='month2'/></td>" +
-                                            "<td><input type='number' name='mar[]' value='0' min='0' max='1' step='0.1' class='month3'/></td>" +
-                                            "<td><input type='number' name='apr[]' value='0' min='0' max='1' step='0.1' class='month4'/></td>" +
-                                            "<td><input type='number' name='may[]' value='0' min='0' max='1' step='0.1' class='month5'/></td>" +
-                                            "<td><input type='number' name='jun[]' value='0' min='0' max='1' step='0.1' class='month6'/></td>" +
-                                            "<td><input type='number' name='jul[]' value='0' min='0' max='1' step='0.1' class='month7'/></td>" +
-                                            "<td><input type='number' name='aug[]' value='0' min='0' max='1' step='0.1' class='month8'/></td>" +
-                                            "<td><input type='number' name='sep[]' value='0' min='0' max='1' step='0.1' class='month9'/></td>" +
-                                            "<td><input type='number' name='oct[]' value='0' min='0' max='1' step='0.1' class='month10'/></td>" +
-                                            "<td><input type='number' name='nov[]' value='0' min='0' max='1' step='0.1' class='month11'/></td>" +
-                                            "<td><input type='number' name='dece[]' value='0' min='0' max='1' step='0.1' class='month12'/></td>" +
+                                            "<td><input type='number' name='jan[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+1)+"'/></td>" +
+                                            "<td><input type='number' name='feb[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+2)+"'/></td>" +
+                                            "<td><input type='number' name='mar[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+3)+"'/></td>" +
+                                            "<td><input type='number' name='apr[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+4)+"'/></td>" +
+                                            "<td><input type='number' name='may[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+5)+"'/></td>" +
+                                            "<td><input type='number' name='jun[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+6)+"'/></td>" +
+                                            "<td><input type='number' name='jul[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+7)+"'/></td>" +
+                                            "<td><input type='number' name='aug[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+8)+"'/></td>" +
+                                            "<td><input type='number' name='sep[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+9)+"'/></td>" +
+                                            "<td><input type='number' name='oct[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+10)+"'/></td>" +
+                                            "<td><input type='number' name='nov[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+11)+"'/></td>" +
+                                            "<td><input type='number' name='dece[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+12)+"'/></td>" +
                                         "</tr>");
                }
-               
-               $("#empName").val("default");
-               for(var i=1;i<=12;i++){
-                   $(".month"+i).attr("disabled",true);
+                $("#empName").val("default");
+                for(var x=0;x<=diffYear;x++){
+                    var t=x*12;
+                    for(var i=1;i<=12;i++){
+                       $(".month"+(parseInt(t)+i)).attr("disabled",true);
+                    }
                 }
-           });
+            });
            
-           $("#empName").change(function(){
-               $(".year").removeAttr("disabled");
-               for(var i=1;i<=12;i++){
-                   $(".month"+i).removeAttr("disabled");
-                }
-           });
-           
-           
-           $(".year").change(function(){
-                for(var i=1;i<=12;i++){
-                    $(".month"+i).val(null);
-                   $(".month"+i).removeAttr("disabled");
-                }
-                var currentYear=$(this).val();
-                var start = $(this).parent().siblings("#selectedStart").val();
-                var end = $(this).parent().siblings("#selectedEnd").val();
+            $("#empName").change(function(){
+                var start = $(this).siblings("#selectedStart").val();
+                var end = $(this).siblings("#selectedEnd").val();
                 
                 var startYear = start.substring(0,4);
                 var endYear = end.substring(0,4);
-                
+                var diffYear=endYear-startYear;
                 
                 var startMonth = start.substring(5,7);
                 var endMonth = end.substring(5,7);
-                if(startYear==endYear){
-                    for(var i=1;i<=12;i++){
-                       $(".month"+i).removeAttr("disabled");
-                       if(i<startMonth ||i>endMonth){
-                           $(".month"+i).attr("disabled","true");
-                       }
-                    }
-                }else{
-                    if(currentYear==startYear){
-                        for(var i=1;i<=12;i++){
-                            if(i<startMonth){
-                                $(".month"+i).attr("disabled","true");
-                            }
-                        }
-                    }else if(currentYear==endYear){
-                        for(var i=1;i<=12;i++){
-                            if(i>endMonth){
-                                $(".month"+i).attr("disabled","true");
-                            }
-                        }
+                
+                var last=(diffYear+1)*12;
+                var end=parseInt(endMonth)+(diffYear*12);
+                for(var i=1;i<=last;i++){
+                    if(i>=startMonth && i<=end){
+                        $(".month"+i).removeAttr("disabled");
                     }
                 }
-           });
+            });
            
-        });
-        
-        
+           
+//           $(".year").change(function(){
+//                for(var i=1;i<=12;i++){
+//                    $(".month"+i).val(null);
+//                   $(".month"+i).removeAttr("disabled");
+//                }
+//                var currentYear=$(this).val();
+//                var start = $(this).parent().siblings("#selectedStart").val();
+//                var end = $(this).parent().siblings("#selectedEnd").val();
+//                
+//                var startYear = start.substring(0,4);
+//                var endYear = end.substring(0,4);
+//                
+//                
+//                var startMonth = start.substring(5,7);
+//                var endMonth = end.substring(5,7);
+//                if(startYear==endYear){
+//                    for(var i=1;i<=12;i++){
+//                       $(".month"+i).removeAttr("disabled");
+//                       if(i<startMonth ||i>endMonth){
+//                           $(".month"+i).attr("disabled","true");
+//                       }
+//                    }
+//                }else{
+//                    if(currentYear==startYear){
+//                        for(var i=1;i<=12;i++){
+//                            if(i<startMonth){
+//                                $(".month"+i).attr("disabled","true");
+//                            }
+//                        }
+//                    }else if(currentYear==endYear){
+//                        for(var i=1;i<=12;i++){
+//                            if(i>endMonth){
+//                                $(".month"+i).attr("disabled","true");
+//                            }
+//                        }
+//                    }
+//                }
+//           }); 
+        }); 
     </script>
     </body>
 </html>

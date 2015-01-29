@@ -221,21 +221,11 @@
         $(document).ready(function(){
            $("#projects").on("click",".deleteButton",function(){
               $("#delProjId").val($(this).parent().siblings(".projId").val()); 
+                $("#delName").text($(this).parent().siblings(".projectName").text());
            });
            
            $("#projects").on("click",".editButton",function(){
               $("#editProjId").val($(this).parent().siblings(".projId").val()); 
-           });
-           
-           var val="";
-           $("#1").attr("class","active");
-           $("#projOutlook").dataTable();
-           
-           $(".deleteButton").click(function(){
-                $("#delName").text($(this).parent().siblings(".projectName").text());
-           });
-           
-           $(".editButton").click(function(){
                $("#field1").val($(this).parent().siblings(".projectName").text());
                $("#field2").val($(this).parent().siblings(".startDate").text());
                $("#field3").val($(this).parent().siblings(".endDate").text());
@@ -244,6 +234,9 @@
                $("#field6").val($(this).parent().siblings(".projType").text());
                $("#field7").val($(this).parent().siblings(".resNeeded").text());
            });
+           $("#1").attr("class","active");
+           $("#projOutlook").dataTable();
+           
         });
     </script>
 </html>
