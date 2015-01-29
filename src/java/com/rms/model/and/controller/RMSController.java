@@ -5,10 +5,8 @@
 package com.rms.model.and.controller;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Calendar;
 import java.util.List;
 import javax.servlet.http.*;
 import org.springframework.stereotype.Controller;
@@ -71,42 +69,41 @@ public class RMSController {
             employee.setMname(rs.getString("middle_name"));
             employee.setLname(rs.getString("last_name"));
             employee.setbUnit(rs.getString("business_unit"));
-            employee.setStatus(rs.getString("status"));
             employee.setDateHired(rs.getString("date_hired"));
             employees.add(employee);
         }
         return employees;
     } 
     public List getResources() throws Exception {
+        Calendar c = Calendar.getInstance();
+        int year=c.get(Calendar.YEAR);
         List<Employee> employees=new ArrayList<>();
         List<Resource> resources=new ArrayList<>();
         employees = getEmployees();
         for(int i=0;i<employees.size();i++)
         {
+            ResultSet rs = dbModel.getTotalResources(employees.get(i).getEmpId(),year);
             Resource resource = new Resource();
-            if(employees.get(i).getStatus().equals("Assigned")) {
-                ResultSet rs = dbModel.getResources(employees.get(i).getEmpId());
-                rs.next();
-                resource.setFname(rs.getString("resource.first_name"));
-                resource.setMname(rs.getString("middle_name"));
-                resource.setLname(rs.getString("last_name"));
-                resource.setYear(rs.getInt("year"));
-                resource.setJan(rs.getFloat("jan"));
-                resource.setFeb(rs.getFloat("feb"));
-                resource.setMar(rs.getFloat("mar"));
-                resource.setApr(rs.getFloat("apr"));
-                resource.setMay(rs.getFloat("may"));
-                resource.setJun(rs.getFloat("jun"));
-                resource.setJul(rs.getFloat("jul"));
-                resource.setAug(rs.getFloat("aug"));
-                resource.setSep(rs.getFloat("sep"));
-                resource.setOct(rs.getFloat("oct"));
-                resource.setNov(rs.getFloat("nov"));
-                resource.setDece(rs.getFloat("dece"));
-                resources.add(resource);
-            }
+            rs.next();
+            resource.setEmpId(rs.getInt("resource_id"));
+            resource.setFname(rs.getString("first_name"));
+            resource.setMname(rs.getString("middle_name"));
+            resource.setLname(rs.getString("last_name"));
+            resource.setYear(rs.getInt("year"));
+            resource.setJan(rs.getFloat("jan"));
+            resource.setFeb(rs.getFloat("feb"));
+            resource.setMar(rs.getFloat("mar"));
+            resource.setApr(rs.getFloat("apr"));
+            resource.setMay(rs.getFloat("may"));
+            resource.setJun(rs.getFloat("jun"));
+            resource.setJul(rs.getFloat("jul"));
+            resource.setAug(rs.getFloat("aug"));
+            resource.setSep(rs.getFloat("sep"));
+            resource.setOct(rs.getFloat("oct"));
+            resource.setNov(rs.getFloat("nov"));
+            resource.setDece(rs.getFloat("dece"));
+            resources.add(resource);
         }
-        
         return resources;
     }
     
@@ -161,13 +158,14 @@ public class RMSController {
         if(request.getSession().getAttribute("sessVar")!=null){
             mav.addObject("title","RMS | Project Summary");
             mav.addObject("projects", getSummary());
-            mav.addObject("resources", getResources());
+            mav.addObject("employees", getEmployees());
         }else{
             mav=new ModelAndView("redirect:/login"); 
             mav.addObject("title","RMS | Log in"); 
         }
         return mav;
     }  
+    
     
     @RequestMapping("/rSummary")
     public ModelAndView viewRSummary(HttpServletRequest request) throws Exception {   
@@ -263,11 +261,10 @@ public class RMSController {
     {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
         Boolean flag=true;
-        System.out.println("NAABOT KO DIRI---------------------------------"+effort.getYear());
+        //System.out.println("NAABOT KO DIRI---------------------------------"+effort.getYear());
         for(int i=0;i<effort.getCount();i++){
-            int x = Integer.parseInt(effort.getYear().get(i));
-            System.out.println("NAABOT KO DIRI---------------------------------"+x);
-            if(dbModel.assignResource(effort.getEmpId(),effort.getProjId(),x,effort.getJan().get(i),effort.getFeb().get(i),effort.getMar().get(i),effort.getApr().get(i),effort.getMay().get(i),effort.getJun().get(i),effort.getJul().get(i),effort.getAug().get(i),effort.getSep().get(i),effort.getOct().get(i),effort.getNov().get(i),effort.getDece().get(i)))
+            //System.out.println("NAABOT KO DIRI---------------------------------");
+            if(dbModel.assignResource(effort.getEmpId(),effort.getProjId(),effort.getYear(),effort.getJan(),effort.getFeb(),effort.getMar(),effort.getApr(),effort.getMay(),effort.getJun(),effort.getJul(),effort.getAug(),effort.getSep(),effort.getOct(),effort.getNov(),effort.getDece()))
             {
                
             }else{
@@ -282,15 +279,15 @@ public class RMSController {
         return mav;
     }
     
-    @RequestMapping(value = "/getSpecificResource")
-    public @ResponseBody String getSpecificResource(@RequestParam("id")int id, ModelMap model) throws Exception
+    @RequestMapping(value = "/getSpecificEmployee")
+    public @ResponseBody String getSpecificEmployee(@RequestParam("id")int id, ModelMap model) throws Exception
     {
         ResultSet rs =null;
         String res = null;
-        rs=dbModel.getSpecificResource(id);
+        rs=dbModel.getSpecificEmployee(id);
         if(rs.first()){
             res=rs.getString("first_name")+"%"+rs.getString("middle_name")+"%"+rs.getString("last_name")+"%"+rs.getString("business_unit")+"%"+rs.getString("date_hired");
-            System.out.println(rs.getString("first_name")+rs.getString("date_hired"));
+            //System.out.println(rs.getString("first_name")+rs.getString("date_hired"));
         }
         return res;
     }
