@@ -111,6 +111,21 @@ public class RMSModel {
         return rs;
     }
     
+<<<<<<< HEAD
+=======
+    public ResultSet getTotalResources(int resId,int year) throws Exception
+    {
+        sql = "SELECT resource.*, COALESCE(effort.year,"+year+") as year,SUM(effort.jan) as jan,SUM(effort.feb) as feb,SUM(effort.mar) as mar,SUM(effort.apr) as apr,SUM(effort.may) as may,SUM(effort.jun) as jun,SUM(effort.jul) as jul,SUM(effort.aug) as aug,SUM(effort.sep) as sep,SUM(effort.oct) as oct,SUM(effort.nov) as nov,SUM(effort.dece) as dece FROM resource JOIN effort ON resource.resource_id = effort.resource_id WHERE resource.resource_id = ? AND effort.year=?";
+        System.out.println(sql);
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, resId);
+        ps.setInt(2, year);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
+    
+>>>>>>> 90ce5cc35129fb02c0a34eef72978e3902a6a3d1
     public ResultSet getSpecificEmployee(int id) throws Exception
     {
         sql = "select * from resource WHERE resource_id=?";
@@ -164,12 +179,14 @@ public class RMSModel {
         return false;
     }
     
-    public boolean assignResource(int empId, int projId, int year, Float jan, Float feb, Float mar, Float apr, Float may, Float jun, Float jul, Float aug, Float sep, Float oct, Float nov, Float dece) throws Exception
+    public boolean assignResource(int empId, int projId, int year, float jan, float feb, float mar, float apr, float may, float jun, float jul, float aug, float sep, float oct, float nov, float dece) throws Exception
     {
         sql = "insert into effort (project_id,resource_id,year,jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dece) values ("+projId+","+empId+","+year+","+jan+","+feb+","+mar+","+apr+","+may+","+jun+","+jul+","+aug+","+sep+","+oct+","+nov+","+dece+")";
-        System.out.println("-------------------"+sql+"--------------------");
+        //System.out.println("-------------------"+sql+"--------------------");
         if(st.executeUpdate(sql) > 0)
             return true;
         return false;
     }
+    
+    
 }

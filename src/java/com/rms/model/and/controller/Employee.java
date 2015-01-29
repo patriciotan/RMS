@@ -10,17 +10,10 @@ package com.rms.model.and.controller;
  */
 public class Employee {
     
-    private String fname,lname,mname,bUnit,status,dateHired;
+    private String fname,lname,mname,bUnit,dateHired;
     private int empId;
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
+    
     public int getEmpId() {
         return empId;
     }

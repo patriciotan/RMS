@@ -497,20 +497,20 @@
                for(var i=0;i<=diffYear;i++){
                    var t=i*12;
                    $("#addResTable").append("<tr>" +
-                                            "<input type='hidden' name='year[]' value='"+(parseInt(startYear)+i)+"' class='year'/>" +
+                                            "<input type='hidden' name='year' value='"+(parseInt(startYear)+i)+"' class='year'/>" +
                                             "<td>"+(parseInt(startYear)+i)+"</td>" +
-                                            "<td><input type='number' name='jan[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+1)+"'/></td>" +
-                                            "<td><input type='number' name='feb[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+2)+"'/></td>" +
-                                            "<td><input type='number' name='mar[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+3)+"'/></td>" +
-                                            "<td><input type='number' name='apr[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+4)+"'/></td>" +
-                                            "<td><input type='number' name='may[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+5)+"'/></td>" +
-                                            "<td><input type='number' name='jun[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+6)+"'/></td>" +
-                                            "<td><input type='number' name='jul[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+7)+"'/></td>" +
-                                            "<td><input type='number' name='aug[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+8)+"'/></td>" +
-                                            "<td><input type='number' name='sep[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+9)+"'/></td>" +
-                                            "<td><input type='number' name='oct[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+10)+"'/></td>" +
-                                            "<td><input type='number' name='nov[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+11)+"'/></td>" +
-                                            "<td><input type='number' name='dece[]' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+12)+"'/></td>" +
+                                            "<td><input type='number' name='jan' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+1)+"'/></td>" +
+                                            "<td><input type='number' name='feb' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+2)+"'/></td>" +
+                                            "<td><input type='number' name='mar' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+3)+"'/></td>" +
+                                            "<td><input type='number' name='apr' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+4)+"'/></td>" +
+                                            "<td><input type='number' name='may' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+5)+"'/></td>" +
+                                            "<td><input type='number' name='jun' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+6)+"'/></td>" +
+                                            "<td><input type='number' name='jul' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+7)+"'/></td>" +
+                                            "<td><input type='number' name='aug' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+8)+"'/></td>" +
+                                            "<td><input type='number' name='sep' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+9)+"'/></td>" +
+                                            "<td><input type='number' name='oct' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+10)+"'/></td>" +
+                                            "<td><input type='number' name='nov' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+11)+"'/></td>" +
+                                            "<td><input type='number' name='dece' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+12)+"'/></td>" +
                                         "</tr>");
                }
                 $("#empName").val("default");
