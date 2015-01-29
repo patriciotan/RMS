@@ -15,6 +15,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 /**
  *
@@ -234,6 +236,19 @@ public class RMSController {
             mav.addObject("projects", getSummary());
         }
         return mav;
+    }
+    
+    @RequestMapping(value = "/getSpecificResource")
+    public @ResponseBody String getSpecificResource(@RequestParam("id")int id, ModelMap model) throws Exception
+    {
+        ResultSet rs =null;
+        String res = null;
+        rs=dbModel.getSpecificResource(id);
+        if(rs.first()){
+            res=rs.getString("first_name")+"%"+rs.getString("middle_name")+"%"+rs.getString("last_name")+"%"+rs.getString("business_unit")+"%"+rs.getString("date_hired");
+            System.out.println(rs.getString("first_name")+rs.getString("date_hired"));
+        }
+        return res;
     }
     
 }
