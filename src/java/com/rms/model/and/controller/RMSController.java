@@ -294,7 +294,7 @@ public class RMSController {
     @RequestMapping(value = "/getSpecificResource")
     public @ResponseBody String getSpecificResource(@RequestParam("id")int id, ModelMap model) throws Exception
     {
-        ResultSet rs =null;
+        ResultSet rs = null;
         String res = null;
         rs=dbModel.getResource(id);
         if(rs.first()){

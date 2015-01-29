@@ -198,19 +198,19 @@
                                     <tbody>
                                         <tr class="vRes" data-dismiss="modal" data-toggle="modal" data-target="#editResource">
                                             <td class="aResource" value=""></td>
-                                            <th id="resoYear" value=""></th>
-                                            <th id="resoJan" value=""></th>
-                                            <th id="resoFeb" value=""></th>
-                                            <th id="resoMar" value=""></th>
-                                            <th id="resoApr" value=""></th>
-                                            <th id="resoMay" value=""></th>
-                                            <th id="resoJun" value=""></th>
-                                            <th id="resoJul" value=""></th>
-                                            <th id="resoAug" value=""></th>
-                                            <th id="resoSep" value=""></th>
-                                            <th id="resoOct" value=""></th>
-                                            <th id="resoNov" value=""></th>
-                                            <th id="resoDece" value=""></th>
+                                            <td id="resoYear" value=""></td>
+                                            <td id="resoJan" value=""></td>
+                                            <td id="resoFeb" value=""></td>
+                                            <td id="resoMar" value=""></td>
+                                            <td id="resoApr" value=""></td>
+                                            <td id="resoMay" value=""></td>
+                                            <td id="resoJun" value=""></td>
+                                            <td id="resoJul" value=""></td>
+                                            <td id="resoAug" value=""></td>
+                                            <td id="resoSep" value=""></td>
+                                            <td id="resoOct" value=""></td>
+                                            <td id="resoNov" value=""></td>
+                                            <td id="resoDece" value=""></td>
                                         </tr>
                                     </tbody>
                                 </table>
