@@ -437,18 +437,9 @@
                $("#eResource").html($(this).children(".aResource").text()); 
            });
            
-<<<<<<< HEAD
-           $(".ass").click(function(){
-               alert($(this).parent().parent().prev().children().next().children().next().children("#addResTable").children().children("#wasa").children(".month1").val());
-            });
-=======
             $("#projTable").on("click",".viewOption",function(){
                 $("#vProj").text($(this).parent().parent().parent().parent().siblings(".projectName").text());
             });
-//           $(".ass").click(function(){
-//               alert($(this).parent().parent().prev().children().next().children().next().children("#addResTable").children().children("#wasa").children(".month1").val());
-//           }
->>>>>>> ee6b24526eb42a9df68e6a6fe5aa11dad5afb32b
            
            $(".removeRes").click(function(){
                $("#remName").html($(this).parent().parent().parent().find("#eResource").text());

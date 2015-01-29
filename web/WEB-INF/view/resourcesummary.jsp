@@ -22,13 +22,8 @@
                             <th>Dec</th>
                         </tr>
                     </thead>
-<<<<<<< HEAD
-                    <tbody>
-                        <c:forEach items="${resources}" var="resource" varStatus="i">
-=======
                     <tbody id="resources">
                         <c:forEach items="${resources}" var="resource">
->>>>>>> ee6b24526eb42a9df68e6a6fe5aa11dad5afb32b
                         <tr class="resourceRow" data-toggle="modal" data-target="#resInfo">   
                             <input type="hidden" class="resId" value="${resource.empId}"/>
                             <td style="text-align: left;" class="resName"><c:out value="${resource.fname} ${resource.lname}" /></td>						
