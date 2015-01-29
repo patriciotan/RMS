@@ -262,10 +262,20 @@ public class RMSController {
     public ModelAndView assignResource(@ModelAttribute("effort")Effort effort, ModelMap model) throws Exception
     {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
-        
-        if(dbModel.assignResource(effort.getCount(),effort.getEmpId(),effort.getProjId(),effort.getYear(),effort.getJan(),effort.getFeb(),effort.getMar(),effort.getApr(),effort.getMay(),effort.getJun(),effort.getJul(),effort.getAug(),effort.getSep(),effort.getOct(),effort.getNov(),effort.getDece()))
-        {
-            mav = new ModelAndView("projectsummary"); 
+        Boolean flag=true;
+        System.out.println("NAABOT KO DIRI---------------------------------"+effort.getYear());
+        for(int i=0;i<effort.getCount();i++){
+            int x = Integer.parseInt(effort.getYear().get(i));
+            System.out.println("NAABOT KO DIRI---------------------------------"+x);
+            if(dbModel.assignResource(effort.getEmpId(),effort.getProjId(),x,effort.getJan().get(i),effort.getFeb().get(i),effort.getMar().get(i),effort.getApr().get(i),effort.getMay().get(i),effort.getJun().get(i),effort.getJul().get(i),effort.getAug().get(i),effort.getSep().get(i),effort.getOct().get(i),effort.getNov().get(i),effort.getDece().get(i)))
+            {
+               
+            }else{
+                flag=false;
+            }
+        }
+        if(flag==true){
+            mav = new ModelAndView("redirect:/pSummary"); 
             mav.addObject("title","RMS | Project Summary");
             mav.addObject("projects", getSummary());
         }

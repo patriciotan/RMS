@@ -153,14 +153,12 @@ public class RMSModel {
         return false;
     }
     
-    public boolean assignResource(int count, int empId, int projId, List<Integer> year, List<Float> jan, List<Float> feb, List<Float> mar, List<Float> apr, List<Float> may, List<Float> jun, List<Float> jul, List<Float> aug, List<Float> sep, List<Float> oct, List<Float> nov, List<Float> dece) throws Exception
+    public boolean assignResource(int empId, int projId, int year, Float jan, Float feb, Float mar, Float apr, Float may, Float jun, Float jul, Float aug, Float sep, Float oct, Float nov, Float dece) throws Exception
     {
-        Boolean flag = false;
-        for(int i=0;i<count;i++){
-            sql = "insert into effort (project_id,resource_id) values ('"+projId+"','"+empId+"','"+year.get(i) +"','"+jan.get(i)+"','"+feb.get(i)+"','"+mar.get(i)+"','"+apr.get(i)+"','"+may.get(i)+"','"+jun.get(i)+"','"+jul.get(i)+"','"+aug.get(i)+"','"+sep.get(i)+"','"+oct.get(i)+"','"+nov.get(i)+"','"+dece.get(i)+"')";
-            if(st.executeUpdate(sql) > 0)
-                flag = true;
-        }
-        return flag;
+        sql = "insert into effort (project_id,resource_id,year,jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dece) values ("+projId+","+empId+","+year+","+jan+","+feb+","+mar+","+apr+","+may+","+jun+","+jul+","+aug+","+sep+","+oct+","+nov+","+dece+")";
+        System.out.println("-------------------"+sql+"--------------------");
+        if(st.executeUpdate(sql) > 0)
+            return true;
+        return false;
     }
 }
