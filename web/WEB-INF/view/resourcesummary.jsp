@@ -123,7 +123,7 @@
            
             $("#resources").on('click',".resourceRow",function(){
                $.ajax({
-                   url:'getSpecificResource.htm',
+                   url:'getSpecificEmployee.htm',
                    type:'Get',
                    data:{'id':$(this).children(".resId").val()},
                    success:function(data,status){

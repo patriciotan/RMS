@@ -179,38 +179,38 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Emp Name</th>
-                                            <th>Year</th>
-                                            <th>Jan</th>
-                                            <th>Feb</th>
-                                            <th>Mar</th>
-                                            <th>Apr</th>
-                                            <th>May</th>
-                                            <th>Jun</th>
-                                            <th>Jul</th>
-                                            <th>Aug</th>
-                                            <th>Sep</th>
-                                            <th>Oct</th>
-                                            <th>Nov</th>
-                                            <th>Dec</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr class="vRes" data-dismiss="modal" data-toggle="modal" data-target="#editResource">
-                                            <td class="aResource">Mario Luigi</td>
-                                            <td>yyyy</td>
-                                            <td>#</td>
-                                            <td>#</td>
-                                            <td>#</td>
-                                            <td>#</td>
-                                            <td>#</td>
-                                            <td>#</td>
-                                            <td>#</td>
-                                            <td>#</td>
-                                            <td>#</td>
-                                            <td>#</td>
-                                            <td>#</td>
-                                            <td>#</td>
+                                            <td class="aResource" value=""></td>
+                                            <th id="resoYear" value=""></th>
+                                            <th id="resoJan" value=""></th>
+                                            <th id="resoFeb" value=""></th>
+                                            <th id="resoMar" value=""></th>
+                                            <th id="resoApr" value=""></th>
+                                            <th id="resoMay" value=""></th>
+                                            <th id="resoJun" value=""></th>
+                                            <th id="resoJul" value=""></th>
+                                            <th id="resoAug" value=""></th>
+                                            <th id="resoSep" value=""></th>
+                                            <th id="resoOct" value=""></th>
+                                            <th id="resoNov" value=""></th>
+                                            <th id="resoDece" value=""></th>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -243,7 +243,7 @@
                                 <label for="">Name:</label>
                                 <select class="form-control" name="empId" required="required" id="empName">
                                     <option disabled="true" value="default" selected default></option>
-                                    <c:forEach items="${employees}" var="resource">
+                                    <c:forEach items="${employees}" var="employee">
                                         <option value="${employee.empId}"><c:out value="${employee.fname} ${employee.lname}" /></option>
                                     </c:forEach>
                                 </select>
@@ -439,6 +439,33 @@
            
             $("#projTable").on("click",".viewOption",function(){
                 $("#vProj").text($(this).parent().parent().parent().parent().siblings(".projectName").text());
+                $.ajax({
+                    url:'getSpecificResource.htm',
+                    type:'Get',
+                    data:{'id':$(this).parent().parent().parent().parent().siblings(".projectId").val()},
+                    success:function(data,status){
+                        var x = data.toString();
+                        var res=x.split("%");
+                        $("#aResource").val(res[0]+" "+res[2]);
+                        $("#resoYear").val(res[5]);
+                        $("#resoJan").val(res[6]);
+                        $("#resoFeb").val(res[7]);
+                        $("#resoMar").val(res[8]);
+                        $("#resoApr").val(res[9]);
+                        $("#resoMay").val(res[10]);
+                        $("#resoJun").val(res[11]);
+                        $("#resoJul").val(res[12]);
+                        $("#resoAug").val(res[13]);
+                        $("#resoSep").val(res[14]);
+                        $("#resoOct").val(res[15]);
+                        $("#resoNov").val(res[16]);
+                        $("#resoDece").val(res[17]);
+                    },  
+                            error : function(e) {  
+                            alert('Error: ' + e);   
+                        }
+
+                });
             });
            
            $(".removeRes").click(function(){

@@ -4,7 +4,7 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>${title}</title>
+        <title>RMS | Log in</title>
         <link href='<c:url value="/res/css/bootstrap.css"/>' type="text/css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href='<c:url value="/res/css/dataTables.bootstrap.css"/>'>
         <link type="text/css" rel="stylesheet" href='<c:url value="/res/css/view.css"/>'>

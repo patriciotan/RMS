@@ -71,21 +71,19 @@ public class RMSController {
             employee.setMname(rs.getString("middle_name"));
             employee.setLname(rs.getString("last_name"));
             employee.setbUnit(rs.getString("business_unit"));
-            employee.setStatus(rs.getString("status"));
             employee.setDateHired(rs.getString("date_hired"));
             employees.add(employee);
         }
         return employees;
     } 
     public List getResources() throws Exception {
-        List<Employee> employees=new ArrayList<>();
-        List<Resource> resources=new ArrayList<>();
-        employees = getEmployees();
+        List<Employee> employees = getEmployees();
+        List<Resource> resources = new ArrayList<>();
         for(int i=0;i<employees.size();i++)
         {
             Resource resource = new Resource();
-            if(employees.get(i).getStatus().equals("Assigned")) {
-                ResultSet rs = dbModel.getResources(employees.get(i).getEmpId());
+            ResultSet rs = dbModel.getResource(employees.get(i).getEmpId());
+            if(rs!=null) {
                 rs.next();
                 resource.setFname(rs.getString("resource.first_name"));
                 resource.setMname(rs.getString("middle_name"));
@@ -161,7 +159,7 @@ public class RMSController {
         if(request.getSession().getAttribute("sessVar")!=null){
             mav.addObject("title","RMS | Project Summary");
             mav.addObject("projects", getSummary());
-            mav.addObject("resources", getResources());
+            mav.addObject("employees", getEmployees());
         }else{
             mav=new ModelAndView("redirect:/login"); 
             mav.addObject("title","RMS | Log in"); 
@@ -282,15 +280,31 @@ public class RMSController {
         return mav;
     }
     
+    @RequestMapping(value = "/getSpecificEmployee")
+    public @ResponseBody String getSpecificEmployee(@RequestParam("id")int id, ModelMap model) throws Exception
+    {
+        ResultSet rs =null;
+        String emp = null;
+        rs=dbModel.getSpecificEmployee(id);
+        if(rs.first()){
+            emp=rs.getString("first_name")+"%"+rs.getString("middle_name")+"%"+rs.getString("last_name")+"%"+rs.getString("business_unit")+"%"+rs.getString("date_hired");
+            System.out.println(rs.getString("first_name")+rs.getString("date_hired"));
+        }
+        return emp;
+    }
+    
     @RequestMapping(value = "/getSpecificResource")
     public @ResponseBody String getSpecificResource(@RequestParam("id")int id, ModelMap model) throws Exception
     {
         ResultSet rs =null;
         String res = null;
-        rs=dbModel.getSpecificResource(id);
+        rs=dbModel.getResource(id);
         if(rs.first()){
-            res=rs.getString("first_name")+"%"+rs.getString("middle_name")+"%"+rs.getString("last_name")+"%"+rs.getString("business_unit")+"%"+rs.getString("date_hired");
-            System.out.println(rs.getString("first_name")+rs.getString("date_hired"));
+            res=rs.getString("first_name")+"%"+rs.getString("middle_name")+"%"+rs.getString("last_name")+"%"+
+                rs.getString("business_unit")+"%"+rs.getString("date_hired")+"%"+rs.getInt("year")+"%"+
+                rs.getFloat("jan")+"%"+rs.getFloat("feb")+"%"+rs.getFloat("mar")+"%"+rs.getFloat("apr")+"%"+
+                rs.getFloat("may")+"%"+rs.getFloat("jun")+"%"+rs.getFloat("jul")+"%"+rs.getFloat("aug")+"%"+
+                rs.getFloat("sep")+"%"+rs.getFloat("oct")+"%"+rs.getFloat("nov")+"%"+rs.getFloat("dece");
         }
         return res;
     }

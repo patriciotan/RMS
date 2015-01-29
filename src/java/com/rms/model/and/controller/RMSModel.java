@@ -30,7 +30,7 @@ public class RMSModel {
     PreparedStatement ps;
     Statement st;
     Connection con;
-    ResultSet rs;
+    ResultSet rs=null;
     
     public RMSModel(){
         try{ 
@@ -100,7 +100,7 @@ public class RMSModel {
         return rs;
     }
     
-    public ResultSet getResources(int resId) throws Exception
+    public ResultSet getResource(int resId) throws Exception
     {
         sql = "SELECT resource.*,effort.* FROM resource JOIN effort ON resource.resource_id = effort.resource_id WHERE resource.resource_id = ?";
         System.out.println(sql);
@@ -111,11 +111,22 @@ public class RMSModel {
         return rs;
     }
     
-    public ResultSet getSpecificResource(int id) throws Exception
+    public ResultSet getSpecificEmployee(int id) throws Exception
     {
         sql = "select * from resource WHERE resource_id=?";
         ps = con.prepareStatement(sql);
         ps.setInt(1,id);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
+    
+    public ResultSet getSpecificResource(int projId) throws Exception
+    {
+        sql = "SELECT resource.*,effort.* FROM resource JOIN effort ON resource.resource_id = effort.resource_id WHERE effort.project_id = ?";
+        System.out.println(sql);
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, projId);
         rs = ps.executeQuery();
         
         return rs;
