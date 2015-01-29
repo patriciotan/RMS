@@ -291,12 +291,12 @@ public class RMSController {
         return emp;
     }
     
-    @RequestMapping(value = "/getSpecificResource")
-    public @ResponseBody String getSpecificResource(@RequestParam("id")int id, ModelMap model) throws Exception
+    @RequestMapping(value = "/getResourcesProjects")
+    public @ResponseBody String getResourcesProjects(@RequestParam("id")int id, ModelMap model) throws Exception
     {
         ResultSet rs =null;
         String res = null;
-        rs=dbModel.getResource(id);
+        rs=dbModel.getResourcesProjects(id);
         if(rs.first()){
             res=rs.getString("first_name")+"%"+rs.getString("middle_name")+"%"+rs.getString("last_name")+"%"+
                 rs.getString("business_unit")+"%"+rs.getString("date_hired")+"%"+rs.getInt("year")+"%"+
@@ -304,6 +304,7 @@ public class RMSController {
                 rs.getFloat("may")+"%"+rs.getFloat("jun")+"%"+rs.getFloat("jul")+"%"+rs.getFloat("aug")+"%"+
                 rs.getFloat("sep")+"%"+rs.getFloat("oct")+"%"+rs.getFloat("nov")+"%"+rs.getFloat("dece");
         }
+        System.out.println("-------------------"+res);
         return res;
     }
     

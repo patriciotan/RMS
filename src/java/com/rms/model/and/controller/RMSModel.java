@@ -113,11 +113,12 @@ public class RMSModel {
     
     public ResultSet getTotalResources(int resId,int year) throws Exception
     {
-        sql = "SELECT resource.*, COALESCE(effort.year,"+year+") as year,SUM(effort.jan) as jan,SUM(effort.feb) as feb,SUM(effort.mar) as mar,SUM(effort.apr) as apr,SUM(effort.may) as may,SUM(effort.jun) as jun,SUM(effort.jul) as jul,SUM(effort.aug) as aug,SUM(effort.sep) as sep,SUM(effort.oct) as oct,SUM(effort.nov) as nov,SUM(effort.dece) as dece FROM resource JOIN effort ON resource.resource_id = effort.resource_id WHERE resource.resource_id = ? AND effort.year=?";
+        sql = "SELECT resource.*, COALESCE(effort.year,?) as year,SUM(effort.jan) as jan,SUM(effort.feb) as feb,SUM(effort.mar) as mar,SUM(effort.apr) as apr,SUM(effort.may) as may,SUM(effort.jun) as jun,SUM(effort.jul) as jul,SUM(effort.aug) as aug,SUM(effort.sep) as sep,SUM(effort.oct) as oct,SUM(effort.nov) as nov,SUM(effort.dece) as dece FROM resource JOIN effort ON resource.resource_id = effort.resource_id WHERE resource.resource_id = ? AND effort.year=?";
         System.out.println(sql);
         ps = con.prepareStatement(sql);
-        ps.setInt(1, resId);
-        ps.setInt(2, year);
+        ps.setInt(1, year);
+        ps.setInt(2, resId);
+        ps.setInt(3, year);
         rs = ps.executeQuery();
         
         return rs;
@@ -133,7 +134,7 @@ public class RMSModel {
         return rs;
     }
     
-    public ResultSet getSpecificResource(int projId) throws Exception
+    public ResultSet getResourcesProjects(int projId) throws Exception
     {
         sql = "SELECT resource.*,effort.* FROM resource JOIN effort ON resource.resource_id = effort.resource_id WHERE effort.project_id = ?";
         System.out.println(sql);

@@ -179,39 +179,24 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
+                                            <th>Emp Name</th>
+                                            <th>Year</th>
+                                            <th>Jan</th>
+                                            <th>Feb</th>
+                                            <th>Mar</th>
+                                            <th>Apr</th>
+                                            <th>May</th>
+                                            <th>Jun</th>
+                                            <th>Jul</th>
+                                            <th>Aug</th>
+                                            <th>Sep</th>
+                                            <th>Oct</th>
+                                            <th>Nov</th>
+                                            <th>Dec</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr class="vRes" data-dismiss="modal" data-toggle="modal" data-target="#editResource">
-                                            <td class="aResource" value=""></td>
-                                            <th id="resoYear" value=""></th>
-                                            <th id="resoJan" value=""></th>
-                                            <th id="resoFeb" value=""></th>
-                                            <th id="resoMar" value=""></th>
-                                            <th id="resoApr" value=""></th>
-                                            <th id="resoMay" value=""></th>
-                                            <th id="resoJun" value=""></th>
-                                            <th id="resoJul" value=""></th>
-                                            <th id="resoAug" value=""></th>
-                                            <th id="resoSep" value=""></th>
-                                            <th id="resoOct" value=""></th>
-                                            <th id="resoNov" value=""></th>
-                                            <th id="resoDece" value=""></th>
-                                        </tr>
+                                    <tbody id="viewResTable">
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -235,7 +220,7 @@
                 <div class="modal-body-sm">
                     <div class="panel panel-primary">  
                         <div class="panel-heading">
-                            <b>Assign resource</b>
+                            <b>Assign resource to <code id="aProj"></code></b>
                         </div>
                         <form id="assign" name="assign" action='<c:url value="assignResource"/>' method="post" modelAttribute="effort">
                         <div class="panel-body">
@@ -433,33 +418,40 @@
                 $("#delProjId").val($(this).parent().siblings(".projId").val());
             });
            
-           $(".vRes").click(function(){
+           $("#viewResTable").on("click",".vRes",function(){
                $("#eResource").html($(this).children(".aResource").text()); 
            });
            
             $("#projTable").on("click",".viewOption",function(){
                 $("#vProj").text($(this).parent().parent().parent().parent().siblings(".projectName").text());
+                $("#viewResTable").html("");
                 $.ajax({
-                    url:'getSpecificResource.htm',
+                    url:'getResourcesProjects.htm',
                     type:'Get',
-                    data:{'id':$(this).parent().parent().parent().parent().siblings(".projectId").val()},
+                    data:{'id':$(this).parent().parent().parent().parent().siblings(".projId").val()},
                     success:function(data,status){
                         var x = data.toString();
                         var res=x.split("%");
-                        $("#aResource").val(res[0]+" "+res[2]);
-                        $("#resoYear").val(res[5]);
-                        $("#resoJan").val(res[6]);
-                        $("#resoFeb").val(res[7]);
-                        $("#resoMar").val(res[8]);
-                        $("#resoApr").val(res[9]);
-                        $("#resoMay").val(res[10]);
-                        $("#resoJun").val(res[11]);
-                        $("#resoJul").val(res[12]);
-                        $("#resoAug").val(res[13]);
-                        $("#resoSep").val(res[14]);
-                        $("#resoOct").val(res[15]);
-                        $("#resoNov").val(res[16]);
-                        $("#resoDece").val(res[17]);
+                        if(data!=""){
+                            $("#viewResTable").append('<tr class="vRes" data-dismiss="modal" data-toggle="modal" data-target="#editResource">'+
+                                            '<td class="aResource">'+res[0]+" "+res[2]+'</td>'+
+                                            '<td class="resoYear">'+res[5]+'</td>'+
+                                            '<td class="resoJan">'+res[6]+'</td>'+
+                                            '<td class="resoFeb">'+res[7]+'</td>'+
+                                           '<td class="resoMar">'+res[8]+'</td>'+
+                                            '<td class="resoApr">'+res[9]+'</td>'+
+                                            '<td class="resoMay">'+res[10]+'</td>'+
+                                            '<td class="resoJun">'+res[11]+'</td>'+
+                                            '<td class="resoJul">'+res[12]+'</td>'+
+                                            '<td class="resoAug">'+res[13]+'</td>'+
+                                            '<td class="resoSep">'+res[14]+'</td>'+
+                                            '<td class="resoOct">'+res[15]+'</td>'+
+                                            '<td class="resoNov">'+res[16]+'</td>'+
+                                            '<td class="resoDece">'+res[17]+'</td>'+
+                                        '</tr>');
+                        }else{
+                            $("#viewResTable").append("No data to display!");
+                        }
                     },  
                             error : function(e) {  
                             alert('Error: ' + e);   
@@ -484,6 +476,7 @@
            
             $("#projTable").on("click",".assignOption",function(){ 
                $("#addResTable").html("");
+               $("#aProj").text($(this).parent().parent().parent().parent().siblings(".projectName").text());
                
                var start = $(this).parent().parent().parent().parent().siblings(".startDate").text();
                var end = $(this).parent().parent().parent().parent().siblings(".endDate").text();
