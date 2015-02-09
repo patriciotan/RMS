@@ -322,7 +322,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><input type="number" name="year" step="1"/></td>
+                                            <td><input type="number" name="year" value="2015"  step="1"/></td>
                                             <td><input type="number" name="jan" value="0" min="0" max="1" step="0.1" class="month1"/></td>
                                             <td><input type="number" name="feb" value="0" min="0" max="1" step="0.1" class="month2"/></td>
                                             <td><input type="number" name="mar" value="0" min="0" max="1" step="0.1" class="month3"/></td>

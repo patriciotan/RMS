@@ -106,6 +106,22 @@ public class RMSController {
         return resources;
     }
     
+    public ResourceSummary getRSummary(){
+        ResourceSummary res = new ResourceSummary();
+        try{
+            res.setTotal(dbModel.getTotalResources());
+            res.setAlli(dbModel.getTotalAlliance());
+            res.setJap(dbModel.getTotalJapan());
+            res.setPh(dbModel.getTotalPhilippines());
+            res.setRow(dbModel.getTotalRow());
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return res;
+    }
+    
+    
     @RequestMapping("/login")
     public ModelAndView login(HttpServletRequest request) {   
         ModelAndView mav = new ModelAndView("login", "title", "RMS | Log in"); 
@@ -172,6 +188,7 @@ public class RMSController {
         if(request.getSession().getAttribute("sessVar")!=null){
             mav.addObject("title","RMS | Resource Summary");
             mav.addObject("resources", getResources());
+            mav.addObject("summary",getRSummary());
         }else{
             mav=new ModelAndView("redirect:/login"); 
             mav.addObject("title","RMS | Log in"); 

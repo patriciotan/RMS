@@ -1,5 +1,5 @@
 <%@include file="navigation.jsp" %>
-<button type="button" class="btn btn-lg btn-primary pull-left" data-toggle="modal" data-target="#summary">Show head count</button>
+<button type="button" class="btn btn-lg btn-primary pull-left showSummary" data-toggle="modal" data-target="#summary">Show head count</button>
     <div id="resourceSummary" class="col-md-12">
         <div class="row">
             <!-- employee list table-->
@@ -89,14 +89,14 @@
                                             <col width="250">
                                             <col width="118">
                                             <thead>
-                                                <th style="font-weight: bold; text-align: right;">Total Head Count</th><th>#</th></th>
+                                                <th style="font-weight: bold; text-align: right;">Total Head Count</th><th>${summary.total}</th></th>
                                             </thead>
                                             <tbody>
                                                 <tr><td style="font-weight: bold; text-align: right;">Employees per Business Unit</td><td></td></tr>
-                                                <tr><td style="text-align: right;">Philippines</td><td>#</td></tr>
-                                                <tr><td style="text-align: right;">Japan</td><td>#</td></tr>
-                                                <tr><td style="text-align: right;">Rest of the World</td><td>#</td></tr>
-                                                <tr><td style="text-align: right;">Alliance</td><td>#</td></tr>
+                                                <tr><td style="text-align: right;">Philippines</td><td id="">${summary.ph}</td></tr>
+                                                <tr><td style="text-align: right;">Japan</td><td id="">${summary.jap}</td></tr>
+                                                <tr><td style="text-align: right;">Rest of the World</td><td>${summary.row}</td></tr>
+                                                <tr><td style="text-align: right;">Alliance</td><td>${summary.alli}</td></tr>
                                                 <tr><td style="font-weight: bold; text-align: right;">Unassigned</td><td>#</td></tr>
                                             </tbody>
                                         </table>
