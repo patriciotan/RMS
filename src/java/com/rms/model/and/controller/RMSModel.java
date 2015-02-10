@@ -124,7 +124,16 @@ public class RMSModel {
         return rs;
     }
     
-    
+    public ResultSet getSpecificEmployeeTotalEffort(int year,int resId) throws Exception{
+        System.out.println("ME HERE 2 "+year+resId);
+        sql = "SELECT SUM(jan) as jan,SUM(feb) as feb,SUM(mar) as mar,SUM(apr) as apr,SUM(may) as may,SUM(jun) as jun,SUM(jul) as jul,SUM(aug) as aug,SUM(sep) as sep,SUM(oct) as oct,SUM(nov) as nov,SUM(dece) as dece FROM effort WHERE resource_id=? AND year=?";
+        ps = con.prepareStatement(sql);
+        ps.setInt(1,resId);
+        ps.setInt(2, year);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
     
     public ResultSet getSpecificEmployee(int id) throws Exception
     {
@@ -188,5 +197,43 @@ public class RMSModel {
         return false;
     }
     
+    public int getTotalResources() throws Exception{
+        sql = "SELECT COUNT(*) as total FROM resource";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        rs.next();
+        return rs.getInt("total");
+    }
     
+    public int getTotalAlliance() throws Exception{
+        sql = "SELECT COUNT(*) as alli FROM resource WHERE business_unit='Alliance'";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        rs.next();
+        return rs.getInt("alli");
+    }
+    
+    public int getTotalRow() throws Exception{
+        sql = "SELECT COUNT(*) as row FROM resource WHERE business_unit='ROW'";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        rs.next();
+        return rs.getInt("row");
+    }
+    
+    public int getTotalJapan() throws Exception{
+        sql = "SELECT COUNT(*) as jap FROM resource WHERE business_unit='JP Independent'";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        rs.next();
+        return rs.getInt("jap");
+    }
+    
+    public int getTotalPhilippines() throws Exception{
+        sql = "SELECT COUNT(*) as ph FROM resource WHERE business_unit='Local'";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        rs.next();
+        return rs.getInt("ph");
+    }
 }

@@ -326,7 +326,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><input type="number" name="year" step="1"/></td>
+                                            <td><input type="number" name="year" value="2015"  step="1"/></td>
                                             <td><input type="number" name="jan" value="0" min="0" max="1" step="0.1" class="month1"/></td>
                                             <td><input type="number" name="feb" value="0" min="0" max="1" step="0.1" class="month2"/></td>
                                             <td><input type="number" name="mar" value="0" min="0" max="1" step="0.1" class="month3"/></td>
@@ -435,7 +435,7 @@
                 $("#viewResTable").html("");
                 $.ajax({
                     url:'getResourcesProjects.htm',
-                    type:'Get',
+                    type:'post',
                     data:{'id':$(this).parent().parent().parent().parent().siblings(".projId").val()},
                     success:function(data,status){
                         var x = data.toString();
@@ -536,52 +536,34 @@
                 
                 var last=(diffYear+1)*12;
                 var end=parseInt(endMonth)+(diffYear*12);
-                for(var i=1;i<=last;i++){
-                    if(i>=startMonth && i<=end){
-                        $(".month"+i).removeAttr("disabled");
+                
+                var resId=$(this).val();
+                $.ajax({
+                    url:'getSpecificEffortMonth.htm',
+                    type:'post',
+                    data:{'year':startYear,'noYears':diffYear+1,'resId':resId},
+                    success:function(data,status){
+                        var x = data.toString();
+                        var res=x.split("%");
+                        for(var x=0;x<=diffYear;x++){
+                            var t=x*12;
+                            for(var i=1;i<=12;i++){
+                               $(".month"+(parseInt(t)+i)).val("0");
+                            }
+                        }
+                        
+                        for(var i=1;i<=last;i++){
+                            if(i>=startMonth && i<=end){
+                                $(".month"+i).removeAttr("disabled");
+                                $(".month"+i).attr("max",Math.round( (1-res[i]) * 10 ) / 10);
+                            }
+                        }
+                        
                     }
-                }
+                });
+                
+                
             });
-           
-           
-//           $(".year").change(function(){
-//                for(var i=1;i<=12;i++){
-//                    $(".month"+i).val(null);
-//                   $(".month"+i).removeAttr("disabled");
-//                }
-//                var currentYear=$(this).val();
-//                var start = $(this).parent().siblings("#selectedStart").val();
-//                var end = $(this).parent().siblings("#selectedEnd").val();
-//                
-//                var startYear = start.substring(0,4);
-//                var endYear = end.substring(0,4);
-//                
-//                
-//                var startMonth = start.substring(5,7);
-//                var endMonth = end.substring(5,7);
-//                if(startYear==endYear){
-//                    for(var i=1;i<=12;i++){
-//                       $(".month"+i).removeAttr("disabled");
-//                       if(i<startMonth ||i>endMonth){
-//                           $(".month"+i).attr("disabled","true");
-//                       }
-//                    }
-//                }else{
-//                    if(currentYear==startYear){
-//                        for(var i=1;i<=12;i++){
-//                            if(i<startMonth){
-//                                $(".month"+i).attr("disabled","true");
-//                            }
-//                        }
-//                    }else if(currentYear==endYear){
-//                        for(var i=1;i<=12;i++){
-//                            if(i>endMonth){
-//                                $(".month"+i).attr("disabled","true");
-//                            }
-//                        }
-//                    }
-//                }
-//           }); 
         }); 
     </script>
     </body>

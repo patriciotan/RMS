@@ -106,6 +106,22 @@ public class RMSController {
         return resources;
     }
     
+    public ResourceSummary getRSummary(){
+        ResourceSummary res = new ResourceSummary();
+        try{
+            res.setTotal(dbModel.getTotalResources());
+            res.setAlli(dbModel.getTotalAlliance());
+            res.setJap(dbModel.getTotalJapan());
+            res.setPh(dbModel.getTotalPhilippines());
+            res.setRow(dbModel.getTotalRow());
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return res;
+    }
+    
+    
     @RequestMapping("/login")
     public ModelAndView login(HttpServletRequest request) {   
         ModelAndView mav = new ModelAndView("login", "title", "RMS | Log in"); 
@@ -184,6 +200,7 @@ public class RMSController {
         if(request.getSession().getAttribute("sessVar")!=null){
             mav.addObject("title","RMS | Resource Summary");
             mav.addObject("resources", getResources());
+            mav.addObject("summary",getRSummary());
         }else{
             mav=new ModelAndView("redirect:/login"); 
             mav.addObject("title","RMS | Log in"); 
@@ -318,6 +335,22 @@ public class RMSController {
         }
         System.out.println("-------------------"+res);
         return res;
+    }
+    
+    @RequestMapping(value = "/getSpecificEffortMonth")
+    public @ResponseBody String getSpecificEffortMonth(@RequestParam("year")int year,@RequestParam("noYears")int noYears,@RequestParam("resId")int resId, ModelMap model) throws Exception
+    {
+        ResultSet rs = null;
+        String result="none";
+        for(int i=0;i<noYears;i++){
+            rs=dbModel.getSpecificEmployeeTotalEffort(year+i,resId);
+            if(rs.first()){
+                result+="%"+rs.getFloat("jan")+"%"+rs.getFloat("feb")+"%"+rs.getFloat("mar")+"%"+rs.getFloat("apr")+"%"+
+                rs.getFloat("may")+"%"+rs.getFloat("jun")+"%"+rs.getFloat("jul")+"%"+rs.getFloat("aug")+"%"+
+                rs.getFloat("sep")+"%"+rs.getFloat("oct")+"%"+rs.getFloat("nov")+"%"+rs.getFloat("dece");
+            }
+        }
+        return result;
     }
     
 }

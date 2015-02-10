@@ -9,7 +9,6 @@
             <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#addProject">New project</button>
         </div>
     </div>
-            
     <div id="projectOutlook" class="col-md-12">
         <table id="projOutlook" class="display">
             <thead>

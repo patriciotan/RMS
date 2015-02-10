@@ -91,14 +91,14 @@
                                             <col width="250">
                                             <col width="118">
                                             <thead>
-                                                <th style="font-weight: bold; text-align: right;">Total Head Count</th><th>#</th></th>
+                                                <th style="font-weight: bold; text-align: right;">Total Head Count</th><th>${summary.total}</th></th>
                                             </thead>
                                             <tbody>
                                                 <tr><td style="font-weight: bold; text-align: right;">Employees per Business Unit</td><td></td></tr>
-                                                <tr><td style="text-align: right;">Philippines</td><td>#</td></tr>
-                                                <tr><td style="text-align: right;">Japan</td><td>#</td></tr>
-                                                <tr><td style="text-align: right;">Rest of the World</td><td>#</td></tr>
-                                                <tr><td style="text-align: right;">Alliance</td><td>#</td></tr>
+                                                <tr><td style="text-align: right;">Philippines</td><td id="">${summary.ph}</td></tr>
+                                                <tr><td style="text-align: right;">Japan</td><td id="">${summary.jap}</td></tr>
+                                                <tr><td style="text-align: right;">Rest of the World</td><td>${summary.row}</td></tr>
+                                                <tr><td style="text-align: right;">Alliance</td><td>${summary.alli}</td></tr>
                                                 <tr><td style="font-weight: bold; text-align: right;">Unassigned</td><td>#</td></tr>
                                             </tbody>
                                         </table>
@@ -130,7 +130,7 @@
             $("#resources").on('click',".resourceRow",function(){
                $.ajax({
                    url:'getSpecificEmployee.htm',
-                   type:'Get',
+                   type:'post',
                    data:{'id':$(this).children(".resId").val()},
                    success:function(data,status){
                        var x = data.toString();
