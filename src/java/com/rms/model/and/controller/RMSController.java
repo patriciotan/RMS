@@ -84,10 +84,10 @@ public class RMSController {
             ResultSet rs = dbModel.getTotalResources(employees.get(i).getEmpId(),year);
             Resource resource = new Resource();
             rs.next();
-            resource.setEmpId(rs.getInt("resource_id"));
-            resource.setFname(rs.getString("first_name"));
-            resource.setMname(rs.getString("middle_name"));
-            resource.setLname(rs.getString("last_name"));
+            resource.setEmpId(employees.get(i).getEmpId());
+            resource.setFname(employees.get(i).getFname());
+            resource.setMname(employees.get(i).getMname());
+            resource.setLname(employees.get(i).getLname());
             resource.setYear(rs.getInt("year"));
             resource.setJan(rs.getFloat("jan"));
             resource.setFeb(rs.getFloat("feb"));
@@ -122,9 +122,8 @@ public class RMSController {
         if(dbModel.canLogin(user.getUsername(), user.getPassword()))
         {
             request.getSession(true).setAttribute("sessVar",user.getUsername());
-            mav = new ModelAndView("redirect:/outlook"); 
-            mav.addObject("title","RMS | Project Outlook");
-            mav.addObject("projects", getOutlook());
+            mav = new ModelAndView("redirect:/dashboard"); 
+            mav.addObject("title","RMS | Dashboard");
         }
         return mav;
     }
@@ -136,6 +135,19 @@ public class RMSController {
         request.getSession().invalidate();
         return mav;
     }
+    
+    @RequestMapping("/dashboard")
+    public ModelAndView viewDashboard(HttpServletRequest request) throws Exception {  
+        
+        ModelAndView mav = new ModelAndView("dashboard"); 
+        if(request.getSession().getAttribute("sessVar")!=null){
+            mav.addObject("title","RMS | Dashboard");
+        }else{
+            mav=new ModelAndView("redirect:/login"); 
+            mav.addObject("title","RMS | Log in"); 
+        }
+        return mav;
+    } 
     
     @RequestMapping("/outlook")
     public ModelAndView viewOutlook(HttpServletRequest request) throws Exception {  

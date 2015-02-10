@@ -1,5 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%      response.setDateHeader("Expires", 0);
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache,no-store,must-revalidate");%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,7 +11,7 @@
         <link href='<c:url value="/res/css/bootstrap.css"/>' type="text/css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href='<c:url value="/res/css/dataTables.bootstrap.css"/>'>
         <link type="text/css" rel="stylesheet" href='<c:url value="/res/css/view.css"/>'>
-        <link rel="shortcut icon" href='<c:url value="/res/images/favicon.ico"/>'>
+        <link rel="shortcut icon" href='<c:url value="/res/images/mini_alliance.png"/>'>
         <script src='<c:url value="/res/js/jquery.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/js/bootstrap.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/js/jquery.dataTables.js"/>' type="text/javascript"></script>    
@@ -20,7 +23,7 @@
         <div class="inner-login">
             
             <div class="top">
-                <img src='<c:url value="/res/images/header_logo.png"/>' class="img-rounded" alt="Responsive image">
+                <img src='<c:url value="/res/images/asi_logo.png"/>' class="img-rounded" alt="Responsive image">
                 <b style="margin-top: 30px;" class="pull-right">Log in to access RMS!</b>
             </div>
             <div id="row1">&nbsp;

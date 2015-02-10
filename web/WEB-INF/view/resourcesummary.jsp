@@ -1,5 +1,7 @@
 <%@include file="navigation.jsp" %>
-<button type="button" class="btn btn-lg btn-primary pull-left" data-toggle="modal" data-target="#summary">Show head count</button>
+
+<div id="bodiv">
+    <button type="button" class="btn btn-lg btn-primary pull-left" data-toggle="modal" data-target="#summary">Show head count</button>
     <div id="resourceSummary" class="col-md-12">
         <div class="row">
             <!-- employee list table-->
@@ -59,7 +61,7 @@
                                             <tbody>
                                                 <tr><td><b>Business unit:<code id="resUnit"></code></b></td></tr>
                                                 <tr><td><b>Date hired:<code id="resHired"></code></b><td></tr>
-                                                <tr><td><b>Current projects:<code></code></b></td></tr>
+<!--                                                <tr><td><b>Current projects:<code></code></b></td></tr>-->
                                             </tbody>
                                         </table>
                                     </div>
@@ -114,6 +116,10 @@
             <!-- summary Modal -->  
         </div>
     </div>
+</div>
+
+</div>
+</div>
 </div><!-- closing div from navigation-->
     </body>
     <script>

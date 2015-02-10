@@ -1,5 +1,15 @@
 <%@include file="navigation.jsp"%>
-    <button type="button" class="btn btn-lg btn-primary pull-left" data-toggle="modal" data-target="#addProject">Add new project</button>
+
+<div id="bodiv">
+    <div class="row">
+        <div style="float: left; width: 20%; margin-left: 2.3%;">
+            <h2>Project Outlook</h2>
+        </div>
+        <div style="float: left; margin-left: 65%; margin-right: -10px; margin-top: 12px;">
+            <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#addProject">New project</button>
+        </div>
+    </div>
+            
     <div id="projectOutlook" class="col-md-12">
         <table id="projOutlook" class="display">
             <thead>
@@ -26,13 +36,18 @@
                     <td class="projStat"><c:out value="${project.status}" /></td>
                     <td class="bUnit"><c:out value="${project.bUnit}" /></td>
                     <td class="resNeeded"><c:out value="${project.resNeeded}" /></td>
-                    <td><button class="btn btn-info editButton" data-toggle="modal" data-target="#editProject">Edit</button></td>
-                    <td><button id="deleteButton" class="btn btn-danger deleteButton" data-toggle="modal" data-target="#deleteProject">X</button></td>
+                    <td><button class="btn btn-edit editButton" data-toggle="modal" data-target="#editProject">
+                        <image src='<c:url value="/res/images/edit.png"/>' height="20px;"/>
+                    </button></td>
+                    <td><button id="deleteButton" class="btn btn-danger deleteButton" data-toggle="modal" data-target="#deleteProject">
+                        <image src='<c:url value="/res/images/remove.png"/>' height="20px;"/>
+                    </button></td>
                 </tr>
                 </c:forEach>
             </tbody>
         </table>
     </div>
+</div>
      
 </div>
 </div>
@@ -100,7 +115,7 @@
                                 <div style="text-align: right">
                                     <input value="Outlook" name="reference" hidden="hidden">
                                     <input class="btn btn-success" id="add-but" type="submit" value="Submit">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span>Cancel</span></button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span style="color: white">Cancel</span></button>
                                 </div>
                             </div>
                         </form>
@@ -121,7 +136,7 @@
                             <b>Edit Project</b>
                         </div>
                         <form id="edit" name="edit" action='<c:url value="editOutlook"/>' method="post" modelAttribute="project">
-                            <input type="text" name="projectId" id="editProjId"/>
+                            <input type="hidden" name="projectId" id="editProjId"/>
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Name</label>

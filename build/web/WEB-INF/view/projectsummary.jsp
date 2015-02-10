@@ -2,7 +2,11 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@include file="navigation.jsp" %>
-<button type="button" class="btn btn-lg btn-primary pull-left" data-toggle="modal" data-target="#addProject">Add new project</button>
+
+<div id="bodiv">
+    <button type="button" class="btn btn-lg btn-add pull-left" data-toggle="modal" data-target="#addProject">
+        <image src='<c:url value="/res/images/add.png"/>' height="20px;"/> New project
+    </button>
     <div id="projectSummary" class="col-md-12">
         <table id="projSummary" class="display">
             <thead>
@@ -39,12 +43,16 @@
                             </ul>
                         </div>
                     </td>
-                    <td><button id="deleteButton3" class="btn btn-danger end" data-toggle="modal" data-target="#endProject">End</button></td>
+                    <td><button id="deleteButton3" class="btn btn-danger end" data-toggle="modal" data-target="#endProject">
+                        <image src='<c:url value="/res/images/remove.png"/>' height="20px;"/>
+                    </button></td>
                 </tr>
                 </c:forEach>
             </tbody>
         </table>
     </div>
+</div>
+    
 </div>
 </div>
 </div><!-- closing div from navigation-->
@@ -232,8 +240,8 @@
                                         <option value="${employee.empId}"><c:out value="${employee.fname} ${employee.lname}" /></option>
                                     </c:forEach>
                                 </select>
-                                <input type="text" id="selectedStart"/>
-                                <input type="text" id="selectedEnd"/>
+                                <input type="hidden" id="selectedStart"/>
+                                <input type="hidden" id="selectedEnd"/>
                             </div>
                             <div class="form-group">
                                 <label for="">Effort</label>
@@ -264,8 +272,8 @@
                         <div class="panel-footer">
                             <div style="text-align: right">
 <!--                                <a href="#" class="ass">display jan value</a>-->
-                                PID:<input type="text" name="projId" id="projectId"/>
-                                COUNT:<input type="text" name="count" id="count"/>
+                                <input type="hidden" name="projId" id="projectId"/>
+                                <input type="hidden" name="count" id="count"/>
                                 <input class="btn btn-success" id="add-but" type="submit" value="Assign">
                                 <button class="btn btn-danger" type="button" data-dismiss="modal"><span>Cancel</span></button>
                             </div>
@@ -359,7 +367,7 @@
                             <b>End Project</b>
                         </div>
                         <form id="del" name="del" action='<c:url value="delSummary"/>' method="post" modelAttribute="project">
-                            <input type="text" name="projectId" id="delProjId"/>
+                            <input type="hidden" name="projectId" id="delProjId"/>
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
                                     <br/>
