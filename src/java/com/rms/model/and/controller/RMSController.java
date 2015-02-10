@@ -114,7 +114,6 @@ public class RMSController {
             res.setJap(dbModel.getTotalJapan());
             res.setPh(dbModel.getTotalPhilippines());
             res.setRow(dbModel.getTotalRow());
-            
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -298,12 +297,16 @@ public class RMSController {
     @RequestMapping(value = "/getSpecificEmployee")
     public @ResponseBody String getSpecificEmployee(@RequestParam("id")int id, ModelMap model) throws Exception
     {
-        ResultSet rs =null;
-        String emp = null;
+        ResultSet rs =null,ds=null;
+        String emp = null,proj;
         rs=dbModel.getSpecificEmployee(id);
         if(rs.first()){
             emp=rs.getString("first_name")+"%"+rs.getString("middle_name")+"%"+rs.getString("last_name")+"%"+rs.getString("business_unit")+"%"+rs.getString("date_hired");
-            System.out.println(rs.getString("first_name")+rs.getString("date_hired"));
+            ds=dbModel.getEmployeeProjects(id);
+            while(ds.next()){
+                proj=dbModel.getProjectName(ds.getInt("project_id"));
+                emp+="%"+proj;
+            }
         }
         return emp;
     }
@@ -319,9 +322,9 @@ public class RMSController {
                 rs.getString("business_unit")+"%"+rs.getString("date_hired")+"%"+rs.getInt("year")+"%"+
                 rs.getFloat("jan")+"%"+rs.getFloat("feb")+"%"+rs.getFloat("mar")+"%"+rs.getFloat("apr")+"%"+
                 rs.getFloat("may")+"%"+rs.getFloat("jun")+"%"+rs.getFloat("jul")+"%"+rs.getFloat("aug")+"%"+
-                rs.getFloat("sep")+"%"+rs.getFloat("oct")+"%"+rs.getFloat("nov")+"%"+rs.getFloat("dece");
+                rs.getFloat("sep")+"%"+rs.getFloat("oct")+"%"+rs.getFloat("nov")+"%"+rs.getFloat("dece")+"%"+rs.getInt("resource_id");
+            System.out.println("Resource ID is "+rs.getInt("resource_id"));
         }
-        System.out.println("-------------------"+res);
         return res;
     }
     
@@ -337,6 +340,20 @@ public class RMSController {
                 rs.getFloat("may")+"%"+rs.getFloat("jun")+"%"+rs.getFloat("jul")+"%"+rs.getFloat("aug")+"%"+
                 rs.getFloat("sep")+"%"+rs.getFloat("oct")+"%"+rs.getFloat("nov")+"%"+rs.getFloat("dece");
             }
+        }
+        return result;
+    }
+    
+    @RequestMapping(value = "/getTotalEffort")
+    public @ResponseBody String getTotalEffort(@RequestParam("year")int year,@RequestParam("resId")int resId, ModelMap model) throws Exception
+    {
+        ResultSet rs = null;
+        String result=null;
+        rs = dbModel.getTotalResources(resId, year);
+        if(rs.first()){
+            result="troll"+"%"+rs.getFloat("jan")+"%"+rs.getFloat("feb")+"%"+rs.getFloat("mar")+"%"+rs.getFloat("apr")+"%"+
+                rs.getFloat("may")+"%"+rs.getFloat("jun")+"%"+rs.getFloat("jul")+"%"+rs.getFloat("aug")+"%"+
+                rs.getFloat("sep")+"%"+rs.getFloat("oct")+"%"+rs.getFloat("nov")+"%"+rs.getFloat("dece");
         }
         return result;
     }

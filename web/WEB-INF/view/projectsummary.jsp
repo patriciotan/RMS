@@ -179,7 +179,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="form-group">
-                                <label for="">Effort</label>
+                                <label for="">Effort<input type="text" id="startYear"/><input type="text" id="endYear"/></label>
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
@@ -301,7 +301,7 @@
                                 </a>
                             </div>
                             <div class="form-group">
-                                <label for="">Effort</label>
+                                <label for="">Effort<input type="text" id="eId"/></label>
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
@@ -322,19 +322,19 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><input type="number" name="year" value="2015"  step="1"/></td>
-                                            <td><input type="number" name="jan" value="0" min="0" max="1" step="0.1" class="month1"/></td>
-                                            <td><input type="number" name="feb" value="0" min="0" max="1" step="0.1" class="month2"/></td>
-                                            <td><input type="number" name="mar" value="0" min="0" max="1" step="0.1" class="month3"/></td>
-                                            <td><input type="number" name="apr" value="0" min="0" max="1" step="0.1" class="month4"/></td>
-                                            <td><input type="number" name="may" value="0" min="0" max="1" step="0.1" class="month5"/></td>
-                                            <td><input type="number" name="jun" value="0" min="0" max="1" step="0.1" class="month6"/></td>
-                                            <td><input type="number" name="jul" value="0" min="0" max="1" step="0.1" class="month7"/></td>
-                                            <td><input type="number" name="aug" value="0" min="0" max="1" step="0.1" class="month8"/></td>
-                                            <td><input type="number" name="sep" value="0" min="0" max="1" step="0.1" class="month9"/></td>
-                                            <td><input type="number" name="oct" value="0" min="0" max="1" step="0.1" class="month10"/></td>
-                                            <td><input type="number" name="nov" value="0" min="0" max="1" step="0.1" class="month11"/></td>
-                                            <td><input type="number" name="dece" value="0" min="0" max="1" step="0.1" class="month12"/></td>
+                                            <td><input type="number" name="year" readonly="readonly" id="eYear"/></td>
+                                            <td><input type="number" name="jan" disabled="true" value="0" min="0" step="0.1" id="e1"/></td>
+                                            <td><input type="number" name="feb" disabled="true" value="0" min="0" step="0.1" id="e2"/></td>
+                                            <td><input type="number" name="mar" disabled="true" value="0" min="0" step="0.1" id="e3"/></td>
+                                            <td><input type="number" name="apr" disabled="true" value="0" min="0" step="0.1" id="e4"/></td>
+                                            <td><input type="number" name="may" disabled="true" value="0" min="0" step="0.1" id="e5"/></td>
+                                            <td><input type="number" name="jun" disabled="true" value="0" min="0" step="0.1" id="e6"/></td>
+                                            <td><input type="number" name="jul" disabled="true" value="0" min="0" step="0.1" id="e7"/></td>
+                                            <td><input type="number" name="aug" disabled="true" value="0" min="0" step="0.1" id="e8"/></td>
+                                            <td><input type="number" name="sep" disabled="true" value="0" min="0" step="0.1" id="e9"/></td>
+                                            <td><input type="number" name="oct" disabled="true" value="0" min="0" step="0.1" id="e10"/></td>
+                                            <td><input type="number" name="nov" disabled="true" value="0" min="0" step="0.1" id="e11"/></td>
+                                            <td><input type="number" name="dece" disabled="true" value="0" min="0" step="0.1" id="e12"/></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -422,13 +422,82 @@
                 $("#delProjId").val($(this).parent().siblings(".projId").val());
             });
            
-           $("#viewResTable").on("click",".vRes",function(){
-               $("#eResource").html($(this).children(".aResource").text()); 
-           });
+            $("#viewResTable").on("click",".vRes",function(){
+                $("#eResource").html($(this).children(".aResource").text()); 
+                var yearSelected=$(this).children(".resoYear").text();
+                $("#eYear").val(yearSelected);
+                $("#e1").val($(this).children(".resoJan").text());
+                $("#e2").val($(this).children(".resoFeb").text());
+                $("#e3").val($(this).children(".resoMar").text());
+                $("#e4").val($(this).children(".resoApr").text());
+                $("#e5").val($(this).children(".resoMay").text());
+                $("#e6").val($(this).children(".resoJun").text());
+                $("#e7").val($(this).children(".resoJul").text());
+                $("#e8").val($(this).children(".resoAug").text());
+                $("#e9").val($(this).children(".resoSep").text());
+                $("#e10").val($(this).children(".resoOct").text());
+                $("#e11").val($(this).children(".resoNov").text());
+                $("#e12").val($(this).children(".resoDece").text());
+                
+                var start = $(this).parent().parent().siblings().find("#startYear").val();
+                var end = $(this).parent().parent().siblings().find("#endYear").val();
+                
+                var startYear = start.substring(0,4);
+                var endYear = end.substring(0,4);
+                
+                var startMonth = start.substring(5,7);
+                var endMonth = end.substring(5,7);
+                
+                //-----------------------------------------------------------------------------
+                //lacking diri dapat disable and stuff
+                if(startYear==endYear){
+                    for(var i=1;i<=12;i++){
+                        if(i>=startMonth&&i<=endMonth){
+                            $("#e"+i).removeAttr("disabled");
+                        }
+                    }
+                }else{
+                    if(startYear==yearSelected){
+                        for(var i=startMonth;i<=12;i++){
+                            $("#e"+i).removeAttr("disabled");
+                        }
+                    }else if(endYear==yearSelected){
+                        for(var i=1;i<=endMonth;i++){
+                            $("#e"+i).removeAttr("disabled");
+                        }
+                    }else{
+                        for(var i=1;i<=12;i++){
+                            $("#e"+i).removeAttr("disabled");
+                        }
+                    }
+                }
+                $("#eId").val($(this).children(".resoId").val());
+                $.ajax({
+                    url:'getTotalEffort.htm',
+                    type:'post',
+                    data:{'year':yearSelected,'resId':$(this).children(".resoId").val()},
+                    success:function(data,status){
+                        var x = data.toString();
+                        var res=x.split("%");
+                        for(var i=1;i<=12;i++){
+                            var wait = Math.round((1-res[i])*10)/10;
+                            var final = Math.round((wait+parseFloat($("#e"+i).val()))*10)/10; 
+                            $("#e"+i).attr("max",final);
+                        }
+                    },  
+                        error : function(e) {  
+                        alert('Error: ' + e);   
+                    }
+
+                });
+                
+            });
            
             $("#projTable").on("click",".viewOption",function(){
                 $("#vProj").text($(this).parent().parent().parent().parent().siblings(".projectName").text());
                 $("#viewResTable").html("");
+                $("#startYear").val($(this).parent().parent().parent().parent().siblings(".startDate").text());
+                $("#endYear").val($(this).parent().parent().parent().parent().siblings(".endDate").text());
                 $.ajax({
                     url:'getResourcesProjects.htm',
                     type:'post',
@@ -438,6 +507,7 @@
                         var res=x.split("%");
                         if(data!=""){
                             $("#viewResTable").append('<tr class="vRes" data-dismiss="modal" data-toggle="modal" data-target="#editResource">'+
+                                            '<input type="hidden" value="'+res[18]+'" class="resoId"/>'+
                                             '<td class="aResource">'+res[0]+" "+res[2]+'</td>'+
                                             '<td class="resoYear">'+res[5]+'</td>'+
                                             '<td class="resoJan">'+res[6]+'</td>'+

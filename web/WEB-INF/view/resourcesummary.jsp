@@ -59,7 +59,7 @@
                                             <tbody>
                                                 <tr><td><b>Business unit:<code id="resUnit"></code></b></td></tr>
                                                 <tr><td><b>Date hired:<code id="resHired"></code></b><td></tr>
-<!--                                                <tr><td><b>Current projects:<code></code></b></td></tr>-->
+                                                <tr><td><b>Current projects:<br/><code id="currentProjects"></code></b></td></tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -127,11 +127,19 @@
                    type:'post',
                    data:{'id':$(this).children(".resId").val()},
                    success:function(data,status){
+                       alert(data);
+                       $("#currentProjects").html("");
                        var x = data.toString();
                        var res=x.split("%");
                        $("#employeeName").text(res[0]+" "+res[1]+" "+res[2]);
                        $("#resUnit").text(res[3]);
                        $("#resHired").text(res[4]);
+                       if(res.length==5){
+                           $("#currentProjects").append("No projects yet.");
+                       }
+                       for(var i=5;i<res.length;i++){
+                           $("#currentProjects").append(i-4+".) "+res[i]+"<br/>");
+                       }
                    },  
                         error : function(e) {  
                         alert('Error: ' + e);   
