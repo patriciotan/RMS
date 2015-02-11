@@ -143,6 +143,7 @@ body
 .btn-info,.label-info,.progress-bar-info{background-color:#a0c3ff;border-color:#a0c3ff;}
 .btn-danger,.label-danger,.progress-bar-danger{background-color:#dd4b39;}
 .btn-warning,.label-warning,.progress-bar-warning{background-color:#f4b400;color:#444444;}
+.btn-login,.label-login,.progress-bar-login{background-color:gray;color:white;}
 
 .panel .btn i,.btn span{
  color:#666666;
@@ -170,4 +171,68 @@ body
 }
 .list-group-item:first-child,.list-group-item:last-child {
  border-radius:0;
+}
+
+/*=====================================
+ HOME SECTION
+    ===================================*/
+#home{
+background: url(../images/login_bg.jpg) no-repeat center center;
+padding: 0;
+-webkit-background-size: cover;
+background-size: cover;
+}
+    #home h1 {
+        padding:150px 20px 20px 0px;
+        color:#ff0000;
+        font-size:40px;
+        font-weight:900;
+
+    }
+    #home .head-text span {
+        display: block; 
+        font-size: 25px; 
+        color: #fff; 
+        margin-bottom: 25px;
+    }
+        #home .head-text span >i {
+             margin-right: 10px; 
+             color: #159238;
+        }
+     #home p {
+        padding:10px 20px 20px 20px;
+        color:#fff;
+        font-size:16px;
+        line-height:20px;
+        font-weight:800;       
+       text-align:center;
+    }
+    #home .overlay {
+              background:rgba(0, 0, 0, 0.7);        
+        min-height:700px;
+    }
+    #home h3 {
+        color:#fff;
+    }
+    .div-trans {
+padding-top: 5px;
+background-color: rgba(0, 0, 0, 0.5);
+min-height: 305px;
+margin-top: 150px;
+color: #fff;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+margin-bottom: 30px;
+}
+        .div-trans i {
+            margin-left: 10px; 
+            margin-right: 10px; 
+            color: #159238;
+        }
+        .div-trans span {
+            color: #ff0000;
+        }
+#home .form-control {
+    background-color:transparent;
 }

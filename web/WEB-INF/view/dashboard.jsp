@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-4 col-sm-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><a href="#" class="pull-right">View more</a> <h5>Under loaded resources for February</h5></div>
+                <div class="panel-heading"><a href="#" class="pull-right">View more</a> <h5><b>Under loaded resources for February</b></h5></div>
                 <div class="panel-body">
                     <div>
                         <table class="table table-hover">
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading"><a href="#" class="pull-right">View more</a> <h5>Resources that will be unassigned next month</h5></div>
+                <div class="panel-heading"><a href="#" class="pull-right">View more</a> <h5><b>Unassigned resources for next month</b></h5></div>
                 <div class="panel-body">
                     <div>
                         <table class="table table-hover">
@@ -65,43 +65,100 @@
         <div class="col-md-4 col-sm-6">
             <div class="well"> 
                 <form class="form">
-                    <h4>Sign-up</h4>
+                    <h5><b>Add new project or client</b></h5>
+                    <br/>
                     <div class="input-group text-center">
-                        <input type="text" class="form-control input-lg" placeholder="Enter your email address">
-                        <span class="input-group-btn"><button class="btn btn-lg btn-primary" type="button">OK</button></span>
+                        <input disabled type="text" class="form-control" placeholder="New project">
+                        <span class="input-group-btn"><button class="btn btn-primary" type="button">ADD</button></span>
+                    </div>
+                    <br/>
+                    <div class="input-group text-center">
+                        <input disabled type="text" class="form-control" placeholder="New client">
+                        <span class="input-group-btn"><button class="btn btn-primary" type="button">ADD</button></span>
                     </div>
                 </form>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading"><a href="#" class="pull-right">View more</a> <h4>Bootstrap Examples</h4></div>
+                <div class="panel-heading"><h5><b>Latest clients added</b></h5></div>
                 <div class="panel-body">
-                    <div class="list-group">
-                        <a href="http://bootply.com/tagged/modal" class="list-group-item">Modal / Dialog</a>
-                        <a href="http://bootply.com/tagged/datetime" class="list-group-item">Datetime Examples</a>
-                        <a href="http://bootply.com/tagged/datatable" class="list-group-item">Data Grids</a>
+                    <div>
+                        <table class="table table-hover">
+                            <thead>
+                                <th style="text-align: left">Client Name</th>
+                                <th style="text-align: right">Date Added</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: left">Client Name</td>
+                                    <td style="text-align: right">yyyy/mm/dd</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left">Client Name</td>
+                                    <td style="text-align: right">yyyy/mm/dd</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left">Client Name</td>
+                                    <td style="text-align: right">yyyy/mm/dd</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
 
-    <div class="col-md-4 col-sm-6">
+        <div class="col-md-4 col-sm-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><a href="#" class="pull-right">View more</a> <h4>Bootstrap Examples</h4></div>
+                <div class="panel-heading"><h5><b>Latest projects added</b></h5></div>
                 <div class="panel-body">
-                    <div class="list-group">
-                        <a href="http://bootply.com/tagged/modal" class="list-group-item">Modal / Dialog</a>
-                        <a href="http://bootply.com/tagged/datetime" class="list-group-item">Datetime Examples</a>
-                        <a href="http://bootply.com/tagged/datatable" class="list-group-item">Data Grids</a>
+                    <div>
+                        <table class="table table-hover">
+                            <thead>
+                                <th style="text-align: left">Project Name</th>
+                                <th style="text-align: right">Date Added</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: left">Project Name</td>
+                                    <td style="text-align: right">yyyy/mm/dd</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left">Project Name</td>
+                                    <td style="text-align: right">yyyy/mm/dd</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left">Project Name</td>
+                                    <td style="text-align: right">yyyy/mm/dd</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading"><a href="#" class="pull-right">View more</a> <h4>Bootstrap Examples</h4></div>
+                <div class="panel-heading"><a href="#" class="pull-right">View more</a> <h5><b>Unassigned projects for next month</b></h5></div>
                 <div class="panel-body">
-                    <div class="list-group">
-                        <a href="http://bootply.com/tagged/modal" class="list-group-item">Modal / Dialog</a>
-                        <a href="http://bootply.com/tagged/datetime" class="list-group-item">Datetime Examples</a>
-                        <a href="http://bootply.com/tagged/datatable" class="list-group-item">Data Grids</a>
+                    <div>
+                        <table class="table table-hover">
+                            <thead>
+                                <th style="text-align: left">Project Name</th>
+                                <th style="text-align: right">End Date</th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: left">Project Name</td>
+                                    <td style="text-align: right">yyyy/mm/dd</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left">Project Name</td>
+                                    <td style="text-align: right">yyyy/mm/dd</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left">Project Name</td>
+                                    <td style="text-align: right">yyyy/mm/dd</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
