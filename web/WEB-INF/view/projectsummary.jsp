@@ -4,9 +4,14 @@
 <%@include file="navigation.jsp" %>
 
 <div id="bodiv">
-    <button type="button" class="btn btn-lg btn-add pull-left" data-toggle="modal" data-target="#addProject">
-        <image src='<c:url value="/res/images/add.png"/>' height="20px;"/> New project
-    </button>
+    <div class="row">
+        <div style="float: left; width: 20%; margin-left: 2.3%;">
+            <h2>Project Summary</h2>
+        </div>
+        <div style="float: left; margin-left: 65%; margin-right: -10px; margin-top: 12px;">
+            <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#addProject">New project</button>
+        </div>
+    </div>
     <div id="projectSummary" class="col-md-12">
         <table id="projSummary" class="display">
             <thead>
@@ -23,29 +28,17 @@
             <tbody id="projTable">
                 <c:forEach items="${projects}" var="project">
                 <tr>
-                    <input type="hidden" class="projId" value="${project.projectId}"/>
-                    <td class="projectName"><c:out value="${project.name}" /></td>
+                    <form id="projectname" action='<c:url value="resProject"/>' method="post" modelAttribute="project">
+                        <input type="hidden" name="projectId" class="projId" value="${project.projectId}"/>
+                        <input type="hidden" name="name" value="${project.name}"/>
+                        <td class="projectName"><a id="projectnamelink" href="#"><c:out value="${project.name}" /></a></td>
+                    </form>
                     <td class="startDate"><c:out value="${project.start}" /></td>
                     <td class="endDate"><c:out value="${project.end}" /></td>
                     <td class="projType"><c:out value="${project.type}" /></td>
                     <td class="bUnit"><c:out value="${project.bUnit}" /></td>
-                    <td>
-                        <div class="btn-group dropup">
-                            <button type="button" class="btn btn-warning" disabled="disabled"><small>Manage</small></button>
-                            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#" class="viewOption" data-toggle="modal" data-target="#view">View resources</a></li>
-                                <li><a href="#" class="assignOption" data-toggle="modal" data-target="#assign">Assign new resource</a></li>
-                                <li><a href="#" class="editOption" data-toggle="modal" data-target="#editProject">Edit project</a></li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td><button id="deleteButton3" class="btn btn-danger end" data-toggle="modal" data-target="#endProject">
-                        <image src='<c:url value="/res/images/remove.png"/>' height="20px;"/>
-                    </button></td>
+                    <td><button class="btn btn-warning editOption" data-toggle="modal" data-target="#editProject">Edit</button></td>
+                    <td><button id="deleteButton3" class="btn btn-danger end" data-toggle="modal" data-target="#endProject">End</button></td>
                 </tr>
                 </c:forEach>
             </tbody>
@@ -104,7 +97,7 @@
                                     <input value="Ongoing" name="status" hidden="hidden">
                                     <input value="Summary" name="reference" hidden="hidden">
                                     <input class="btn btn-success" id="add-but" type="submit" value="Submit">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span>Cancel</span></button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span style="color: white">Cancel</span></button>
                                 </div>
                             </div>
                         </form>
@@ -134,7 +127,7 @@
                                 <div class="form-group">
                                     <label for="">Start Date</label>
                                     <input class="form-control" type="date" id="field2" required="required" name="start" value="yyyy-mm-dd">
-                                </div>
+                                </div> 
                                 <div class="form-group">
                                     <label for="">End Date</label>
                                     <input class="form-control" type="date" id="field3" required="required" name="end" value="yyyy-mm-dd">
@@ -161,7 +154,7 @@
                             <div class="panel-footer">
                                 <div style="text-align: right">
                                     <input class="btn btn-success" id="add-but" type="submit" value="Save">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span>Cancel</span></button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span style="color: white">Cancel</span></button>
                                 </div>
                             </div>
                         </form>
@@ -231,59 +224,59 @@
                             <b>Assign resource to <code id="aProj"></code></b>
                         </div>
                         <form id="assign" name="assign" action='<c:url value="assignResource"/>' method="post" modelAttribute="effort">
-                        <div class="panel-body">
-                            <div class="form-group">
-                                <label for="">Name:</label>
-                                <select class="form-control" name="empId" required="required" id="empName">
-                                    <option disabled="true" value="default" selected default></option>
-                                    <c:forEach items="${employees}" var="employee">
-                                        <option value="${employee.empId}"><c:out value="${employee.fname} ${employee.lname}" /></option>
-                                    </c:forEach>
-                                </select>
-                                <input type="hidden" id="selectedStart"/>
-                                <input type="hidden" id="selectedEnd"/>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="">Name:</label>
+                                    <select class="form-control" name="empId" required="required" id="empName">
+                                        <option disabled="true" value="default" selected default></option>
+                                        <c:forEach items="${employees}" var="employee">
+                                            <option value="${employee.empId}"><c:out value="${employee.fname} ${employee.lname}" /></option>
+                                        </c:forEach>
+                                    </select>
+                                    <input type="hidden" id="selectedStart"/>
+                                    <input type="hidden" id="selectedEnd"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Effort</label>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Year</th>
+                                                <th>Jan</th>
+                                                <th>Feb</th>
+                                                <th>Mar</th>
+                                                <th>Apr</th>
+                                                <th>May</th>
+                                                <th>Jun</th>
+                                                <th>Jul</th>
+                                                <th>Aug</th>
+                                                <th>Sep</th>
+                                                <th>Oct</th>
+                                                <th>Nov</th>
+                                                <th>Dec</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="addResTable">
+
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="">Effort</label>
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Year</th>
-                                            <th>Jan</th>
-                                            <th>Feb</th>
-                                            <th>Mar</th>
-                                            <th>Apr</th>
-                                            <th>May</th>
-                                            <th>Jun</th>
-                                            <th>Jul</th>
-                                            <th>Aug</th>
-                                            <th>Sep</th>
-                                            <th>Oct</th>
-                                            <th>Nov</th>
-                                            <th>Dec</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="addResTable">
-                                        
-                                    </tbody>
-                                </table>
+                            <div class="panel-footer">
+                                <div style="text-align: right">
+    <!--                                <a href="#" class="ass">display jan value</a>-->
+                                    <input type="hidden" name="projId" id="projectId"/>
+                                    <input type="hidden" name="count" id="count"/>
+                                    <input class="btn btn-success" id="add-but" type="submit" value="Assign">
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span>Cancel</span></button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="panel-footer">
-                            <div style="text-align: right">
-<!--                                <a href="#" class="ass">display jan value</a>-->
-                                <input type="hidden" name="projId" id="projectId"/>
-                                <input type="hidden" name="count" id="count"/>
-                                <input class="btn btn-success" id="add-but" type="submit" value="Assign">
-                                <button class="btn btn-danger" type="button" data-dismiss="modal"><span>Cancel</span></button>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
     <!-- End modal for assign resources-->
     
     
@@ -326,7 +319,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><input type="number" name="year" readonly="readonly" id="eYear"/></td>
+                                            <td><input style="width: 5px" type="number" name="year" disabled id="eYear"/></td>
                                             <td><input type="number" name="jan" disabled="true" value="0" min="0" step="0.1" id="e1"/></td>
                                             <td><input type="number" name="feb" disabled="true" value="0" min="0" step="0.1" id="e2"/></td>
                                             <td><input type="number" name="mar" disabled="true" value="0" min="0" step="0.1" id="e3"/></td>
@@ -377,7 +370,7 @@
                             <div class="panel-footer">
                                 <div style="text-align: right;">
                                     <input class="btn btn-success" id="add-but" type="submit" value="Yes"/>&nbsp;
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span>No</span></button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span style="color: white">No</span></button>
                                 </div>
                             </div>
                         </form>
@@ -485,8 +478,8 @@
                         var res=x.split("%");
                         for(var i=1;i<=12;i++){
                             var wait = Math.round((1-res[i])*10)/10;
-                            var final = Math.round((wait+parseFloat($("#e"+i).val()))*10)/10; 
-                            $("#e"+i).attr("max",final);
+                            var finall = Math.round((wait+parseFloat($("#e"+i).val()))*10)/10; 
+                            $("#e"+i).attr("max",finall);
                         }
                     },  
                         error : function(e) {  
@@ -516,7 +509,7 @@
                                             '<td class="resoYear">'+res[5]+'</td>'+
                                             '<td class="resoJan">'+res[6]+'</td>'+
                                             '<td class="resoFeb">'+res[7]+'</td>'+
-                                           '<td class="resoMar">'+res[8]+'</td>'+
+                                            '<td class="resoMar">'+res[8]+'</td>'+
                                             '<td class="resoApr">'+res[9]+'</td>'+
                                             '<td class="resoMay">'+res[10]+'</td>'+
                                             '<td class="resoJun">'+res[11]+'</td>'+
@@ -545,11 +538,11 @@
            
             $("#projTable").on("click",".editOption",function(){ 
                $("#editProjId").val($(this).parent().parent().parent().parent().siblings(".projId").val());
-               $("#field1").val($(this).parent().parent().parent().parent().siblings(".projectName").text());
-               $("#field2").val($(this).parent().parent().parent().parent().siblings(".startDate").text());
-               $("#field3").val($(this).parent().parent().parent().parent().siblings(".endDate").text());
-               $("#field4").val($(this).parent().parent().parent().parent().siblings(".projType").text());
-               $("#field5").val($(this).parent().parent().parent().parent().siblings(".bUnit").text()); 
+               $("#field1").val($(this).parent().siblings(".projectName").text());
+               $("#field2").val($(this).parent().siblings(".startDate").text());
+               $("#field3").val($(this).parent().siblings(".endDate").text());
+               $("#field4").val($(this).parent().siblings(".projType").text());
+               $("#field5").val($(this).parent().siblings(".bUnit").text()); 
             });
            
             $("#projTable").on("click",".assignOption",function(){ 
@@ -635,6 +628,13 @@
                 
             });
         }); 
+        
+        $("a#projectnamelink").click(function()
+        {
+            $("#projectname").submit();
+            return false;
+        });
+    
     </script>
     </body>
 </html>

@@ -35,12 +35,8 @@
                     <td class="projStat"><c:out value="${project.status}" /></td>
                     <td class="bUnit"><c:out value="${project.bUnit}" /></td>
                     <td class="resNeeded"><c:out value="${project.resNeeded}" /></td>
-                    <td><button class="btn btn-edit editButton" data-toggle="modal" data-target="#editProject">
-                        <image src='<c:url value="/res/images/edit.png"/>' height="20px;"/>
-                    </button></td>
-                    <td><button id="deleteButton" class="btn btn-danger deleteButton" data-toggle="modal" data-target="#deleteProject">
-                        <image src='<c:url value="/res/images/remove.png"/>' height="20px;"/>
-                    </button></td>
+                    <td><button class="btn btn-warning editButton" data-toggle="modal" data-target="#editProject">Edit</button></td>
+                    <td><button class="btn btn-danger deleteButton" data-toggle="modal" data-target="#deleteProject">Remove</button></td>
                 </tr>
                 </c:forEach>
             </tbody>
@@ -187,7 +183,7 @@
                             <div class="panel-footer">
                                 <div style="text-align: right">
                                     <input class="btn btn-success" id="add-but" type="submit" value="Save">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span>Cancel</span></button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span style="color: white">Cancel</span></button>
                                 </div>
                             </div>
                         </form>
@@ -219,7 +215,7 @@
                                 <div style="text-align: right;">
                                     <input type="text" name="projectId" id="delProjId" hidden="hidden"/>
                                     <input class="btn btn-success" id="add-but" type="submit" value="Yes"/>&nbsp;
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span>No</span></button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span style="color: white">No</span></button>
                                 </div>
                             </div>
                         </form>

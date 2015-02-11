@@ -46,7 +46,7 @@
                 <li class="dropdown navbar-right">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">${sessVar} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a id="logoutlink" href="#" style="color: graytext">Log out</a></li>
+                        <li><a id="logoutlink" href="#" style="color: graytext">Sign out</a></li>
                     </ul>
                 </li>
             </ul>

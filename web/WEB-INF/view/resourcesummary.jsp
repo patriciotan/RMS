@@ -1,7 +1,14 @@
 <%@include file="navigation.jsp" %>
 
 <div id="bodiv">
-    <button type="button" class="btn btn-lg btn-primary pull-left" data-toggle="modal" data-target="#summary">Show head count</button>
+    <div class="row">
+        <div style="float: left; width: 30%; margin-left: 1.2%;">
+            <h2>Resource Summary</h2>
+        </div>
+        <div style="float: left; margin-left: 53.8%; margin-right: -10px; margin-top: 12px;">
+            <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#summary">Show head count</button>
+        </div>
+    </div>
     <div id="resourceSummary" class="col-md-12">
         <div class="row">
             <!-- employee list table-->
@@ -91,15 +98,15 @@
                                             <col width="250">
                                             <col width="118">
                                             <thead>
-                                                <th style="font-weight: bold; text-align: right;">Total Head Count</th><th>${summary.total}</th></th>
+                                                <th style="font-weight: bold; text-align: right;">Total Head Count</th><th><code>${summary.total}</code></th></th>
                                             </thead>
                                             <tbody>
                                                 <tr><td style="font-weight: bold; text-align: right;">Employees per Business Unit</td><td></td></tr>
-                                                <tr><td style="text-align: right;">Philippines</td><td id="">${summary.ph}</td></tr>
-                                                <tr><td style="text-align: right;">Japan</td><td id="">${summary.jap}</td></tr>
-                                                <tr><td style="text-align: right;">Rest of the World</td><td>${summary.row}</td></tr>
-                                                <tr><td style="text-align: right;">Alliance</td><td>${summary.alli}</td></tr>
-                                                <tr><td style="font-weight: bold; text-align: right;">Unassigned</td><td>#</td></tr>
+                                                <tr><td style="text-align: right;">Philippines</td><td id=""><code>${summary.ph}</code></td></tr>
+                                                <tr><td style="text-align: right;">Japan</td><td id=""><code>${summary.jap}</code></td></tr>
+                                                <tr><td style="text-align: right;">Rest of the World</td><td><code>${summary.row}</code></td></tr>
+                                                <tr><td style="text-align: right;">Alliance</td><td><code>${summary.alli}</code></td></tr>
+                                                <tr><td style="font-weight: bold; text-align: right;">Unassigned</td><td><code>#</code></td></tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -141,10 +148,10 @@
                        $("#resUnit").text(res[3]);
                        $("#resHired").text(res[4]);
                        if(res.length==5){
-                           $("#currentProjects").append("No projects yet.");
+                           $("#currentProjects").append("Currently not assigned to any project");
                        }
                        for(var i=5;i<res.length;i++){
-                           $("#currentProjects").append(i-4+".) "+res[i]+"<br/>");
+                           $("#currentProjects").append(i-4+". "+res[i]+"<br/> ");
                        }
                    },  
                         error : function(e) {  

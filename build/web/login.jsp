@@ -39,7 +39,7 @@
                                     </div>
                                     <br/>
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-login btn-block btn-lg">LOG IN</button>
+                                        <button type="submit" class="btn btn-login btn-block btn-lg">Sign in</button>
                                     </div>
                                 </div>
                             </div>

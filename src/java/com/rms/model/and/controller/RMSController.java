@@ -188,6 +188,20 @@ public class RMSController {
         return mav;
     }  
     
+    @RequestMapping(value = "/resProject", method = RequestMethod.POST)
+    public ModelAndView viewResProject(@ModelAttribute("project")Project project, ModelMap model) throws Exception {   
+        ModelAndView mav = new ModelAndView("resprojectsummary"); 
+        int id = project.getProjectId();
+        String name = project.getName();
+        mav.addObject("title","RMS - "+name);
+        mav.addObject("resources", getResourcesProjects(id));
+        mav.addObject("employees", getEmployees());
+        mav.addObject("projectId", id);
+        mav.addObject("projectName", name);
+        
+        return mav;
+    }  
+    
     
     @RequestMapping("/rSummary")
     public ModelAndView viewRSummary(HttpServletRequest request) throws Exception {   
@@ -287,11 +301,9 @@ public class RMSController {
         //System.out.println("NAABOT KO DIRI---------------------------------"+effort.getYear());
         for(int i=0;i<effort.getCount();i++){
             //System.out.println("NAABOT KO DIRI---------------------------------");
-            if(dbModel.assignResource(effort.getEmpId(),effort.getProjId(),effort.getYear(),effort.getJan(),effort.getFeb(),effort.getMar(),effort.getApr(),effort.getMay(),effort.getJun(),effort.getJul(),effort.getAug(),effort.getSep(),effort.getOct(),effort.getNov(),effort.getDece()))
+            if(!dbModel.assignResource(effort.getEmpId(),effort.getProjId(),effort.getYear(),effort.getJan(),effort.getFeb(),effort.getMar(),effort.getApr(),effort.getMay(),effort.getJun(),effort.getJul(),effort.getAug(),effort.getSep(),effort.getOct(),effort.getNov(),effort.getDece()))
             {
-               
-            }else{
-                flag=false;
+               flag=false;
             }
         }
         if(flag==true){
@@ -320,20 +332,34 @@ public class RMSController {
     }
     
     @RequestMapping(value = "/getResourcesProjects")
-    public @ResponseBody String getResourcesProjects(@RequestParam("id")int id, ModelMap model) throws Exception
+    public List getResourcesProjects(int id) throws Exception
     {
         ResultSet rs = null;
-        String res = null;
         rs=dbModel.getResourcesProjects(id);
-        if(rs.first()){
-            res=rs.getString("first_name")+"%"+rs.getString("middle_name")+"%"+rs.getString("last_name")+"%"+
-                rs.getString("business_unit")+"%"+rs.getString("date_hired")+"%"+rs.getInt("year")+"%"+
-                rs.getFloat("jan")+"%"+rs.getFloat("feb")+"%"+rs.getFloat("mar")+"%"+rs.getFloat("apr")+"%"+
-                rs.getFloat("may")+"%"+rs.getFloat("jun")+"%"+rs.getFloat("jul")+"%"+rs.getFloat("aug")+"%"+
-                rs.getFloat("sep")+"%"+rs.getFloat("oct")+"%"+rs.getFloat("nov")+"%"+rs.getFloat("dece")+"%"+rs.getInt("resource_id");
-            System.out.println("Resource ID is "+rs.getInt("resource_id"));
+        List<Resource> resources=new ArrayList<>();
+        Resource resource = new Resource();
+        while(rs.next()){
+            resource.setFname(rs.getString("first_name"));
+            resource.setMname(rs.getString("middle_name"));
+            resource.setLname(rs.getString("last_name"));
+            resource.setbUnit(rs.getString("business_unit"));
+            resource.setDateHired(rs.getString("date_hired"));
+            resource.setYear(rs.getInt("year"));
+            resource.setJan(rs.getFloat("jan"));
+            resource.setFeb(rs.getFloat("feb"));
+            resource.setMar(rs.getFloat("mar"));
+            resource.setApr(rs.getFloat("apr"));
+            resource.setMay(rs.getFloat("may"));
+            resource.setJun(rs.getFloat("jun"));
+            resource.setJul(rs.getFloat("jul"));
+            resource.setAug(rs.getFloat("aug"));
+            resource.setSep(rs.getFloat("sep"));
+            resource.setOct(rs.getFloat("oct"));
+            resource.setNov(rs.getFloat("nov"));
+            resource.setDece(rs.getFloat("dece"));
+            resources.add(resource);
         }
-        return res;
+        return resources;
     }
     
     @RequestMapping(value = "/getSpecificEffortMonth")

@@ -67,16 +67,17 @@
                 <form class="form">
                     <h5><b>Add new project or client</b></h5>
                     <br/>
-                    <div class="input-group text-center">
-                        <input disabled type="text" class="form-control" placeholder="New project">
-                        <span class="input-group-btn"><button class="btn btn-primary" type="button">ADD</button></span>
+                    <div style="width: 100%" class="input-group text-center">
+                        <input style="float: left; width: 60%;" disabled type="text" class="form-control" placeholder="New project">
+                        <button style="float: left; width: 40%;" class="btn btn-primary" type="button">Add</button>
                     </div>
                     <br/>
-                    <div class="input-group text-center">
-                        <input disabled type="text" class="form-control" placeholder="New client">
-                        <span class="input-group-btn"><button class="btn btn-primary" type="button">ADD</button></span>
+                    <div style="width: 100%" class="input-group text-center">
+                        <input style="float: left; width: 60%;" disabled type="text" class="form-control" placeholder="New client">
+                        <button style="float: left; width: 40%;" class="btn btn-primary" type="button">Add</button>
                     </div>
                 </form>
+                <br/>
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading"><h5><b>Latest clients added</b></h5></div>
