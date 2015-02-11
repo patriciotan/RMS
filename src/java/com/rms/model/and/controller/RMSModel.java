@@ -156,6 +156,26 @@ public class RMSModel {
         return rs;
     }
         
+    public ResultSet getEmployeeProjects(int resId) throws Exception
+    {
+        sql="SELECT DISTINCT project_id FROM `effort` WHERE resource_id=?";
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, resId);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
+    
+    public String getProjectName(int projId) throws Exception
+    {
+        sql="SELECT * FROM `project` WHERE project_id=?";
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, projId);
+        rs = ps.executeQuery();
+        rs.next();
+        return rs.getString("name");
+    }
+    
     public boolean delProject(int projectId)throws Exception{
         sql="UPDATE project SET status='Dropped' WHERE project_id="+projectId;
         System.out.println(sql);
