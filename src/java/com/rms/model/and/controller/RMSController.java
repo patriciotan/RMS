@@ -164,7 +164,6 @@ public class RMSController {
             ResultSet rs = dbModel.getUser(user.getUsername(), user.getPassword());
             rs.next();
             request.getSession(true).setAttribute("sessVar",user.getUsername());
-<<<<<<< HEAD
             request.getSession(true).setAttribute("userType",rs.getString("type"));
             request.getSession(true).setAttribute("userId",rs.getInt("user_id"));
             request.getSession(true).setAttribute("resId",rs.getInt("resource_id"));
@@ -177,9 +176,6 @@ public class RMSController {
             else if(rs.getString("type").equals("Client")){
                 mav = new ModelAndView("redirect:/clientView"); 
             }
-=======
-            mav = new ModelAndView("redirect:/dashboard"); 
->>>>>>> f4856e4750e36f547a70c152e5e0d6b87c6d3de5
         }
         return mav;
     }
@@ -251,7 +247,6 @@ public class RMSController {
         ModelAndView mav = new ModelAndView("resprojectsummary"); 
         int id = project.getProjectId();
         String name = project.getName();
-<<<<<<< HEAD
         if(request.getSession().getAttribute("sessVar")!=null){
             mav.addObject("title","RMS - "+name);
             mav.addObject("resources", getResourcesProjects(id));
@@ -262,15 +257,6 @@ public class RMSController {
             mav=new ModelAndView("redirect:/login"); 
             mav.addObject("title","RMS - Log in"); 
         }
-=======
-        mav.addObject("title","RMS - "+name);
-        mav.addObject("resources", getResourcesProjects(id));
-        mav.addObject("employees", getEmployees());
-        mav.addObject("project",project);
-        mav.addObject("projectId", id);
-        mav.addObject("projectName", name);
-        
->>>>>>> f4856e4750e36f547a70c152e5e0d6b87c6d3de5
         return mav;
     }  
     
