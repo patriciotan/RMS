@@ -165,18 +165,18 @@
                                                 <tbody>
                                                     <tr>
                                                         <td><input type="number" name="year" style="width:55px;" id="eYear" readonly/></td>
-                                                        <td><input type="number" name="jan" disabled="true" style="width:55px;" value="0" min="0" step="0.1" id="e1"/></td>
-                                                        <td><input type="number" name="feb" disabled="true" style="width:55px;" value="0" min="0" step="0.1" id="e2"/></td>
-                                                        <td><input type="number" name="mar" disabled="true" style="width:55px;" value="0" min="0" step="0.1" id="e3"/></td>
-                                                        <td><input type="number" name="apr" disabled="true" style="width:55px;" value="0" min="0" step="0.1" id="e4"/></td>
-                                                        <td><input type="number" name="may" disabled="true" style="width:55px;" value="0" min="0" step="0.1" id="e5"/></td>
-                                                        <td><input type="number" name="jun" disabled="true" style="width:55px;" value="0" min="0" step="0.1" id="e6"/></td>
-                                                        <td><input type="number" name="jul" disabled="true" style="width:55px;" value="0" min="0" step="0.1" id="e7"/></td>
-                                                        <td><input type="number" name="aug" disabled="true" style="width:55px;" value="0" min="0" step="0.1" id="e8"/></td>
-                                                        <td><input type="number" name="sep" disabled="true" style="width:55px;" value="0" min="0" step="0.1" id="e9"/></td>
-                                                        <td><input type="number" name="oct" disabled="true" style="width:55px;" value="0" min="0" step="0.1" id="e10"/></td>
-                                                        <td><input type="number" name="nov" disabled="true" style="width:55px;" value="0" min="0" step="0.1" id="e11"/></td>
-                                                        <td><input type="number" name="dece" disabled="true" style="width:55px;" value="0" min="0" step="0.1" id="e12"/></td>
+                                                        <td><input type="number" name="jan" style="width:55px;" value="0" min="0" step="0.1" id="e1"/></td>
+                                                        <td><input type="number" name="feb" style="width:55px;" value="0" min="0" step="0.1" id="e2"/></td>
+                                                        <td><input type="number" name="mar" style="width:55px;" value="0" min="0" step="0.1" id="e3"/></td>
+                                                        <td><input type="number" name="apr" style="width:55px;" value="0" min="0" step="0.1" id="e4"/></td>
+                                                        <td><input type="number" name="may" style="width:55px;" value="0" min="0" step="0.1" id="e5"/></td>
+                                                        <td><input type="number" name="jun" style="width:55px;" value="0" min="0" step="0.1" id="e6"/></td>
+                                                        <td><input type="number" name="jul" style="width:55px;" value="0" min="0" step="0.1" id="e7"/></td>
+                                                        <td><input type="number" name="aug" style="width:55px;" value="0" min="0" step="0.1" id="e8"/></td>
+                                                        <td><input type="number" name="sep" style="width:55px;" value="0" min="0" step="0.1" id="e9"/></td>
+                                                        <td><input type="number" name="oct" style="width:55px;" value="0" min="0" step="0.1" id="e10"/></td>
+                                                        <td><input type="number" name="nov" style="width:55px;" value="0" min="0" step="0.1" id="e11"/></td>
+                                                        <td><input type="number" name="dece" style="width:55px;" value="0" min="0" step="0.1" id="e12"/></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -273,7 +273,10 @@
                 
                 var startMonth = start.substring(5,7);
                 var endMonth = end.substring(5,7);
-                alert('Start =='+startMonth+' End =='+endMonth);
+                
+                for(var i=1;i<=12;i++){
+                    $("#e"+i).attr("disabled","true");
+                }
                 
                 if(startYear==endYear){
                     for(var i=1;i<=12;i++){
@@ -283,17 +286,14 @@
                     }
                 }else{
                     if(startYear==yearSelected){
-                        alert('in here');
-                        for(var i=startMonth;i<=12;i++){
+                        for(var i=parseInt(startMonth);i<=12;i++){
                             $("#e"+i).removeAttr("disabled");
                         }
                     }else if(endYear==yearSelected){
-                        alert('in there');
                         for(var i=1;i<=endMonth;i++){
                             $("#e"+i).removeAttr("disabled");
                         }
                     }else{
-                        alert('in nowhere');
                         for(var i=1;i<=12;i++){
                             $("#e"+i).removeAttr("disabled");
                         }
