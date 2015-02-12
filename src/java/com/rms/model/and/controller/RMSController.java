@@ -121,7 +121,7 @@ public class RMSController {
     public ModelAndView login(HttpServletRequest request) {   
         ModelAndView mav = new ModelAndView("login", "title", "RMS - Log in"); 
         if(request.getSession().getAttribute("sessVar")!=null){
-            mav = new ModelAndView("redirect:/outlook");
+            mav = new ModelAndView("redirect:/dashboard");
         }
         return mav;
     }  
@@ -134,7 +134,6 @@ public class RMSController {
         {
             request.getSession(true).setAttribute("sessVar",user.getUsername());
             mav = new ModelAndView("redirect:/dashboard"); 
-            mav.addObject("title","RMS - Dashboard");
         }
         return mav;
     }
@@ -155,7 +154,6 @@ public class RMSController {
             mav.addObject("title","RMS - Dashboard");
         }else{
             mav=new ModelAndView("redirect:/login"); 
-            mav.addObject("title","RMS - Log in"); 
         }
         return mav;
     } 
@@ -169,7 +167,6 @@ public class RMSController {
             mav.addObject("projects", getOutlook());
         }else{
             mav=new ModelAndView("redirect:/login"); 
-            mav.addObject("title","RMS - Log in"); 
         }
         return mav;
     }  
@@ -183,7 +180,6 @@ public class RMSController {
             mav.addObject("employees", getEmployees());
         }else{
             mav=new ModelAndView("redirect:/login"); 
-            mav.addObject("title","RMS - Log in"); 
         }
         return mav;
     }  
@@ -196,6 +192,7 @@ public class RMSController {
         mav.addObject("title","RMS - "+name);
         mav.addObject("resources", getResourcesProjects(id));
         mav.addObject("employees", getEmployees());
+        mav.addObject("project",project);
         mav.addObject("projectId", id);
         mav.addObject("projectName", name);
         
@@ -212,7 +209,6 @@ public class RMSController {
             mav.addObject("summary",getRSummary());
         }else{
             mav=new ModelAndView("redirect:/login"); 
-            mav.addObject("title","RMS - Log in"); 
         }
         return mav;
     }  
@@ -224,8 +220,6 @@ public class RMSController {
         if(dbModel.addOutlook(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getResNeeded(),project.getReference()))
         {
             mav = new ModelAndView("redirect:/outlook"); 
-            mav.addObject("title","RMS - Project Outlook");
-            mav.addObject("projects", getOutlook());
         }
         return mav;
     } 
@@ -237,8 +231,6 @@ public class RMSController {
         if(dbModel.addProject(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getReference()))
         {
             mav = new ModelAndView("redirect:/pSummary"); 
-            mav.addObject("title","RMS - Project Summary");
-            mav.addObject("projects", getSummary());
         }
         return mav;
     }
@@ -249,8 +241,6 @@ public class RMSController {
         
         if(dbModel.delProject(project.getProjectId())){
             mav = new ModelAndView("redirect:/outlook"); 
-            mav.addObject("title","RMS - Project Outlook");
-            mav.addObject("projects", getOutlook());
         }
         return mav;
     }
@@ -261,8 +251,6 @@ public class RMSController {
         
         if(dbModel.delSummary(project.getProjectId())){
             mav = new ModelAndView("redirect:/pSummary"); 
-            mav.addObject("title","RMS - Project Summary");
-            mav.addObject("projects", getSummary());
         }
         return mav;
     }
@@ -274,8 +262,6 @@ public class RMSController {
         if(dbModel.editOutlook(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getResNeeded(),project.getProjectId()))
         {
             mav = new ModelAndView("redirect:/outlook"); 
-            mav.addObject("title","RMS - Project Outlook");
-            mav.addObject("projects", getOutlook());
         }
         return mav;
     } 
@@ -287,8 +273,6 @@ public class RMSController {
         if(dbModel.editSummary(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getbUnit(),project.getProjectId()))
         {
             mav = new ModelAndView("redirect:/pSummary"); 
-            mav.addObject("title","RMS - Project Summary");
-            mav.addObject("projects", getSummary());
         }
         return mav;
     } 
@@ -296,20 +280,37 @@ public class RMSController {
     @RequestMapping(value = "/assignResource", method = RequestMethod.POST)
     public ModelAndView assignResource(@ModelAttribute("effort")Effort effort, ModelMap model) throws Exception
     {
-        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
-        Boolean flag=true;
-        //System.out.println("NAABOT KO DIRI---------------------------------"+effort.getYear());
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Resource Failed");
+        Boolean flag = true;
         for(int i=0;i<effort.getCount();i++){
-            //System.out.println("NAABOT KO DIRI---------------------------------");
-            if(!dbModel.assignResource(effort.getEmpId(),effort.getProjId(),effort.getYear(),effort.getJan(),effort.getFeb(),effort.getMar(),effort.getApr(),effort.getMay(),effort.getJun(),effort.getJul(),effort.getAug(),effort.getSep(),effort.getOct(),effort.getNov(),effort.getDece()))
-            {
-               flag=false;
+            if(!dbModel.assignResource(effort.getEmpId(),effort.getProjId(),effort.getYear().get(i),effort.getJan().get(i),effort.getFeb().get(i),effort.getMar().get(i),effort.getApr().get(i),effort.getMay().get(i),effort.getJun().get(i),effort.getJul().get(i),effort.getAug().get(i),effort.getSep().get(i),effort.getOct().get(i),effort.getNov().get(i),effort.getDece().get(i))){
+                flag=false;
+            }
+            if(flag==true){
+                mav = new ModelAndView("redirect:/pSummary"); 
             }
         }
-        if(flag==true){
-            mav = new ModelAndView("redirect:/pSummary"); 
-            mav.addObject("title","RMS - Project Summary");
-            mav.addObject("projects", getSummary());
+        return mav;
+    }
+    
+    @RequestMapping(value = "/editResource", method = RequestMethod.POST)
+    public ModelAndView editResource(@ModelAttribute("effort")Resource effort, ModelMap model) throws Exception
+    {
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Edit Resource Failed");
+        System.out.println(effort.getEffortId()+"--"+effort.getYear()+"--"+effort.getJan()+"--"+effort.getFeb()+"--"+effort.getMar()+"--"+effort.getApr()+"--"+effort.getMay());
+        if(dbModel.editResource(effort.getEffortId(),effort.getYear(),effort.getJan(),effort.getFeb(),effort.getMar(),effort.getApr(),effort.getMay(),effort.getJun(),effort.getJul(),effort.getAug(),effort.getSep(),effort.getOct(),effort.getNov(),effort.getDece())){
+            mav = new ModelAndView("redirect:/pSummary");  
+        }
+        return mav;
+    }
+    
+    @RequestMapping(value = "/deleteResource", method = RequestMethod.POST)
+    public ModelAndView deleteResource(@ModelAttribute("effort")Resource effort, ModelMap model) throws Exception
+    {
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Edit Resource Failed");
+        System.out.println(effort.getEffortId()+"--"+effort.getEmpId());
+        if(dbModel.deleteResource(effort.getEffortId(),effort.getEmpId())){
+            mav = new ModelAndView("redirect:/pSummary");  
         }
         return mav;
     }
@@ -337,8 +338,10 @@ public class RMSController {
         ResultSet rs = null;
         rs=dbModel.getResourcesProjects(id);
         List<Resource> resources=new ArrayList<>();
-        Resource resource = new Resource();
         while(rs.next()){
+            Resource resource = new Resource();
+            resource.setEmpId(rs.getInt("resource_id"));
+            resource.setEffortId(rs.getInt("effort_id"));
             resource.setFname(rs.getString("first_name"));
             resource.setMname(rs.getString("middle_name"));
             resource.setLname(rs.getString("last_name"));

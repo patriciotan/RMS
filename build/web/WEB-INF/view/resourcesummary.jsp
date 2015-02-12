@@ -140,7 +140,6 @@
                    type:'post',
                    data:{'id':$(this).children(".resId").val()},
                    success:function(data,status){
-                       alert(data);
                        $("#currentProjects").html("");
                        var x = data.toString();
                        var res=x.split("%");
