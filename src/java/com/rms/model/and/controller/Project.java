@@ -15,8 +15,113 @@ import java.sql.Date;
 public class Project {
     
     private String name,type,status,bUnit,start,end,reference;
-    private int resNeeded,projectId;
+    private int resNeeded,projectId,year;
+    private float jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dece;
 
+    public float getApr() {
+        return apr;
+    }
+
+    public void setApr(float apr) {
+        this.apr = apr;
+    }
+
+    public float getAug() {
+        return aug;
+    }
+
+    public void setAug(float aug) {
+        this.aug = aug;
+    }
+
+    public float getDece() {
+        return dece;
+    }
+
+    public void setDece(float dece) {
+        this.dece = dece;
+    }
+
+    public float getFeb() {
+        return feb;
+    }
+
+    public void setFeb(float feb) {
+        this.feb = feb;
+    }
+
+    public float getJan() {
+        return jan;
+    }
+
+    public void setJan(float jan) {
+        this.jan = jan;
+    }
+
+    public float getJul() {
+        return jul;
+    }
+
+    public void setJul(float jul) {
+        this.jul = jul;
+    }
+
+    public float getJun() {
+        return jun;
+    }
+
+    public void setJun(float jun) {
+        this.jun = jun;
+    }
+
+    public float getMar() {
+        return mar;
+    }
+
+    public void setMar(float mar) {
+        this.mar = mar;
+    }
+
+    public float getMay() {
+        return may;
+    }
+
+    public void setMay(float may) {
+        this.may = may;
+    }
+
+    public float getNov() {
+        return nov;
+    }
+
+    public void setNov(float nov) {
+        this.nov = nov;
+    }
+
+    public float getOct() {
+        return oct;
+    }
+
+    public void setOct(float oct) {
+        this.oct = oct;
+    }
+
+    public float getSep() {
+        return sep;
+    }
+
+    public void setSep(float sep) {
+        this.sep = sep;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+    
     public int getProjectId() {
         return projectId;
     }
@@ -24,7 +129,6 @@ public class Project {
     public void setProjectId(int projectId) {
         this.projectId = projectId;
     }
-    
 
     public String getName() {
         return name;

@@ -55,6 +55,35 @@ public class RMSController {
         }
         return projects;
     } 
+    public List getMyProjects(int id) throws Exception {  
+        ResultSet rs = dbModel.getMyProjects(id);
+        List<Project> projects=new ArrayList<>();
+        while(rs.next()){
+            Project project = new Project();
+            project.setProjectId(rs.getInt("project_id"));
+            project.setName(rs.getString("name"));
+            project.setStart(rs.getString("start_date"));
+            project.setEnd(rs.getString("end_date"));
+            project.setType(rs.getString("type"));
+            project.setStatus(rs.getString("status"));
+            project.setbUnit(rs.getString("business_unit"));
+            project.setYear(rs.getInt("year"));
+            project.setJan(rs.getFloat("jan"));
+            project.setFeb(rs.getFloat("feb"));
+            project.setMar(rs.getFloat("mar"));
+            project.setApr(rs.getFloat("apr"));
+            project.setMay(rs.getFloat("may"));
+            project.setJun(rs.getFloat("jun"));
+            project.setJul(rs.getFloat("jul"));
+            project.setAug(rs.getFloat("aug"));
+            project.setSep(rs.getFloat("sep"));
+            project.setOct(rs.getFloat("oct"));
+            project.setNov(rs.getFloat("nov"));
+            project.setDece(rs.getFloat("dece"));
+            projects.add(project);
+        }
+        return projects;
+    } 
     public List getEmployees() throws Exception { 
         ResultSet rs = dbModel.getEmployees();
         List<Employee> employees=new ArrayList<>();
@@ -121,7 +150,7 @@ public class RMSController {
     public ModelAndView login(HttpServletRequest request) {   
         ModelAndView mav = new ModelAndView("login", "title", "RMS - Log in"); 
         if(request.getSession().getAttribute("sessVar")!=null){
-            mav = new ModelAndView("redirect:/outlook");
+            mav = new ModelAndView("redirect:/dashboard");
         }
         return mav;
     }  
@@ -132,9 +161,21 @@ public class RMSController {
         mav.addObject("title","RMS - Log in");   
         if(dbModel.canLogin(user.getUsername(), user.getPassword()))
         {
+            ResultSet rs = dbModel.getUser(user.getUsername(), user.getPassword());
+            rs.next();
             request.getSession(true).setAttribute("sessVar",user.getUsername());
-            mav = new ModelAndView("redirect:/dashboard"); 
-            mav.addObject("title","RMS - Dashboard");
+            request.getSession(true).setAttribute("userType",rs.getString("type"));
+            request.getSession(true).setAttribute("userId",rs.getInt("user_id"));
+            request.getSession(true).setAttribute("resId",rs.getInt("resource_id"));
+            if(rs.getString("type").equals("Manager")){
+                mav = new ModelAndView("redirect:/dashboard"); 
+            }
+            else if(rs.getString("type").equals("Employee")){
+                mav = new ModelAndView("redirect:/employeeView"); 
+            }
+            else if(rs.getString("type").equals("Client")){
+                mav = new ModelAndView("redirect:/clientView"); 
+            }
         }
         return mav;
     }
@@ -149,7 +190,6 @@ public class RMSController {
     
     @RequestMapping("/dashboard")
     public ModelAndView viewDashboard(HttpServletRequest request) throws Exception {  
-        
         ModelAndView mav = new ModelAndView("dashboard"); 
         if(request.getSession().getAttribute("sessVar")!=null){
             mav.addObject("title","RMS - Dashboard");
@@ -161,8 +201,7 @@ public class RMSController {
     } 
     
     @RequestMapping("/outlook")
-    public ModelAndView viewOutlook(HttpServletRequest request) throws Exception {  
-        
+    public ModelAndView viewOutlook(HttpServletRequest request) throws Exception { 
         ModelAndView mav = new ModelAndView("projectoutlook"); 
         if(request.getSession().getAttribute("sessVar")!=null){
             mav.addObject("title","RMS - Project Outlook");
@@ -173,6 +212,24 @@ public class RMSController {
         }
         return mav;
     }  
+    
+    @RequestMapping("/employeeView")
+    public ModelAndView employeeView(HttpServletRequest request) throws Exception {  
+        ModelAndView mav = new ModelAndView("employeeview"); 
+        List<Project> projects=new ArrayList<>();
+        if(request.getSession().getAttribute("sessVar")!=null){
+            int id = (int) request.getSession().getAttribute("resId");
+            mav.addObject("title","RMS - Projects");
+            projects=getMyProjects(id);
+            mav.addObject("projects", projects);
+        }else{
+            mav=new ModelAndView("redirect:/login"); 
+            mav.addObject("title","RMS - Log in"); 
+        }
+        if(projects!=null)
+            return mav;
+        return null;
+    }    
     
     @RequestMapping("/pSummary")
     public ModelAndView viewPSummary(HttpServletRequest request) throws Exception {   
@@ -189,16 +246,20 @@ public class RMSController {
     }  
     
     @RequestMapping(value = "/resProject", method = RequestMethod.POST)
-    public ModelAndView viewResProject(@ModelAttribute("project")Project project, ModelMap model) throws Exception {   
+    public ModelAndView viewResProject(@ModelAttribute("project")Project project, ModelMap model, HttpServletRequest request) throws Exception {   
         ModelAndView mav = new ModelAndView("resprojectsummary"); 
         int id = project.getProjectId();
         String name = project.getName();
-        mav.addObject("title","RMS - "+name);
-        mav.addObject("resources", getResourcesProjects(id));
-        mav.addObject("employees", getEmployees());
-        mav.addObject("projectId", id);
-        mav.addObject("projectName", name);
-        
+        if(request.getSession().getAttribute("sessVar")!=null){
+            mav.addObject("title","RMS - "+name);
+            mav.addObject("resources", getResourcesProjects(id));
+            mav.addObject("employees", getEmployees());
+            mav.addObject("projectId", id);
+            mav.addObject("projectName", name);
+        }else{
+            mav=new ModelAndView("redirect:/login"); 
+            mav.addObject("title","RMS - Log in"); 
+        }
         return mav;
     }  
     

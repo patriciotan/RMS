@@ -52,6 +52,16 @@ public class RMSModel {
             return true;
         return false;
     }
+    
+    public ResultSet getUser(String username, String password) throws Exception{
+        sql = "select * from user where binary username=? and binary password=?";
+        ps = con.prepareStatement(sql);
+        ps.setString(1, username);
+        ps.setString(2, password);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
 
     public boolean addOutlook(String name, String start, String end, String type, String status, String bUnit, int resNeeded, String reference) throws Exception {
         sql = "insert into project (name,start_date,end_date,type,status,business_unit,resources_needed,reference) values ('"+name+"','"+start+"','"+end+"','"+type+"','"+status+"','"+bUnit+"','"+resNeeded+"','"+reference+"')";
@@ -102,10 +112,23 @@ public class RMSModel {
     
     public ResultSet getResource(int resId) throws Exception
     {
-        sql = "SELECT resource.*,effort.* FROM resource JOIN effort ON resource.resource_id = effort.resource_id WHERE resource.resource_id = ?";
+        sql = "SELECT resource.*,effort.* FROM resource JOIN effort ON resource.resource_id = effort.resource_id WHERE resource.resource_id=?";
         System.out.println(sql);
         ps = con.prepareStatement(sql);
         ps.setInt(1, resId);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
+    
+    public ResultSet getMyProjects(int resId) throws Exception
+    {
+        sql = "SELECT project.*,effort.* FROM project JOIN effort ON project.project_id = effort.project_id WHERE effort.resource_id=? and reference=? and status!=?";
+        System.out.println(sql);
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, resId);
+        ps.setString(2, "Summary");
+        ps.setString(3, "Closed");
         rs = ps.executeQuery();
         
         return rs;
