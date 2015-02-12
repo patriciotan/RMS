@@ -28,10 +28,12 @@
             <tbody id="projTable">
                 <c:forEach items="${projects}" var="project">
                 <tr>
-                    <form id="projectname" action='<c:url value="resProject"/>' method="post" modelAttribute="project">
+                    <form class="specificProject" action='<c:url value="resProject"/>' method="post" modelAttribute="project">
                         <input type="hidden" name="projectId" class="projId" value="${project.projectId}"/>
                         <input type="hidden" name="name" value="${project.name}"/>
-                        <td class="projectName"><a id="projectnamelink" href="#"><c:out value="${project.name}" /></a></td>
+                        <input type="hidden" name="start" value="${project.start}"/>
+                        <input type="hidden" name="end" value="${project.end}"/>
+                        <td class="projectName"><a class="projectnamelink" href="#"><c:out value="${project.name}" /></a></td>
                     </form>
                     <td class="startDate"><c:out value="${project.start}" /></td>
                     <td class="endDate"><c:out value="${project.end}" /></td>
@@ -419,122 +421,6 @@
                 $("#delProjId").val($(this).parent().siblings(".projId").val());
             });
            
-            $("#viewResTable").on("click",".vRes",function(){
-                $("#eResource").html($(this).children(".aResource").text()); 
-                var yearSelected=$(this).children(".resoYear").text();
-                $("#eYear").val(yearSelected);
-                $("#e1").val($(this).children(".resoJan").text());
-                $("#e2").val($(this).children(".resoFeb").text());
-                $("#e3").val($(this).children(".resoMar").text());
-                $("#e4").val($(this).children(".resoApr").text());
-                $("#e5").val($(this).children(".resoMay").text());
-                $("#e6").val($(this).children(".resoJun").text());
-                $("#e7").val($(this).children(".resoJul").text());
-                $("#e8").val($(this).children(".resoAug").text());
-                $("#e9").val($(this).children(".resoSep").text());
-                $("#e10").val($(this).children(".resoOct").text());
-                $("#e11").val($(this).children(".resoNov").text());
-                $("#e12").val($(this).children(".resoDece").text());
-                
-                var start = $(this).parent().parent().siblings().find("#startYear").val();
-                var end = $(this).parent().parent().siblings().find("#endYear").val();
-                
-                var startYear = start.substring(0,4);
-                var endYear = end.substring(0,4);
-                
-                var startMonth = start.substring(5,7);
-                var endMonth = end.substring(5,7);
-                
-                //-----------------------------------------------------------------------------
-                //lacking diri dapat disable and stuff
-                if(startYear==endYear){
-                    for(var i=1;i<=12;i++){
-                        if(i>=startMonth&&i<=endMonth){
-                            $("#e"+i).removeAttr("disabled");
-                        }
-                    }
-                }else{
-                    if(startYear==yearSelected){
-                        for(var i=startMonth;i<=12;i++){
-                            $("#e"+i).removeAttr("disabled");
-                        }
-                    }else if(endYear==yearSelected){
-                        for(var i=1;i<=endMonth;i++){
-                            $("#e"+i).removeAttr("disabled");
-                        }
-                    }else{
-                        for(var i=1;i<=12;i++){
-                            $("#e"+i).removeAttr("disabled");
-                        }
-                    }
-                }
-                $("#eId").val($(this).children(".resoId").val());
-                $.ajax({
-                    url:'getTotalEffort.htm',
-                    type:'post',
-                    data:{'year':yearSelected,'resId':$(this).children(".resoId").val()},
-                    success:function(data,status){
-                        var x = data.toString();
-                        var res=x.split("%");
-                        for(var i=1;i<=12;i++){
-                            var wait = Math.round((1-res[i])*10)/10;
-                            var finall = Math.round((wait+parseFloat($("#e"+i).val()))*10)/10; 
-                            $("#e"+i).attr("max",finall);
-                        }
-                    },  
-                        error : function(e) {  
-                        alert('Error: ' + e);   
-                    }
-
-                });
-                
-            });
-           
-            $("#projTable").on("click",".viewOption",function(){
-                $("#vProj").text($(this).parent().parent().parent().parent().siblings(".projectName").text());
-                $("#viewResTable").html("");
-                $("#startYear").val($(this).parent().parent().parent().parent().siblings(".startDate").text());
-                $("#endYear").val($(this).parent().parent().parent().parent().siblings(".endDate").text());
-                $.ajax({
-                    url:'getResourcesProjects.htm',
-                    type:'post',
-                    data:{'id':$(this).parent().parent().parent().parent().siblings(".projId").val()},
-                    success:function(data,status){
-                        var x = data.toString();
-                        var res=x.split("%");
-                        if(data!=""){
-                            $("#viewResTable").append('<tr class="vRes" data-dismiss="modal" data-toggle="modal" data-target="#editResource">'+
-                                            '<input type="hidden" value="'+res[18]+'" class="resoId"/>'+
-                                            '<td class="aResource">'+res[0]+" "+res[2]+'</td>'+
-                                            '<td class="resoYear">'+res[5]+'</td>'+
-                                            '<td class="resoJan">'+res[6]+'</td>'+
-                                            '<td class="resoFeb">'+res[7]+'</td>'+
-                                            '<td class="resoMar">'+res[8]+'</td>'+
-                                            '<td class="resoApr">'+res[9]+'</td>'+
-                                            '<td class="resoMay">'+res[10]+'</td>'+
-                                            '<td class="resoJun">'+res[11]+'</td>'+
-                                            '<td class="resoJul">'+res[12]+'</td>'+
-                                            '<td class="resoAug">'+res[13]+'</td>'+
-                                            '<td class="resoSep">'+res[14]+'</td>'+
-                                            '<td class="resoOct">'+res[15]+'</td>'+
-                                            '<td class="resoNov">'+res[16]+'</td>'+
-                                            '<td class="resoDece">'+res[17]+'</td>'+
-                                        '</tr>');
-                        }else{
-                            $("#viewResTable").append("No data to display!");
-                        }
-                    },  
-                            error : function(e) {  
-                            alert('Error: ' + e);   
-                        }
-
-                });
-            });
-           
-           $(".removeRes").click(function(){
-               $("#remName").html($(this).parent().parent().parent().find("#eResource").text());
-           });
-           
            
             $("#projTable").on("click",".editOption",function(){ 
                $("#editProjId").val($(this).parent().parent().parent().parent().siblings(".projId").val());
@@ -545,96 +431,13 @@
                $("#field5").val($(this).parent().siblings(".bUnit").text()); 
             });
            
-            $("#projTable").on("click",".assignOption",function(){ 
-               $("#addResTable").html("");
-               $("#aProj").text($(this).parent().parent().parent().parent().siblings(".projectName").text());
-               
-               var start = $(this).parent().parent().parent().parent().siblings(".startDate").text();
-               var end = $(this).parent().parent().parent().parent().siblings(".endDate").text();
-               var startYear = start.substring(0,4);
-               var endYear = end.substring(0,4);
-               var diffYear=endYear-startYear;
-               $("#selectedStart").val(start);
-               $("#selectedEnd").val(end);
-               $("#count").val(diffYear+1);
-               $("#projectId").val($(this).parent().parent().parent().parent().siblings(".projId").val());
-               for(var i=0;i<=diffYear;i++){
-                   var t=i*12;
-                   $("#addResTable").append("<tr>" +
-                                            "<input type='hidden' name='year' value='"+(parseInt(startYear)+i)+"' class='year'/>" +
-                                            "<td>"+(parseInt(startYear)+i)+"</td>" +
-                                            "<td><input type='number' name='jan' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+1)+"'/></td>" +
-                                            "<td><input type='number' name='feb' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+2)+"'/></td>" +
-                                            "<td><input type='number' name='mar' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+3)+"'/></td>" +
-                                            "<td><input type='number' name='apr' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+4)+"'/></td>" +
-                                            "<td><input type='number' name='may' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+5)+"'/></td>" +
-                                            "<td><input type='number' name='jun' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+6)+"'/></td>" +
-                                            "<td><input type='number' name='jul' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+7)+"'/></td>" +
-                                            "<td><input type='number' name='aug' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+8)+"'/></td>" +
-                                            "<td><input type='number' name='sep' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+9)+"'/></td>" +
-                                            "<td><input type='number' name='oct' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+10)+"'/></td>" +
-                                            "<td><input type='number' name='nov' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+11)+"'/></td>" +
-                                            "<td><input type='number' name='dece' value='0' min='0' max='1' step='0.1' class='month"+(parseInt(t)+12)+"'/></td>" +
-                                        "</tr>");
-               }
-                $("#empName").val("default");
-                for(var x=0;x<=diffYear;x++){
-                    var t=x*12;
-                    for(var i=1;i<=12;i++){
-                       $(".month"+(parseInt(t)+i)).attr("disabled",true);
-                    }
-                }
-            });
-           
-            $("#empName").change(function(){
-                var start = $(this).siblings("#selectedStart").val();
-                var end = $(this).siblings("#selectedEnd").val();
-                
-                var startYear = start.substring(0,4);
-                var endYear = end.substring(0,4);
-                var diffYear=endYear-startYear;
-                
-                var startMonth = start.substring(5,7);
-                var endMonth = end.substring(5,7);
-                
-                var last=(diffYear+1)*12;
-                var end=parseInt(endMonth)+(diffYear*12);
-                
-                var resId=$(this).val();
-                $.ajax({
-                    url:'getSpecificEffortMonth.htm',
-                    type:'post',
-                    data:{'year':startYear,'noYears':diffYear+1,'resId':resId},
-                    success:function(data,status){
-                        var x = data.toString();
-                        var res=x.split("%");
-                        for(var x=0;x<=diffYear;x++){
-                            var t=x*12;
-                            for(var i=1;i<=12;i++){
-                               $(".month"+(parseInt(t)+i)).val("0");
-                            }
-                        }
-                        
-                        for(var i=1;i<=last;i++){
-                            if(i>=startMonth && i<=end){
-                                $(".month"+i).removeAttr("disabled");
-                                $(".month"+i).attr("max",Math.round( (1-res[i]) * 10 ) / 10);
-                            }
-                        }
-                        
-                    }
-                });
-                
-                
-            });
-        }); 
         
-        $("a#projectnamelink").click(function()
-        {
-            $("#projectname").submit();
-            return false;
+        
+            $("#projTable").on("click","a.projectnamelink",function(){
+                $(this).parent().parent().find(".specificProject").submit();
+                return false;
+            });
         });
-    
     </script>
     </body>
 </html>

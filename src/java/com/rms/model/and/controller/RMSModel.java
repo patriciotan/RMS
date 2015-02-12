@@ -148,7 +148,6 @@ public class RMSModel {
     }
     
     public ResultSet getSpecificEmployeeTotalEffort(int year,int resId) throws Exception{
-        System.out.println("ME HERE 2 "+year+resId);
         sql = "SELECT SUM(jan) as jan,SUM(feb) as feb,SUM(mar) as mar,SUM(apr) as apr,SUM(may) as may,SUM(jun) as jun,SUM(jul) as jul,SUM(aug) as aug,SUM(sep) as sep,SUM(oct) as oct,SUM(nov) as nov,SUM(dece) as dece FROM effort WHERE resource_id=? AND year=?";
         ps = con.prepareStatement(sql);
         ps.setInt(1,resId);
@@ -234,8 +233,42 @@ public class RMSModel {
     public boolean assignResource(int empId, int projId, int year, float jan, float feb, float mar, float apr, float may, float jun, float jul, float aug, float sep, float oct, float nov, float dece) throws Exception
     {
         sql = "insert into effort (project_id,resource_id,year,jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dece) values ("+projId+","+empId+","+year+","+jan+","+feb+","+mar+","+apr+","+may+","+jun+","+jul+","+aug+","+sep+","+oct+","+nov+","+dece+")";
-        //System.out.println("-------------------"+sql+"--------------------");
+        System.out.println("-------------------"+sql+"--------------------");
         if(st.executeUpdate(sql) > 0)
+            return true;
+        return false;
+    }
+    
+    public boolean editResource(int effortId,int year, float jan, float feb, float mar, float apr, float may, float jun, float jul, float aug, float sep, float oct, float nov, float dece) throws Exception
+    {
+        sql="UPDATE effort SET jan=?, feb=?, mar=?, apr=?, may=?, jun=?, jul=?, aug=?, sep=?, oct=?, nov=?, dece=? WHERE effort_id=? AND year=?";
+        ps = con.prepareStatement(sql);
+        ps.setFloat(1,jan);
+        ps.setFloat(2,feb);
+        ps.setFloat(3,mar);
+        ps.setFloat(4,apr);
+        ps.setFloat(5,may);
+        ps.setFloat(6,jun);
+        ps.setFloat(7,jul);
+        ps.setFloat(8,aug);
+        ps.setFloat(9,sep);
+        ps.setFloat(10,oct);
+        ps.setFloat(11,nov);
+        ps.setFloat(12,dece);
+        ps.setInt(13,effortId);
+        ps.setInt(14, year);
+        if(ps.executeUpdate()==1)
+            return true;
+        return false;
+    }
+    
+    public boolean deleteResource(int effortId,int empId) throws Exception
+    {
+        sql="DELETE FROM effort WHERE effort_id=? AND resource_id=?";
+        ps = con.prepareStatement(sql);
+        ps.setInt(1,effortId);
+        ps.setInt(2,empId);
+        if(ps.executeUpdate()==1)
             return true;
         return false;
     }
