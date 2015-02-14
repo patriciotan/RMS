@@ -7,6 +7,7 @@
         </div>
         <div style="float: left; margin-left: 53.8%; margin-right: -10px; margin-top: 12px;">
             <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#summary">Show head count</button>
+            <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#reminder">Show Underload/Overload Employees</button>
         </div>
     </div>
     <div id="resourceSummary" class="col-md-12">
@@ -121,6 +122,64 @@
                     </div>
                 </div>
             <!-- summary Modal -->  
+            
+            <!-- reminder Modal -->
+                <div class="modal fade" id="reminder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content-sm">
+                            <div class="modal-body-sm">
+                                <div class="panel panel-primary">  
+                                    <div class="panel-heading">
+                                        <b>Underload/Overload Reminder ${month} ${year}</b>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-md-6">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <th>Underload Employee</th>
+                                                    <th>${month}</th>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach items="${underload}" var="ul">
+                                                    <tr>   
+                                                        <td style="text-align: left;" class="resName"><c:out value="${ul.fname} ${ul.lname}" /></td>						
+                                                        <td><c:out value="${ul.jan}" /></td>
+                                                    </tr>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <th>Overload Employee</th>
+                                                    <th>${month}</th>
+                                                </thead>
+                                                <tbody>
+                                                    <c:forEach items="${overload}" var="ol">
+                                                    <tr>   
+                                                        <td style="text-align: left;" class="resName"><c:out value="${ol.fname} ${ol.lname}" /></td>						
+                                                        <td><c:out value="${ol.jan}" /></td>   
+                                                    </tr>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <div style="text-align: right;">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- reminder Modal -->  
+            
+            
+            
         </div>
     </div>
 </div>
@@ -133,6 +192,7 @@
         $(document).ready(function(){
            $("#3").attr("class","active"); 
            $("#resSummary").dataTable();
+           $('#reminder').modal('show');
            
             $("#resources").on('click',".resourceRow",function(){
                $.ajax({

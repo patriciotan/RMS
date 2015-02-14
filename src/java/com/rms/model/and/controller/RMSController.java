@@ -5,8 +5,10 @@
 package com.rms.model.and.controller;
 
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
@@ -114,22 +116,83 @@ public class RMSController {
             resource.setMname(employees.get(i).getMname());
             resource.setLname(employees.get(i).getLname());
             resource.setYear(rs.getInt("year"));
-            resource.setJan(rs.getFloat("jan"));
-            resource.setFeb(rs.getFloat("feb"));
-            resource.setMar(rs.getFloat("mar"));
-            resource.setApr(rs.getFloat("apr"));
-            resource.setMay(rs.getFloat("may"));
-            resource.setJun(rs.getFloat("jun"));
-            resource.setJul(rs.getFloat("jul"));
-            resource.setAug(rs.getFloat("aug"));
-            resource.setSep(rs.getFloat("sep"));
-            resource.setOct(rs.getFloat("oct"));
-            resource.setNov(rs.getFloat("nov"));
-            resource.setDece(rs.getFloat("dece"));
+            resource.setJan((float) (Math.round(rs.getFloat("jan")*100.0)/100.0));
+            resource.setFeb((float) (Math.round(rs.getFloat("feb")*100.0)/100.0));
+            resource.setMar((float) (Math.round(rs.getFloat("mar")*100.0)/100.0));
+            resource.setApr((float) (Math.round(rs.getFloat("apr")*100.0)/100.0));
+            resource.setMay((float) (Math.round(rs.getFloat("may")*100.0)/100.0));
+            resource.setJun((float) (Math.round(rs.getFloat("jun")*100.0)/100.0));
+            resource.setJul((float) (Math.round(rs.getFloat("jul")*100.0)/100.0));
+            resource.setAug((float) (Math.round(rs.getFloat("aug")*100.0)/100.0));
+            resource.setSep((float) (Math.round(rs.getFloat("sep")*100.0)/100.0));
+            resource.setOct((float) (Math.round(rs.getFloat("oct")*100.0)/100.0));
+            resource.setNov((float) (Math.round(rs.getFloat("nov")*100.0)/100.0));
+            resource.setDece((float) (Math.round(rs.getFloat("dece")*100.0)/100.0));
             resources.add(resource);
         }
         return resources;
     }
+    
+    public List getUnderload() throws Exception{
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
+        Calendar c = Calendar.getInstance();
+        Date now = c.getTime();
+        int year = c.get(Calendar.YEAR);
+        String month = sdf.format(now);
+        month=month.toLowerCase();
+        if(month.equals("december")){
+            month=month.substring(0,4);
+        }else{
+            month=month.substring(0,3);
+        }
+        List<Employee> employees = getEmployees();
+        List<Resource> resources=new ArrayList<>();
+        for(int i=0;i<employees.size();i++)
+        {
+            ResultSet rs = dbModel.getTotalResources(employees.get(i).getEmpId(),year);
+            Resource resource = new Resource();
+            rs.next();
+            resource.setFname(employees.get(i).getFname());
+            resource.setMname(employees.get(i).getMname());
+            resource.setLname(employees.get(i).getLname());
+            resource.setJan((float) (Math.round(rs.getFloat(month)*100.0)/100.0));
+            if(resource.getJan()<1.0){
+                resources.add(resource);
+            }
+        }
+        return resources;
+    }
+    
+    public List getOverload() throws Exception{
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
+        Calendar c = Calendar.getInstance();
+        Date now = c.getTime();
+        int year = c.get(Calendar.YEAR);
+        String month = sdf.format(now);
+        month=month.toLowerCase();
+        if(month.equals("december")){
+            month=month.substring(0,4);
+        }else{
+            month=month.substring(0,3);
+        }
+        List<Employee> employees = getEmployees();
+        List<Resource> resources=new ArrayList<>();
+        for(int i=0;i<employees.size();i++)
+        {
+            ResultSet rs = dbModel.getTotalResources(employees.get(i).getEmpId(),year);
+            Resource resource = new Resource();
+            rs.next();
+            resource.setFname(employees.get(i).getFname());
+            resource.setMname(employees.get(i).getMname());
+            resource.setLname(employees.get(i).getLname());
+            resource.setJan((float) (Math.round(rs.getFloat(month)*100.0)/100.0));
+            if(resource.getJan()==1.0){
+                resources.add(resource);
+            }
+        }
+        return resources;
+    }
+    
     
     public ResourceSummary getRSummary(){
         ResourceSummary res = new ResourceSummary();
@@ -166,7 +229,7 @@ public class RMSController {
             request.getSession(true).setAttribute("sessVar",user.getUsername());
             request.getSession(true).setAttribute("userType",rs.getString("type"));
             request.getSession(true).setAttribute("userId",rs.getInt("user_id"));
-            request.getSession(true).setAttribute("resId",rs.getInt("resource_id"));
+            //request.getSession(true).setAttribute("resId",rs.getInt("resource_id"));
             if(rs.getString("type").equals("Manager")){
                 mav = new ModelAndView("redirect:/dashboard"); 
             }
@@ -265,9 +328,18 @@ public class RMSController {
     public ModelAndView viewRSummary(HttpServletRequest request) throws Exception {   
         ModelAndView mav = new ModelAndView("resourcesummary"); 
         if(request.getSession().getAttribute("sessVar")!=null){
-            mav.addObject("title","RMS - Resource Summary");
+            SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
+            Calendar c = Calendar.getInstance();
+            Date now = c.getTime();
+            String month = sdf.format(now);
+            int year = c.get(Calendar.YEAR);
+            mav.addObject("title","RMS | Resource Summary");
             mav.addObject("resources", getResources());
             mav.addObject("summary",getRSummary());
+            mav.addObject("year",year);
+            mav.addObject("month",month);
+            mav.addObject("underload",getUnderload());
+            mav.addObject("overload",getOverload());
         }else{
             mav=new ModelAndView("redirect:/login"); 
         }
@@ -330,7 +402,7 @@ public class RMSController {
     @RequestMapping(value = "/editSummary", method = RequestMethod.POST)
     public ModelAndView editSummary(@ModelAttribute("project")Project project, ModelMap model) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
-        
+        System.out.println(project.getName()+"--"+project.getStart()+"--"+project.getEnd()+"--"+project.getType()+"--"+project.getbUnit()+"--"+project.getProjectId());
         if(dbModel.editSummary(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getbUnit(),project.getProjectId()))
         {
             mav = new ModelAndView("redirect:/pSummary"); 
