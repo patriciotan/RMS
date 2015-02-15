@@ -79,6 +79,14 @@ public class RMSModel {
         return false;
     }
     
+    public boolean addClient(String name, String addedBy, String addedDate) throws Exception {
+        sql = "insert into client (name,added_by,added_date) values ('"+name+"','"+addedBy+"','"+addedDate+"')";
+        System.out.println(sql);
+        if(st.executeUpdate(sql) > 0)
+            return true;
+        return false;
+    }
+    
     public ResultSet getOutlook() throws Exception
     {
         sql = "select * from project where reference=? and status!=?";
@@ -311,5 +319,13 @@ public class RMSModel {
         rs = ps.executeQuery();
         rs.next();
         return rs.getInt("ph");
+    }
+    
+    public ResultSet getClient() throws Exception{
+        sql = "select * from client";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        
+        return rs;
     }
 }

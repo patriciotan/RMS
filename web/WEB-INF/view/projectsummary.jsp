@@ -119,8 +119,8 @@
                         <div class="panel-heading">
                             <b>Edit Project</b>
                         </div>
-                        <form id="edit" name="edit" action='<c:url value="editSummary"/>' method="post" modelAttribute="project">
-                            <input type="text" name="projectId" id="editProjId" hidden="hidden"/>
+                        <form id="edit" name="edit" action='<c:url value="editProjSumm"/>' method="post" modelAttribute="project">
+                            <input type="text" name="projectId" id="editProjId" />
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Name</label>
@@ -177,7 +177,7 @@
                             <b>End Project</b>
                         </div>
                         <form id="del" name="del" action='<c:url value="delSummary"/>' method="post" modelAttribute="project">
-                            <input type="hidden" name="projectId" id="delProjId"/>
+                            <input type="text" name="projectId" id="delProjId"/>
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
                                     <br/>
@@ -209,7 +209,7 @@
            
            
             $("#projTable").on("click",".editOption",function(){ 
-               $("#editProjId").val($(this).parent().parent().parent().parent().siblings(".projId").val());
+               $("#editProjId").val($(this).parent().siblings(".projId").val());
                $("#field1").val($(this).parent().siblings(".projectName").text());
                $("#field2").val($(this).parent().siblings(".startDate").text());
                $("#field3").val($(this).parent().siblings(".endDate").text());

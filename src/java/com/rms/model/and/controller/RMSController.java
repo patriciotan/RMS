@@ -208,6 +208,19 @@ public class RMSController {
         return res;
     }
     
+    public List getCSummary() throws Exception{
+        ResultSet rs = dbModel.getClient();
+        List<Client> clients=new ArrayList<>();
+        while(rs.next()){
+            Client c = new Client();
+            c.setName(rs.getString("name"));
+            c.setAddedBy(rs.getString("added_by"));
+            c.setAddedDate(rs.getString("added_date"));
+            clients.add(c);
+        }
+        return clients;
+    }
+    
     
     @RequestMapping("/login")
     public ModelAndView login(HttpServletRequest request) {   
@@ -346,6 +359,18 @@ public class RMSController {
         return mav;
     }  
     
+    @RequestMapping("/cSummary")
+    public ModelAndView viewCSummary(HttpServletRequest request) throws Exception { 
+        ModelAndView mav = new ModelAndView("clientsummary"); 
+        if(request.getSession().getAttribute("sessVar")!=null){
+            mav.addObject("title","RMS - Client Summary");
+            mav.addObject("clients", getCSummary());
+        }else{
+            mav=new ModelAndView("redirect:/login"); 
+        }
+        return mav;
+    }  
+    
     @RequestMapping(value = "/addOutlook", method = RequestMethod.POST)
     public ModelAndView addOutlook(@ModelAttribute("project")Project project, ModelMap model) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
@@ -399,7 +424,7 @@ public class RMSController {
         return mav;
     } 
     
-    @RequestMapping(value = "/editSummary", method = RequestMethod.POST)
+    @RequestMapping(value = "/editProjSumm", method = RequestMethod.POST)
     public ModelAndView editSummary(@ModelAttribute("project")Project project, ModelMap model) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
         System.out.println(project.getName()+"--"+project.getStart()+"--"+project.getEnd()+"--"+project.getType()+"--"+project.getbUnit()+"--"+project.getProjectId());
@@ -409,6 +434,18 @@ public class RMSController {
         }
         return mav;
     } 
+    
+    @RequestMapping(value = "/addClient", method = RequestMethod.POST)
+    public ModelAndView addClient(@ModelAttribute("client")Client client, ModelMap model) throws Exception {
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        if(dbModel.addClient(client.getName(),client.getAddedBy(),sdf.format(Calendar.getInstance().getTime())))
+        {
+            mav = new ModelAndView("redirect:/cSummary"); 
+        }
+        return mav;
+    } 
+    
     
     @RequestMapping(value = "/assignResource", method = RequestMethod.POST)
     public ModelAndView assignResource(@ModelAttribute("effort")Effort effort, ModelMap model) throws Exception
