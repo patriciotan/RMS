@@ -174,9 +174,20 @@ public class RMSModel {
         return rs;
     }
     
-    public ResultSet getResourcesProjects(int projId) throws Exception
+    public ResultSet getResourcesTasks(int taskId) throws Exception
     {
-        sql = "SELECT resource.*,effort.* FROM resource JOIN effort ON resource.resource_id = effort.resource_id WHERE effort.project_id = ?";
+        sql = "SELECT resource.*,effort.* FROM resource JOIN effort ON resource.resource_id = effort.resource_id WHERE effort.task_id = ?";
+        System.out.println(sql);
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, taskId);
+        rs = ps.executeQuery();
+        
+        return rs;
+    } 
+    
+    public ResultSet getTasksProjects(int projId) throws Exception
+    {
+        sql = "SELECT * FROM task WHERE project_id=?";
         System.out.println(sql);
         ps = con.prepareStatement(sql);
         ps.setInt(1, projId);
@@ -237,9 +248,9 @@ public class RMSModel {
         return false;
     }
     
-    public boolean assignResource(int empId, int projId, int year, float jan, float feb, float mar, float apr, float may, float jun, float jul, float aug, float sep, float oct, float nov, float dece) throws Exception
+    public boolean assignResource(int empId,int taskId,int projId, int year, float jan, float feb, float mar, float apr, float may, float jun, float jul, float aug, float sep, float oct, float nov, float dece) throws Exception
     {
-        sql = "insert into effort (project_id,resource_id,year,jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dece) values ("+projId+","+empId+","+year+","+jan+","+feb+","+mar+","+apr+","+may+","+jun+","+jul+","+aug+","+sep+","+oct+","+nov+","+dece+")";
+        sql = "insert into effort (project_id,task_id,resource_id,year,jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dece) values ("+projId+","+taskId+","+empId+","+year+","+jan+","+feb+","+mar+","+apr+","+may+","+jun+","+jul+","+aug+","+sep+","+oct+","+nov+","+dece+")";
         System.out.println("-------------------"+sql+"--------------------");
         if(st.executeUpdate(sql) > 0)
             return true;
@@ -269,13 +280,13 @@ public class RMSModel {
         return false;
     }
     
-    public boolean deleteResource(int effortId,int empId) throws Exception
+    public boolean deleteResource(int taskId,int empId) throws Exception
     {
-        sql="DELETE FROM effort WHERE effort_id=? AND resource_id=?";
+        sql="DELETE FROM effort WHERE task_id=? AND resource_id=?";
         ps = con.prepareStatement(sql);
-        ps.setInt(1,effortId);
+        ps.setInt(1,taskId);
         ps.setInt(2,empId);
-        if(ps.executeUpdate()==1)
+        if(ps.executeUpdate()>0)
             return true;
         return false;
     }
@@ -334,5 +345,13 @@ public class RMSModel {
         rs = ps.executeQuery();
         
         return rs;
+    }
+    
+    public boolean addTask(String name,int projId,String start, String end) throws Exception{
+        sql = "insert into task (name,project_id,start_date,end_date) values ('"+name+"',"+projId+",'"+start+"','"+end+"')";
+        System.out.println(sql);
+        if(st.executeUpdate(sql) > 0)
+            return true;
+        return false;
     }
 }

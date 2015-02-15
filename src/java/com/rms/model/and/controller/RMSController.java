@@ -263,6 +263,48 @@ public class RMSController {
         return unPro;
     }
     
+    public List getTasks(int projid) throws Exception{
+        ResultSet rs = null,zac=null;
+        rs=dbModel.getTasksProjects(projid);
+        List<Task> tasks=new ArrayList<Task>();
+        while(rs.next()){
+            Task a = new Task();
+            a.setTaskId(rs.getInt("task_id"));
+            a.setProjectId(rs.getInt("project_id"));
+            a.setName(rs.getString("name"));
+            a.setStart(rs.getString("start_date"));
+            a.setEnd(rs.getString("end_date"));
+            zac = dbModel.getResourcesTasks(a.getTaskId());
+            while(zac.next()){
+                Resource resource = new Resource();
+                resource.setEmpId(zac.getInt("resource_id"));
+                resource.setEffortId(zac.getInt("effort_id"));
+                resource.setFname(zac.getString("first_name"));
+                resource.setMname(zac.getString("middle_name"));
+                resource.setLname(zac.getString("last_name"));
+                resource.setbUnit(zac.getString("business_unit"));
+                resource.setDateHired(zac.getString("date_hired"));
+                resource.setYear(zac.getInt("year"));
+                resource.setJan(zac.getFloat("jan"));
+                resource.setFeb(zac.getFloat("feb"));
+                resource.setMar(zac.getFloat("mar"));
+                resource.setApr(zac.getFloat("apr"));
+                resource.setMay(zac.getFloat("may"));
+                resource.setJun(zac.getFloat("jun"));
+                resource.setJul(zac.getFloat("jul"));
+                resource.setAug(zac.getFloat("aug"));
+                resource.setSep(zac.getFloat("sep"));
+                resource.setOct(zac.getFloat("oct"));
+                resource.setNov(zac.getFloat("nov"));
+                resource.setDece(zac.getFloat("dece"));
+                
+                a.resources.add(resource);
+            }
+            tasks.add(a);
+        }
+        return tasks;
+    }
+    
     @RequestMapping("/login")
     public ModelAndView login(HttpServletRequest request) {   
         ModelAndView mav = new ModelAndView("login", "title", "RMS - Log in"); 
@@ -373,10 +415,10 @@ public class RMSController {
         String name = project.getName();
         if(request.getSession().getAttribute("sessVar")!=null){
             mav.addObject("title","RMS - "+name);
-            mav.addObject("resources", getResourcesProjects(id));
-            mav.addObject("employees", getEmployees());
             mav.addObject("projectId", id);
             mav.addObject("projectName", name);
+            mav.addObject("employees", getEmployees());
+            mav.addObject("tasks",getTasks(id));
         }else{
             mav=new ModelAndView("redirect:/login"); 
             mav.addObject("title","RMS - Log in"); 
@@ -455,6 +497,16 @@ public class RMSController {
         return mav;
     }
     
+    @RequestMapping(value = "/addTask", method = RequestMethod.POST)
+    public ModelAndView addTask(@ModelAttribute("task")Task task, ModelMap model) throws Exception {
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
+        if(dbModel.addTask(task.getName(),task.getProjectId(),task.getStart(),task.getEnd()))
+        {
+            mav = new ModelAndView("redirect:/pSummary"); 
+        }
+        return mav;
+    }
+    
     @RequestMapping(value = "/delProject", method = RequestMethod.POST)
     public ModelAndView delProject(@ModelAttribute("project")Project project,ModelMap model) throws Exception{
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
@@ -515,7 +567,7 @@ public class RMSController {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Resource Failed");
         Boolean flag = true;
         for(int i=0;i<effort.getCount();i++){
-            if(!dbModel.assignResource(effort.getEmpId(),effort.getProjId(),effort.getYear().get(i),effort.getJan().get(i),effort.getFeb().get(i),effort.getMar().get(i),effort.getApr().get(i),effort.getMay().get(i),effort.getJun().get(i),effort.getJul().get(i),effort.getAug().get(i),effort.getSep().get(i),effort.getOct().get(i),effort.getNov().get(i),effort.getDece().get(i))){
+            if(!dbModel.assignResource(effort.getEmpId(),effort.getTaskId(),effort.getProjId(),effort.getYear().get(i),effort.getJan().get(i),effort.getFeb().get(i),effort.getMar().get(i),effort.getApr().get(i),effort.getMay().get(i),effort.getJun().get(i),effort.getJul().get(i),effort.getAug().get(i),effort.getSep().get(i),effort.getOct().get(i),effort.getNov().get(i),effort.getDece().get(i))){
                 flag=false;
             }
             if(flag==true){
@@ -537,11 +589,11 @@ public class RMSController {
     }
     
     @RequestMapping(value = "/deleteResource", method = RequestMethod.POST)
-    public ModelAndView deleteResource(@ModelAttribute("effort")Resource effort, ModelMap model) throws Exception
+    public ModelAndView deleteResource(@ModelAttribute("effort")Effort effort, ModelMap model) throws Exception
     {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Edit Resource Failed");
-        System.out.println(effort.getEffortId()+"--"+effort.getEmpId());
-        if(dbModel.deleteResource(effort.getEffortId(),effort.getEmpId())){
+        System.out.println(effort.getTaskId()+"--"+effort.getEmpId());
+        if(dbModel.deleteResource(effort.getTaskId(),effort.getEmpId())){
             mav = new ModelAndView("redirect:/pSummary");  
         }
         return mav;
@@ -564,38 +616,6 @@ public class RMSController {
         return emp;
     }
     
-    @RequestMapping(value = "/getResourcesProjects")
-    public List getResourcesProjects(int id) throws Exception
-    {
-        ResultSet rs = null;
-        rs=dbModel.getResourcesProjects(id);
-        List<Resource> resources=new ArrayList<>();
-        while(rs.next()){
-            Resource resource = new Resource();
-            resource.setEmpId(rs.getInt("resource_id"));
-            resource.setEffortId(rs.getInt("effort_id"));
-            resource.setFname(rs.getString("first_name"));
-            resource.setMname(rs.getString("middle_name"));
-            resource.setLname(rs.getString("last_name"));
-            resource.setbUnit(rs.getString("business_unit"));
-            resource.setDateHired(rs.getString("date_hired"));
-            resource.setYear(rs.getInt("year"));
-            resource.setJan(rs.getFloat("jan"));
-            resource.setFeb(rs.getFloat("feb"));
-            resource.setMar(rs.getFloat("mar"));
-            resource.setApr(rs.getFloat("apr"));
-            resource.setMay(rs.getFloat("may"));
-            resource.setJun(rs.getFloat("jun"));
-            resource.setJul(rs.getFloat("jul"));
-            resource.setAug(rs.getFloat("aug"));
-            resource.setSep(rs.getFloat("sep"));
-            resource.setOct(rs.getFloat("oct"));
-            resource.setNov(rs.getFloat("nov"));
-            resource.setDece(rs.getFloat("dece"));
-            resources.add(resource);
-        }
-        return resources;
-    }
     
     @RequestMapping(value = "/getSpecificEffortMonth")
     public @ResponseBody String getSpecificEffortMonth(@RequestParam("year")int year,@RequestParam("noYears")int noYears,@RequestParam("resId")int resId, ModelMap model) throws Exception
