@@ -13,10 +13,20 @@ import java.util.List;
  */
 public class Effort {
     
-    private int projId,empId,count;
+    private int projId,empId,count,taskId;
     private List<Float> jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dece;
     private List<Integer> year;
 
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
+
+    
+    
     public int getProjId() {
         return projId;
     }

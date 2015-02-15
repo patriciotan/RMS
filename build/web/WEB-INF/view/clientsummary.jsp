@@ -14,18 +14,22 @@
             <thead>
                 <tr>
                     <th style="text-align: center">Name</th>
-                    <th style="text-align: center">Added By</th>
-                    <th style="text-align: center">Added Date</th>
+                    <th style="text-align: center">Project</th>
+                    <th style="text-align: center">Current Milestone</th>
+                    <th style="text-align: center">Resource Count</th>
+                    <th style="text-align: center">End Date</th>
+                    <th style="text-align: center">Status</th>
+                    <th style="text-align: center">View</th>
                 </tr>
             </thead>
             <tbody id="clientsTable">
-                <c:forEach items="${clients}" var="client">
+                <!--<c:forEach items="${clients}" var="client">
                 <tr>
                     <td class="clientName"><c:out value="${client.name}" /></td>
                     <td class="addedBy"><c:out value="${client.addedBy}" /></td>
                     <td class="addedDate"><c:out value="${client.addedDate}" /></td>
                 </tr>
-                </c:forEach>
+                </c:forEach>-->
             </tbody>
         </table>
     </div>
