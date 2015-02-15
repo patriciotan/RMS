@@ -22,6 +22,7 @@
                     <input type="text" class="taskId" value="${task.taskId}"/>
                     <div style="display:none;" class="content" >
                         <button type="button" class="btn btn-lg btn-primary assignOption pull-right" data-toggle="modal" data-target="#assign">Assign new resource</button>
+                        <br/><br/><br/>
                         <table class="resProjects" class="display">   
                             <thead>
                                 <tr>

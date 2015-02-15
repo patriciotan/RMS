@@ -24,13 +24,17 @@
                 </tr>
             </thead>
             <tbody id="clientsTable">
-                <!--<c:forEach items="${clients}" var="client">
+                <c:forEach items="${clients}" var="client">
                 <tr>
                     <td class="clientName"><c:out value="${client.name}" /></td>
-                    <td class="addedBy"><c:out value="${client.addedBy}" /></td>
-                    <td class="addedDate"><c:out value="${client.addedDate}" /></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
-                </c:forEach>-->
+                </c:forEach>
             </tbody>
         </table>
     </div>
