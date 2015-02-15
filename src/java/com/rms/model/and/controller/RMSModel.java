@@ -63,16 +63,16 @@ public class RMSModel {
         return rs;
     }
 
-    public boolean addOutlook(String name, String start, String end, String type, String status, String bUnit, int resNeeded, String reference) throws Exception {
-        sql = "insert into project (name,start_date,end_date,type,status,business_unit,resources_needed,reference) values ('"+name+"','"+start+"','"+end+"','"+type+"','"+status+"','"+bUnit+"','"+resNeeded+"','"+reference+"')";
+    public boolean addOutlook(String name, String start, String end, String type, String status, String bUnit, int resNeeded, String reference, String created_by, String created_date) throws Exception {
+        sql = "insert into project (name,start_date,end_date,type,status,business_unit,resources_needed,reference,created_by,created_date) values ('"+name+"','"+start+"','"+end+"','"+type+"','"+status+"','"+bUnit+"','"+resNeeded+"','"+reference+"','"+created_by+"','"+created_date+"')";
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;
         return false;
     }
 
-    public boolean addProject(String name, String start, String end, String type, String status, String bUnit, String reference) throws Exception{
-        sql = "insert into project (name,start_date,end_date,type,status,business_unit,reference) values ('"+name+"','"+start+"','"+end+"','"+type+"','"+status+"','"+bUnit+"','"+reference+"')";
+    public boolean addProject(String name, String start, String end, String type, String status, String bUnit, String reference, String created_by, String created_date) throws Exception {
+        sql = "insert into project (name,start_date,end_date,type,status,business_unit,reference) values ('"+name+"','"+start+"','"+end+"','"+type+"','"+status+"','"+bUnit+"','"+reference+"','"+created_by+"','"+created_date+"')";
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;

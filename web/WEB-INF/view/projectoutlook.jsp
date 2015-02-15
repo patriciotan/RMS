@@ -110,7 +110,7 @@
                                 <div style="text-align: right">
                                     <input value="Outlook" name="reference" hidden="hidden">
                                     <input class="btn btn-success" id="add-but" type="submit" value="Submit">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span style="color: white">Cancel</span></button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
                         </form>
@@ -139,11 +139,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Start Date</label>
-                                    <input class="form-control" type="date" id="field2" required="required" name="start" value="yyyy-mm-dd">
+                                    <input class="form-control" type="date" id="field2" required="required" name="start">
                                 </div>
                                 <div class="form-group">
                                     <label for="">End Date</label>
-                                    <input class="form-control" type="date" id="field3" required="required" name="end" value="yyyy-mm-dd">
+                                    <input class="form-control" type="date" id="field3" required="required" name="end">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Type</label>
@@ -183,7 +183,7 @@
                             <div class="panel-footer">
                                 <div style="text-align: right">
                                     <input class="btn btn-success" id="add-but" type="submit" value="Save">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span style="color: white">Cancel</span></button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
                         </form>
@@ -215,7 +215,7 @@
                                 <div style="text-align: right;">
                                     <input type="text" name="projectId" id="delProjId" hidden="hidden"/>
                                     <input class="btn btn-success" id="add-but" type="submit" value="Yes"/>&nbsp;
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span style="color: white">No</span></button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">No</button>
                                 </div>
                             </div>
                         </form>

@@ -99,7 +99,7 @@
                                     <input value="Ongoing" name="status" hidden="hidden">
                                     <input value="Summary" name="reference" hidden="hidden">
                                     <input class="btn btn-success" id="add-but" type="submit" value="Submit">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span style="color: white">Cancel</span></button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
                         </form>
@@ -119,8 +119,8 @@
                         <div class="panel-heading">
                             <b>Edit Project</b>
                         </div>
-                        <form id="edit" name="edit" action='<c:url value="editSummary"/>' method="post" modelAttribute="project">
-                            <input type="text" name="projectId" id="editProjId" hidden="hidden"/>
+                        <form id="edit" action='<c:url value="editProject"/>' method="post" modelAttribute="project">
+                            <input type="hidden" name="projectId" id="editProjId"/>
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Name</label>
@@ -128,11 +128,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Start Date</label>
-                                    <input class="form-control" type="date" id="field2" required="required" name="start" value="yyyy-mm-dd">
-                                </div> 
+                                    <input class="form-control" type="date" id="field2" required="required" name="start">
+                                </div>
                                 <div class="form-group">
                                     <label for="">End Date</label>
-                                    <input class="form-control" type="date" id="field3" required="required" name="end" value="yyyy-mm-dd">
+                                    <input class="form-control" type="date" id="field3" required="required" name="end">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Type</label>
@@ -156,7 +156,7 @@
                             <div class="panel-footer">
                                 <div style="text-align: right">
                                     <input class="btn btn-success" id="add-but" type="submit" value="Save">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span style="color: white">Cancel</span></button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
                         </form>
@@ -187,7 +187,7 @@
                             <div class="panel-footer">
                                 <div style="text-align: right;">
                                     <input class="btn btn-success" id="add-but" type="submit" value="Yes"/>&nbsp;
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span style="color: white">No</span></button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">No</button>
                                 </div>
                             </div>
                         </form>
@@ -207,7 +207,6 @@
                 $("#delProjId").val($(this).parent().siblings(".projId").val());
             });
            
-           
             $("#projTable").on("click",".editOption",function(){ 
                $("#editProjId").val($(this).parent().parent().parent().parent().siblings(".projId").val());
                $("#field1").val($(this).parent().siblings(".projectName").text());
@@ -216,8 +215,6 @@
                $("#field4").val($(this).parent().siblings(".projType").text());
                $("#field5").val($(this).parent().siblings(".bUnit").text()); 
             });
-           
-        
         
             $("#projTable").on("click","a.projectnamelink",function(){
                 $(this).parent().parent().find(".specificProject").submit();

@@ -5,9 +5,9 @@
         <div style="float: left; width: 30%; margin-left: 1.2%;">
             <h2>Resource Summary</h2>
         </div>
-        <div style="float: left; margin-left: 53.8%; margin-right: -10px; margin-top: 12px;">
-            <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#summary">Show head count</button>
-            <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#reminder">Show Underload/Overload Employees</button>
+        <div style="float: left; margin-left: 35.4%; margin-top: 18px;">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#summary">Show head count</button>
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#reminder">Show Underload/Overload Employees</button>
         </div>
     </div>
     <div id="resourceSummary" class="col-md-12">

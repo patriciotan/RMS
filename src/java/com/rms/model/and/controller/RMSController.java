@@ -11,8 +11,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 /**
@@ -256,6 +258,7 @@ public class RMSController {
         ModelAndView mav = new ModelAndView("dashboard"); 
         if(request.getSession().getAttribute("sessVar")!=null){
             mav.addObject("title","RMS - Dashboard");
+            mav.addObject("underload",getUnderload());
         }else{
             mav=new ModelAndView("redirect:/login"); 
         }
@@ -347,10 +350,17 @@ public class RMSController {
     }  
     
     @RequestMapping(value = "/addOutlook", method = RequestMethod.POST)
-    public ModelAndView addOutlook(@ModelAttribute("project")Project project, ModelMap model) throws Exception {
+    public ModelAndView addOutlook(@ModelAttribute("project")Project project, ModelMap model, HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
         
-        if(dbModel.addOutlook(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getResNeeded(),project.getReference()))
+        SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
+        Calendar c = Calendar.getInstance();
+        Date now = c.getTime();
+        
+        String created_by = (String) request.getSession().getAttribute("sessVar");
+        String created_date = sdf.format(now);
+        
+        if(dbModel.addOutlook(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getResNeeded(),project.getReference(),created_by,created_date))
         {
             mav = new ModelAndView("redirect:/outlook"); 
         }
@@ -358,10 +368,17 @@ public class RMSController {
     } 
     
     @RequestMapping(value = "/addProject", method = RequestMethod.POST)
-    public ModelAndView addProject(@ModelAttribute("project")Project project, ModelMap model) throws Exception {
+    public ModelAndView addProject(@ModelAttribute("project")Project project, ModelMap model, HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
         
-        if(dbModel.addProject(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getReference()))
+        SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
+        Calendar c = Calendar.getInstance();
+        Date now = c.getTime();
+        
+        String created_by = (String) request.getSession().getAttribute("sessVar");
+        String created_date = sdf.format(now);
+        
+        if(dbModel.addProject(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getReference(),created_by,created_date))
         {
             mav = new ModelAndView("redirect:/pSummary"); 
         }
@@ -402,7 +419,7 @@ public class RMSController {
     @RequestMapping(value = "/editSummary", method = RequestMethod.POST)
     public ModelAndView editSummary(@ModelAttribute("project")Project project, ModelMap model) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
-        System.out.println(project.getName()+"--"+project.getStart()+"--"+project.getEnd()+"--"+project.getType()+"--"+project.getbUnit()+"--"+project.getProjectId());
+        
         if(dbModel.editSummary(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getbUnit(),project.getProjectId()))
         {
             mav = new ModelAndView("redirect:/pSummary"); 

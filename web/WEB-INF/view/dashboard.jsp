@@ -7,34 +7,28 @@
     <div class="row">
         <div class="col-md-4 col-sm-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><a href="#" class="pull-right">View more</a> <h5><b>Under loaded resources for February</b></h5></div>
-                <div class="panel-body">
+                <div class="panel-heading"><a href="rSummary" class="pull-right">View more</a> <h5><b>Under loaded resources for February</b></h5></div>
+                <div class="panel-body" style="padding:0px">
                     <div>
                         <table class="table table-hover">
                             <thead>
                                 <th style="text-align: left">Resource Name</th>
-                                <th style="text-align: right">Max Effort</th>
+                                <th style="text-align: right">Total Effort</th>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td style="text-align: left">Employee Name</td>
-                                    <td style="text-align: right">0.3</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: left">Employee Name</td>
-                                    <td style="text-align: right">0.8</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: left">Employee Name</td>
-                                    <td style="text-align: right">0.1</td>
-                                </tr>
+                                <c:forEach end="2" items="${underload}" var="ul">
+                                    <tr>
+                                        <td style="text-align: left"><c:out value="${ul.fname} ${ul.lname}" /></td>
+                                        <td style="text-align: right"><c:out value="${ul.jan}" /></td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading"><a href="#" class="pull-right">View more</a> <h5><b>Unassigned resources for next month</b></h5></div>
+                <div class="panel-heading"><a href="rSummary" class="pull-right">View more</a> <h5><b>Unassigned resources for next month</b></h5></div>
                 <div class="panel-body">
                     <div>
                         <table class="table table-hover">
