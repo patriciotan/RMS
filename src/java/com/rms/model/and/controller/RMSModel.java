@@ -71,8 +71,8 @@ public class RMSModel {
         return false;
     }
 
-    public boolean addProject(String name, String start, String end, String type, String status, String bUnit, String reference) throws Exception{
-        sql = "insert into project (name,start_date,end_date,type,status,business_unit,reference) values ('"+name+"','"+start+"','"+end+"','"+type+"','"+status+"','"+bUnit+"','"+reference+"')";
+    public boolean addProject(String name,int client_id,String start, String end, String type, String status, String bUnit, String reference) throws Exception{
+        sql = "insert into project (name,client_id,start_date,end_date,type,status,business_unit,reference) values ('"+name+"',"+client_id+",'"+start+"','"+end+"','"+type+"','"+status+"','"+bUnit+"','"+reference+"')";
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;
@@ -323,6 +323,14 @@ public class RMSModel {
     
     public ResultSet getClient() throws Exception{
         sql = "select * from client";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
+    
+    public ResultSet getSpecificClient(int id) throws Exception{
+        sql = "select * from client where client_id="+id;
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
         

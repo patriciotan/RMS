@@ -13,6 +13,15 @@ package com.rms.model.and.controller;
 public class Client {
     
     private String name,addedDate,addedBy;
+    private int clientId;
+
+    public int getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
+    }
 
     public String getName() {
         return name;

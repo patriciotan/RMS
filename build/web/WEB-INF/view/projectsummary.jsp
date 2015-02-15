@@ -17,6 +17,7 @@
             <thead>
                 <tr>
                     <th style="text-align: center">Name</th>
+                    <th style="text-align: center">Client Name</th>
                     <th style="text-align: center">Start Date</th>
                     <th style="text-align: center">End Date</th>
                     <th style="text-align: center">Type</th>
@@ -35,6 +36,7 @@
                         <input type="hidden" name="end" value="${project.end}"/>
                         <td class="projectName"><a class="projectnamelink" href="#"><c:out value="${project.name}" /></a></td>
                     </form>
+                    <td class="clientN"><c:out value="${project.clientName}" /></td>
                     <td class="startDate"><c:out value="${project.start}" /></td>
                     <td class="endDate"><c:out value="${project.end}" /></td>
                     <td class="projType"><c:out value="${project.type}" /></td>
@@ -66,6 +68,15 @@
                                 <div class="form-group">
                                     <label for="">Name</label>
                                     <input class="form-control" autocomplete="off" required="required"  type="text" name="name" size="20">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Client Name</label>
+                                    <select class="form-control" name="clientId" required="required" >
+                                        <option disabled="true" value="default" selected default></option>
+                                        <c:forEach items="${clients}" var="client">
+                                            <option value="${client.clientId}"><c:out value="${client.name}" /></option>
+                                        </c:forEach>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Start Date</label>

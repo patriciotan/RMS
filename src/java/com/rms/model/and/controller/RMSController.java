@@ -42,12 +42,15 @@ public class RMSController {
         return projects;
     }  
     public List getSummary() throws Exception {  
-        ResultSet rs = dbModel.getSummary();
+        ResultSet rs = dbModel.getSummary(),name=null;
         List<Project> projects=new ArrayList<>();
         while(rs.next()){
             Project project = new Project();
             project.setProjectId(rs.getInt("project_id"));
             project.setName(rs.getString("name"));
+            name=dbModel.getSpecificClient(rs.getInt("client_id"));
+            name.next();
+            project.setClientName(name.getString("name"));
             project.setStart(rs.getString("start_date"));
             project.setEnd(rs.getString("end_date"));
             project.setType(rs.getString("type"));
@@ -213,6 +216,7 @@ public class RMSController {
         List<Client> clients=new ArrayList<>();
         while(rs.next()){
             Client c = new Client();
+            c.setClientId(rs.getInt("client_id"));
             c.setName(rs.getString("name"));
             c.setAddedBy(rs.getString("added_by"));
             c.setAddedDate(rs.getString("added_date"));
@@ -312,6 +316,7 @@ public class RMSController {
             mav.addObject("title","RMS - Project Summary");
             mav.addObject("projects", getSummary());
             mav.addObject("employees", getEmployees());
+            mav.addObject("clients",getCSummary());
         }else{
             mav=new ModelAndView("redirect:/login"); 
         }
@@ -386,7 +391,7 @@ public class RMSController {
     public ModelAndView addProject(@ModelAttribute("project")Project project, ModelMap model) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
         
-        if(dbModel.addProject(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getReference()))
+        if(dbModel.addProject(project.getName(),project.getClientId(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getReference()))
         {
             mav = new ModelAndView("redirect:/pSummary"); 
         }
