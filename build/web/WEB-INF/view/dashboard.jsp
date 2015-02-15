@@ -8,7 +8,7 @@
         <div class="col-md-4 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading"><a href="rSummary" class="pull-right">View more</a> <h5><b>Under loaded resources for February</b></h5></div>
-                <div class="panel-body" style="padding:0px">
+                <div class="panel-body">
                     <div>
                         <table class="table table-hover">
                             <thead>
@@ -16,39 +16,12 @@
                                 <th style="text-align: right">Total Effort</th>
                             </thead>
                             <tbody>
-                                <c:forEach end="2" items="${underload}" var="ul">
+                                <c:forEach items="${underload}" var="ul">
                                     <tr>
                                         <td style="text-align: left"><c:out value="${ul.fname} ${ul.lname}" /></td>
                                         <td style="text-align: right"><c:out value="${ul.jan}" /></td>
                                     </tr>
                                 </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading"><a href="rSummary" class="pull-right">View more</a> <h5><b>Unassigned resources for next month</b></h5></div>
-                <div class="panel-body">
-                    <div>
-                        <table class="table table-hover">
-                            <thead>
-                                <th style="text-align: left">Resource Name</th>
-                                <th style="text-align: right">End Date</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="text-align: left">Employee Name</td>
-                                    <td style="text-align: right">yyyy/mm/dd</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: left">Employee Name</td>
-                                    <td style="text-align: right">yyyy/mm/dd</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: left">Employee Name</td>
-                                    <td style="text-align: right">yyyy/mm/dd</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -74,7 +47,7 @@
                 <br/>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading"><h5><b>Latest clients added</b></h5></div>
+                <div class="panel-heading"><a href="cSummary" class="pull-right">View more</a> <h5><b>Latest clients added</b></h5></div>
                 <div class="panel-body">
                     <div>
                         <table class="table table-hover">
@@ -83,18 +56,12 @@
                                 <th style="text-align: right">Date Added</th>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td style="text-align: left">Client Name</td>
-                                    <td style="text-align: right">yyyy/mm/dd</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: left">Client Name</td>
-                                    <td style="text-align: right">yyyy/mm/dd</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: left">Client Name</td>
-                                    <td style="text-align: right">yyyy/mm/dd</td>
-                                </tr>
+                                <c:forEach end="2" items="${clients}" var="client">
+                                    <tr>
+                                        <td style="text-align: left">${client.name}</td>
+                                        <td style="text-align: right">${client.addedDate}</td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </div>
@@ -104,7 +71,7 @@
 
         <div class="col-md-4 col-sm-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><h5><b>Latest projects added</b></h5></div>
+                <div class="panel-heading"><a href="pSummary" class="pull-right">View more</a> <h5><b>Latest projects added</b></h5></div>
                 <div class="panel-body">
                     <div>
                         <table class="table table-hover">
@@ -113,25 +80,19 @@
                                 <th style="text-align: right">Date Added</th>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td style="text-align: left">Project Name</td>
-                                    <td style="text-align: right">yyyy/mm/dd</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: left">Project Name</td>
-                                    <td style="text-align: right">yyyy/mm/dd</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: left">Project Name</td>
-                                    <td style="text-align: right">yyyy/mm/dd</td>
-                                </tr>
+                                <c:forEach end="2" items="${projects}" var="project">
+                                    <tr>
+                                        <td style="text-align: left">${project.name}</td>
+                                        <td style="text-align: right">${project.addedDate}</td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading"><a href="#" class="pull-right">View more</a> <h5><b>Unassigned projects for next month</b></h5></div>
+                <div class="panel-heading"><a href="pSummary" class="pull-right">View more</a> <h5><b>Projects ending this month</b></h5></div>
                 <div class="panel-body">
                     <div>
                         <table class="table table-hover">
@@ -140,18 +101,12 @@
                                 <th style="text-align: right">End Date</th>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td style="text-align: left">Project Name</td>
-                                    <td style="text-align: right">yyyy/mm/dd</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: left">Project Name</td>
-                                    <td style="text-align: right">yyyy/mm/dd</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: left">Project Name</td>
-                                    <td style="text-align: right">yyyy/mm/dd</td>
-                                </tr>
+                                <c:forEach end="2" items="${unPro}" var="up">
+                                    <tr>
+                                        <td style="text-align: left">${up.name}</td>
+                                        <td style="text-align: right">${up.end}</td>
+                                    </tr>
+                                </c:forEach>
                             </tbody>
                         </table>
                     </div>
@@ -168,18 +123,16 @@
 
     <script>
         $(document).ready(function(){
-        $('#redesign').click(function(){
-            if ($(this).hasClass('on')) {
-                $('#main .col-md-6').addClass('col-md-4').removeClass('col-md-6');
-                $(this).removeClass('on');
-            }
-            else {
-                $('#main .col-md-4').addClass('col-md-6').removeClass('col-md-4');
-                $(this).addClass('on');
-            }
-            });
 
             $("#0").attr("class","active");
+            
+            $('.table').DataTable({
+                "order": [[ 1, "desc" ]],
+                "scrollCollapse": true,
+                "paging":         false,
+                "bInfo":          false,
+                "bFilter":        false
+            });
 
         });
     </script>

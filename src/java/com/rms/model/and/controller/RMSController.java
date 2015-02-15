@@ -44,17 +44,22 @@ public class RMSController {
         return projects;
     }  
     public List getSummary() throws Exception {  
-        ResultSet rs = dbModel.getSummary();
+        ResultSet rs = dbModel.getSummary(),name=null;
         List<Project> projects=new ArrayList<>();
         while(rs.next()){
             Project project = new Project();
             project.setProjectId(rs.getInt("project_id"));
             project.setName(rs.getString("name"));
+            name=dbModel.getSpecificClient(rs.getInt("client_id"));
+            name.next();
+            project.setClientName(name.getString("name"));
             project.setStart(rs.getString("start_date"));
             project.setEnd(rs.getString("end_date"));
             project.setType(rs.getString("type"));
             project.setStatus(rs.getString("status"));
             project.setbUnit(rs.getString("business_unit"));
+            project.setAddedBy(rs.getString("added_by"));
+            project.setAddedDate(rs.getString("added_date"));
             projects.add(project);
         }
         return projects;
@@ -188,11 +193,28 @@ public class RMSController {
             resource.setMname(employees.get(i).getMname());
             resource.setLname(employees.get(i).getLname());
             resource.setJan((float) (Math.round(rs.getFloat(month)*100.0)/100.0));
-            if(resource.getJan()==1.0){
+            if(resource.getJan()>=1.0){
                 resources.add(resource);
             }
         }
         return resources;
+    }
+    
+    public List getNextUnres() throws Exception {
+        List<Project> resources = getResources(); 
+        List<Project> unRes = new ArrayList<>(); 
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        int month = c.get(Calendar.MONTH);
+        for(Project resource: resources){
+            Date dpmonth = sdf.parse(resource.getEnd());
+            c.setTime(dpmonth);
+            int pmonth = c.get(Calendar.MONTH);
+            if(pmonth == month) 
+                unRes.add(resource);
+        }
+        return unRes;
     }
     
     
@@ -210,6 +232,36 @@ public class RMSController {
         return res;
     }
     
+    public List getCSummary() throws Exception{
+        ResultSet rs = dbModel.getClient();
+        ArrayList<Client> clients=new ArrayList<>();
+        while(rs.next()){
+            Client c = new Client();
+            c.setClientId(rs.getInt("client_id"));
+            c.setName(rs.getString("name"));
+            c.setAddedBy(rs.getString("added_by"));
+            c.setAddedDate(rs.getString("added_date"));
+            clients.add(c);
+        }
+        return clients;
+    }
+    
+    public List getNextUnpro() throws Exception {
+        List<Project> projects = getSummary(); 
+        List<Project> unPro = new ArrayList<>(); 
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        int month = c.get(Calendar.MONTH);
+        for(Project project: projects){
+            Date dpmonth = sdf.parse(project.getEnd());
+            c.setTime(dpmonth);
+            int pmonth = c.get(Calendar.MONTH);
+            if(pmonth == month) 
+                unPro.add(project);
+        }
+        return unPro;
+    }
     
     @RequestMapping("/login")
     public ModelAndView login(HttpServletRequest request) {   
@@ -255,10 +307,15 @@ public class RMSController {
     
     @RequestMapping("/dashboard")
     public ModelAndView viewDashboard(HttpServletRequest request) throws Exception {  
-        ModelAndView mav = new ModelAndView("dashboard"); 
+        ModelAndView mav = new ModelAndView("dashboard");
+        List<Project> projects = getSummary(); 
+        
         if(request.getSession().getAttribute("sessVar")!=null){
             mav.addObject("title","RMS - Dashboard");
             mav.addObject("underload",getUnderload());
+            mav.addObject("clients",getCSummary());
+            mav.addObject("projects",projects);
+            mav.addObject("unPro",getNextUnpro());
         }else{
             mav=new ModelAndView("redirect:/login"); 
         }
@@ -302,6 +359,7 @@ public class RMSController {
             mav.addObject("title","RMS - Project Summary");
             mav.addObject("projects", getSummary());
             mav.addObject("employees", getEmployees());
+            mav.addObject("clients",getCSummary());
         }else{
             mav=new ModelAndView("redirect:/login"); 
         }
@@ -343,6 +401,18 @@ public class RMSController {
             mav.addObject("month",month);
             mav.addObject("underload",getUnderload());
             mav.addObject("overload",getOverload());
+        }else{
+            mav=new ModelAndView("redirect:/login"); 
+        }
+        return mav;
+    }  
+    
+    @RequestMapping("/cSummary")
+    public ModelAndView viewCSummary(HttpServletRequest request) throws Exception { 
+        ModelAndView mav = new ModelAndView("clientsummary"); 
+        if(request.getSession().getAttribute("sessVar")!=null){
+            mav.addObject("title","RMS - Client Summary");
+            mav.addObject("clients", getCSummary());
         }else{
             mav=new ModelAndView("redirect:/login"); 
         }
@@ -416,7 +486,7 @@ public class RMSController {
         return mav;
     } 
     
-    @RequestMapping(value = "/editSummary", method = RequestMethod.POST)
+    @RequestMapping(value = "/editProjSumm", method = RequestMethod.POST)
     public ModelAndView editSummary(@ModelAttribute("project")Project project, ModelMap model) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
         
@@ -426,6 +496,18 @@ public class RMSController {
         }
         return mav;
     } 
+    
+    @RequestMapping(value = "/addClient", method = RequestMethod.POST)
+    public ModelAndView addClient(@ModelAttribute("client")Client client, ModelMap model) throws Exception {
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        if(dbModel.addClient(client.getName(),client.getAddedBy(),sdf.format(Calendar.getInstance().getTime())))
+        {
+            mav = new ModelAndView("redirect:/cSummary"); 
+        }
+        return mav;
+    } 
+    
     
     @RequestMapping(value = "/assignResource", method = RequestMethod.POST)
     public ModelAndView assignResource(@ModelAttribute("effort")Effort effort, ModelMap model) throws Exception

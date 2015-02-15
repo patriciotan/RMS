@@ -14,10 +14,42 @@ import java.sql.Date;
  */
 public class Project {
     
-    private String name,type,status,bUnit,start,end,reference;
-    private int resNeeded,projectId,year;
+    private String name,type,status,bUnit,start,end,reference,clientName,addedDate,addedBy;
+    private int resNeeded,projectId,year,clientId;
     private float jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dece;
 
+    public String getAddedBy() {
+        return addedBy;
+    }
+
+    public void setAddedBy(String addedBy) {
+        this.addedBy = addedBy;
+    }
+
+    public String getAddedDate() {
+        return addedDate;
+    }
+
+    public void setAddedDate(String addedDate) {
+        this.addedDate = addedDate;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+    
+    public int getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
+    }
+    
     public float getApr() {
         return apr;
     }

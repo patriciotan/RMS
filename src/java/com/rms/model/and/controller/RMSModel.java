@@ -73,6 +73,13 @@ public class RMSModel {
 
     public boolean addProject(String name, String start, String end, String type, String status, String bUnit, String reference, String created_by, String created_date) throws Exception {
         sql = "insert into project (name,start_date,end_date,type,status,business_unit,reference) values ('"+name+"','"+start+"','"+end+"','"+type+"','"+status+"','"+bUnit+"','"+reference+"','"+created_by+"','"+created_date+"')";
+        if(st.executeUpdate(sql) > 0)
+            return true;
+        return false;
+    }
+    
+    public boolean addClient(String name, String addedBy, String addedDate) throws Exception {
+        sql = "insert into client (name,added_by,added_date) values ('"+name+"','"+addedBy+"','"+addedDate+"')";
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;
@@ -81,7 +88,7 @@ public class RMSModel {
     
     public ResultSet getOutlook() throws Exception
     {
-        sql = "select * from project where reference=? and status!=?";
+        sql = "select * from project where reference=? and status!=? order by added_date desc";
         ps = con.prepareStatement(sql);
         ps.setString(1, "Outlook");
         ps.setString(2, "Dropped");
@@ -92,7 +99,7 @@ public class RMSModel {
     
     public ResultSet getSummary() throws Exception
     {
-        sql = "select * from project where reference=? and status!=?";
+        sql = "select * from project where reference=? and status!=? order by added_date desc";
         ps = con.prepareStatement(sql);
         ps.setString(1, "Summary");
         ps.setString(2, "Closed");
@@ -123,7 +130,7 @@ public class RMSModel {
     
     public ResultSet getMyProjects(int resId) throws Exception
     {
-        sql = "SELECT project.*,effort.* FROM project JOIN effort ON project.project_id = effort.project_id WHERE effort.resource_id=? and reference=? and status!=?";
+        sql = "SELECT project.*,effort.* FROM project JOIN effort ON project.project_id = effort.project_id WHERE effort.resource_id=? and reference=? and status!=? order by project.added_date desc";
         System.out.println(sql);
         ps = con.prepareStatement(sql);
         ps.setInt(1, resId);
@@ -180,7 +187,7 @@ public class RMSModel {
         
     public ResultSet getEmployeeProjects(int resId) throws Exception
     {
-        sql="SELECT DISTINCT project_id FROM `effort` WHERE resource_id=?";
+        sql="SELECT DISTINCT project_id FROM `effort` WHERE resource_id=? order by added_date desc";
         ps = con.prepareStatement(sql);
         ps.setInt(1, resId);
         rs = ps.executeQuery();
@@ -311,5 +318,21 @@ public class RMSModel {
         rs = ps.executeQuery();
         rs.next();
         return rs.getInt("ph");
+    }
+    
+    public ResultSet getClient() throws Exception{
+        sql = "select * from client order by added_date desc";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
+    
+    public ResultSet getSpecificClient(int id) throws Exception{
+        sql = "select * from client where client_id="+id;
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        
+        return rs;
     }
 }
