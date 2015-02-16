@@ -368,9 +368,20 @@ public class RMSModel {
         return x;
     }
     
+    //for PM's
     public ResultSet getClientProject() throws Exception{
         sql = "select client.name as cname,project.* from client JOIN project ON client.client_id=project.client_id";
         ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
+    
+    //for CLIENT
+    public ResultSet getClientProject(int client_id) throws Exception{
+        sql = "select client.name as cname,project.* from client JOIN project ON client.client_id=project.client_id WHERE client.client_id=?";
+        ps = con.prepareStatement(sql);
+        ps.setInt(1,client_id);
         rs = ps.executeQuery();
         
         return rs;
