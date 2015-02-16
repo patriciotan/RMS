@@ -81,8 +81,15 @@ public class RMSModel {
     public boolean addClient(String name, int addedBy, String addedDate) throws Exception {
         sql = "insert into client (name,added_by,added_date) values ('"+name+"',"+addedBy+",'"+addedDate+"')";
         System.out.println(sql);
-        if(st.executeUpdate(sql) > 0)
-            return true;
+        if(st.executeUpdate(sql)>0){
+            rs= st.executeQuery("SELECT LAST_INSERT_ID() as last");
+            rs.next();
+            System.out.println(rs.getInt("last"));
+            sql = "insert into user (client_id,username,password,type) VALUES ("+rs.getInt("last")+",'"+name+"','user','Client')";
+            if(st.executeUpdate(sql)>0)
+                return true;
+            return false;
+        }
         return false;
     }
     
@@ -235,7 +242,7 @@ public class RMSModel {
     }
     
     public boolean delProject(int projectId)throws Exception{
-        sql="UPDATE project SET status='Dropped' WHERE project_id="+projectId;
+        sql="DELETE FROM project WHERE project_id="+projectId;
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;

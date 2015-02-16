@@ -50,9 +50,6 @@ public class RMSController {
             Project project = new Project();
             project.setProjectId(rs.getInt("project_id"));
             project.setName(rs.getString("name"));
-            name=dbModel.getSpecificClient(rs.getInt("client_id"));
-            name.next();
-            project.setClientName(name.getString("name"));
             project.setClientId(rs.getInt("client_id"));
             project.setStart(rs.getString("start_date"));
             project.setEnd(rs.getString("end_date"));
@@ -349,7 +346,6 @@ public class RMSController {
             request.getSession(true).setAttribute("sessVar",user.getUsername());
             request.getSession(true).setAttribute("userType",rs.getString("type"));
             request.getSession(true).setAttribute("userId",rs.getInt("user_id"));
-            request.getSession(true).setAttribute("resId",rs.getInt("resource_id"));
             if(rs.getString("type").equals("Manager")){
                 mav = new ModelAndView("redirect:/dashboard"); 
             }
@@ -358,6 +354,7 @@ public class RMSController {
                 mav = new ModelAndView("redirect:/employeeView"); 
             }
             else if(rs.getString("type").equals("Client")){
+                request.getSession(true).setAttribute("resId",rs.getInt("client_id"));
                 mav = new ModelAndView("redirect:/clientView"); 
             }
         }

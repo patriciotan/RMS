@@ -65,11 +65,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Start Date</label>
-                                    <input class="form-control" type="date"  required="required" name="start">
+                                    <input class="form-control" type="date"  required="required" name="start" id="start1">
                                 </div>
                                 <div class="form-group">
                                     <label for="">End Date</label>
-                                    <input class="form-control" type="date"  required="required" name="end">
+                                    <input class="form-control" type="date"  required="required" name="end" id="end1">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Type</label>
@@ -109,7 +109,7 @@
                             <div class="panel-footer">
                                 <div style="text-align: right">
                                     <input value="Outlook" name="reference" hidden="hidden">
-                                    <input class="btn btn-success" id="add-but" type="submit" value="Submit">
+                                    <input class="btn btn-success" id="add-but1" type="submit" value="Submit">
                                     <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
@@ -182,7 +182,7 @@
                             </div>
                             <div class="panel-footer">
                                 <div style="text-align: right">
-                                    <input class="btn btn-success" id="add-but" type="submit" value="Save">
+                                    <input class="btn btn-success" id="add-but2" type="submit" value="Save">
                                     <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
@@ -229,10 +229,24 @@
     </body>
     <script>
         $(document).ready(function(){
-           $("#projects").on("click",".deleteButton",function(){
-              $("#delProjId").val($(this).parent().siblings(".projId").val()); 
-                $("#delName").text($(this).parent().siblings(".projectName").text());
-           });
+            $("#projects").on("click",".deleteButton",function(){
+               $("#delProjId").val($(this).parent().siblings(".projId").val()); 
+                 $("#delName").text($(this).parent().siblings(".projectName").text());
+            });
+           
+            $("#add-but1").click(function(event){
+                 if($("#start1").val()>$("#end1").val()){
+                     alert("End date should be greater than start date.");
+                     event.preventDefault();
+                 }
+            });
+            
+            $("#add-but2").click(function(event){
+                 if($("#field2").val()>$("#field3").val()){
+                     alert("End date should be greater than start date.");
+                     event.preventDefault();
+                 }
+            });
            
            $("#projects").on("click",".editButton",function(){
               $("#editProjId").val($(this).parent().siblings(".projId").val()); 
