@@ -107,7 +107,7 @@
                                                 <tr><td style="text-align: right;">Japan</td><td id=""><code>${summary.jap}</code></td></tr>
                                                 <tr><td style="text-align: right;">Rest of the World</td><td><code>${summary.row}</code></td></tr>
                                                 <tr><td style="text-align: right;">Alliance</td><td><code>${summary.alli}</code></td></tr>
-                                                <tr><td style="font-weight: bold; text-align: right;">Unassigned</td><td><code>#</code></td></tr>
+                                                <tr><td style="font-weight: bold; text-align: right;">Unassigned</td><td><code>${summary.unassigned}</code></td></tr>
                                             </tbody>
                                         </table>
                                     </div>

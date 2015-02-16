@@ -60,9 +60,9 @@ public class RMSController {
             project.setAddedDate(rs.getString("added_date"));
             
             name=dbModel.getSpecificClient(rs.getInt("client_id"));
-            name.next();
-            project.setClientName(name.getString("name"));
-            
+            if(name.next()){
+                project.setClientName(name.getString("name"));
+            }
             projects.add(project);
         }
         return projects;
@@ -229,6 +229,7 @@ public class RMSController {
             res.setJap(dbModel.getTotalJapan());
             res.setPh(dbModel.getTotalPhilippines());
             res.setRow(dbModel.getTotalRow());
+            res.setUnassigned(dbModel.getNumberOfUnassigned());
         }catch(Exception e){
             e.printStackTrace();
         }
