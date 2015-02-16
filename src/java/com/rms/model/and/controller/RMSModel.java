@@ -216,7 +216,7 @@ public class RMSModel {
         
     public ResultSet getEmployeeProjects(int resId) throws Exception
     {
-        sql="SELECT DISTINCT project_id FROM `effort` WHERE resource_id=? order by added_date desc";
+        sql="SELECT DISTINCT project_id FROM `effort` WHERE resource_id=?";
         ps = con.prepareStatement(sql);
         ps.setInt(1, resId);
         rs = ps.executeQuery();
@@ -243,7 +243,7 @@ public class RMSModel {
     }
     
     public boolean delSummary(int projectId)throws Exception{
-        sql="UPDATE project SET status='Closed' WHERE project_id="+projectId;
+        sql="DELETE FROM project WHERE project_id="+projectId;
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;
@@ -349,8 +349,18 @@ public class RMSModel {
         return rs.getInt("ph");
     }
     
+    
+    
+    public ResultSet getClientProject() throws Exception{
+        sql = "select client.name as cname,project.* from client JOIN project ON client.client_id=project.client_id";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
+    
     public ResultSet getClient() throws Exception{
-        sql = "select * from client order by added_date desc";
+        sql = "select * FROM client ORDER BY added_date desc";
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
         
@@ -371,5 +381,46 @@ public class RMSModel {
         if(st.executeUpdate(sql) > 0)
             return true;
         return false;
+    }
+    
+    public boolean deleteTask(int projId,int taskId) throws Exception{
+        sql = "DELETE FROM task where task_id=?";
+        System.out.println(sql+taskId);
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, taskId);
+        ps.executeUpdate();
+        return deleteResourcesInTask(projId, taskId);
+    }
+    
+    public boolean deleteResourcesInTask(int projId,int taskId) throws Exception{
+        sql= "DELETE FROM effort where task_id=? AND project_id=?";
+        System.out.println(sql+taskId+"--"+projId);
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, taskId);
+        ps.setInt(2,projId);
+        if(ps.executeUpdate() > 0)
+            return true;
+        return false;
+    }
+    
+    public boolean editTask(int taskId, String name, String status) throws Exception{
+        sql = "UPDATE task SET name=?, status=? WHERE task_id=?";
+        System.out.println(sql+taskId);
+        ps = con.prepareStatement(sql);
+        ps.setString(1, name);
+        ps.setString(2, status);
+        ps.setInt(3, taskId);
+         if(ps.executeUpdate() > 0)
+            return true;
+        return false;
+    }
+    
+    public int getNumberOfResourcesProject(int projId) throws Exception{
+        sql = "SELECT COUNT(DISTINCT resource_id) as cnt FROM effort WHERE project_id=?";
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, projId);
+        rs = ps.executeQuery();
+        rs.next();
+        return rs.getInt("cnt");
     }
 }

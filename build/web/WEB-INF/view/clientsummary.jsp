@@ -14,8 +14,8 @@
         <table id="clientSummary" class="display">
             <thead>
                 <tr>
-                    <th style="text-align: center">Name</th>
-                    <th style="text-align: center">Project</th>
+                    <th style="text-align: center">Client Name</th>
+                    <th style="text-align: center">Project Name</th>
                     <th style="text-align: center">Current Milestone</th>
                     <th style="text-align: center">Resource Count</th>
                     <th style="text-align: center">End Date</th>
@@ -27,12 +27,12 @@
                 <c:forEach items="${clients}" var="client">
                 <tr>
                     <td class="clientName"><c:out value="${client.name}" /></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td><c:out value="${client.projectName}" /></td>
+                    <td><c:out value="${client.mileStone}" /></td>
+                    <td><c:out value="${client.resCount}" /></td>
+                    <td><c:out value="${client.end}" /></td>
+                    <td><c:out value="${client.projectStatus}" /></td>
+                    <td>VIEW ME</td>
                 </tr>
                 </c:forEach>
             </tbody>

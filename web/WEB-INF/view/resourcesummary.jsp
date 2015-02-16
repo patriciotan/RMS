@@ -69,7 +69,7 @@
                                             <tbody>
                                                 <tr><td><b>Business unit:<code id="resUnit"></code></b></td></tr>
                                                 <tr><td><b>Date hired:<code id="resHired"></code></b><td></tr>
-                                                <tr><td><b>Current projects:<br/><code id="currentProjects"></code></b></td></tr>
+                                                <tr><td><b>Projects Assigned To:<br/><code id="currentProjects"></code></b></td></tr>
                                             </tbody>
                                         </table>
                                     </div>

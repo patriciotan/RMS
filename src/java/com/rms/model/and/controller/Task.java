@@ -12,10 +12,18 @@ import java.util.List;
  * @author Irvin Edison
  */
 public class Task {
-    private String name,start,end;
+    private String name,start,end,status;
     private int taskId,projectId;
     public List<Resource> resources = new ArrayList<Resource>();
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
     public String getName() {
         return name;
     }

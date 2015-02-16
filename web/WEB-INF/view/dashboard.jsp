@@ -14,6 +14,15 @@
     </div>
     <div id="boards">
     <div class="row">
+        <div style="float: left; width: 30%; margin-left: 1%;">
+            <h2>Dashboard</h2>
+        </div>
+        <div style="float: left; margin-left: 58.4%; margin-top: 18px;">
+            <button id="btnToggle" type="button" class="btn btn-success">Change layout</button>
+        </div>
+    </div>
+    <div id="boards">
+    <div class="row">
         <div class="col-md-4 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading"><a href="rSummary" class="pull-right">View more</a> <h5><b>Under loaded resources for February</b></h5></div>

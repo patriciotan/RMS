@@ -134,6 +134,7 @@
                         </div>
                         <form id="edit" name="edit" action='<c:url value="editProjSumm"/>' method="post" modelAttribute="project">
                             <input type="text" name="projectId" id="editProjId" />
+                            <input type="text" name="clientId" value="${userId}">
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Name</label>
@@ -236,6 +237,21 @@
                $("#field3").val($(this).parent().siblings(".endDate").text());
                $("#field4").val($(this).parent().siblings(".projType").text());
                $("#field5").val($(this).parent().siblings(".bUnit").text()); 
+               $.ajax({
+                    url:'checkProjectTask.htm',
+                    type:'post',
+                    data:{'id':$(this).parent().siblings(".projId").val()},
+                    success:function(data,status){
+                        var x = data.toString();
+                        if(x=="1"){
+                            $("#field2").attr("readonly","true");
+                            $("#field3").attr("readonly","true");
+                        }else{
+                            $("#field2").removeAttr("readonly");
+                            $("#field3").removeAttr("readonly");
+                        }
+                    }
+                });
             });
         
             $("#projTable").on("click","a.projectnamelink",function(){

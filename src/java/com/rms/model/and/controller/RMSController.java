@@ -61,6 +61,11 @@ public class RMSController {
             project.setbUnit(rs.getString("business_unit"));
             project.setAddedBy(rs.getString("added_by"));
             project.setAddedDate(rs.getString("added_date"));
+            
+            name=dbModel.getSpecificClient(rs.getInt("client_id"));
+            name.next();
+            project.setClientName(name.getString("name"));
+            
             projects.add(project);
         }
         return projects;
@@ -234,6 +239,22 @@ public class RMSController {
     }
     
     public List getCSummary() throws Exception{
+        ResultSet rs = dbModel.getClientProject();
+        ArrayList<Client> clients=new ArrayList<>();
+        while(rs.next()){
+            Client c = new Client();
+            c.setName(rs.getString("cname"));
+            c.setProjectName(rs.getString("name"));
+            c.setMileStone(rs.getString("milestone"));
+            c.setResCount(dbModel.getNumberOfResourcesProject(rs.getInt("project_id")));
+            c.setEnd(rs.getString("end_date"));
+            c.setProjectStatus(rs.getString("status"));
+            clients.add(c);
+        }
+        return clients;
+    }
+    
+    public List getClient() throws Exception{
         ResultSet rs = dbModel.getClient();
         ArrayList<Client> clients=new ArrayList<>();
         while(rs.next()){
@@ -271,6 +292,7 @@ public class RMSController {
         while(rs.next()){
             Task a = new Task();
             a.setTaskId(rs.getInt("task_id"));
+            a.setStatus(rs.getString("status"));
             a.setProjectId(rs.getInt("project_id"));
             a.setName(rs.getString("name"));
             a.setStart(rs.getString("start_date"));
@@ -331,6 +353,7 @@ public class RMSController {
                 mav = new ModelAndView("redirect:/dashboard"); 
             }
             else if(rs.getString("type").equals("Employee")){
+                request.getSession(true).setAttribute("resId",rs.getInt("resource_id"));
                 mav = new ModelAndView("redirect:/employeeView"); 
             }
             else if(rs.getString("type").equals("Client")){
@@ -356,7 +379,7 @@ public class RMSController {
         if(request.getSession().getAttribute("sessVar")!=null){
             mav.addObject("title","RMS - Dashboard");
             mav.addObject("underload",getUnderload());
-            mav.addObject("clients",getCSummary());
+            mav.addObject("clients",getClient());
             mav.addObject("projects",projects);
             mav.addObject("unPro",getNextUnpro());
         }else{
@@ -402,7 +425,7 @@ public class RMSController {
             mav.addObject("title","RMS - Project Summary");
             mav.addObject("projects", getSummary());
             mav.addObject("employees", getEmployees());
-            mav.addObject("clients",getCSummary());
+            mav.addObject("clients",getClient());
         }else{
             mav=new ModelAndView("redirect:/login"); 
         }
@@ -508,6 +531,27 @@ public class RMSController {
         return mav;
     }
     
+    @RequestMapping(value = "/deleteTask", method = RequestMethod.POST)
+    public ModelAndView deleteTask(@ModelAttribute("effort")Effort effort, ModelMap model) throws Exception {
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
+        System.out.println("Im here hahaha"+effort.getProjId()+"--"+effort.getTaskId());
+        if(dbModel.deleteTask(effort.getProjId(),effort.getTaskId()))
+        {
+            mav = new ModelAndView("redirect:/pSummary"); 
+        }
+        return mav;
+    }
+    
+    @RequestMapping(value = "/editTask", method = RequestMethod.POST)
+    public ModelAndView editTask(@ModelAttribute("task")Task task, ModelMap model) throws Exception {
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
+        if(dbModel.editTask(task.getTaskId(), task.getName(), task.getStatus()))
+        {
+            mav = new ModelAndView("redirect:/pSummary"); 
+        }
+        return mav;
+    }
+    
     @RequestMapping(value = "/delProject", method = RequestMethod.POST)
     public ModelAndView delProject(@ModelAttribute("project")Project project,ModelMap model) throws Exception{
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
@@ -522,7 +566,11 @@ public class RMSController {
     public ModelAndView delSummary(@ModelAttribute("project")Project project,ModelMap model) throws Exception{
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
         
+        ResultSet rs = dbModel.getTasksProjects(project.getProjectId());
         if(dbModel.delSummary(project.getProjectId())){
+            while(rs.next()){
+                dbModel.deleteTask(project.getProjectId(),rs.getInt("task_id"));
+            }
             mav = new ModelAndView("redirect:/pSummary"); 
         }
         return mav;
@@ -546,7 +594,6 @@ public class RMSController {
     @RequestMapping(value = "/editProjSumm", method = RequestMethod.POST)
     public ModelAndView editSummary(@ModelAttribute("project")Project project, ModelMap model, HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         Date now = c.getTime();
         int updated_by = (int) request.getSession().getAttribute("userId");
@@ -668,6 +715,7 @@ public class RMSController {
                 proj=dbModel.getProjectName(ds.getInt("project_id"));
                 emp+="%"+proj;
             }
+            System.out.println(emp);
         }
         return emp;
     }
@@ -701,6 +749,18 @@ public class RMSController {
                 rs.getFloat("sep")+"%"+rs.getFloat("oct")+"%"+rs.getFloat("nov")+"%"+rs.getFloat("dece");
         }
         return result;
+    }
+    
+    @RequestMapping(value = "/checkProjectTask")
+    public @ResponseBody String checkProjectTask(@RequestParam("id")int id, ModelMap model) throws Exception
+    {
+        ResultSet rs =null;
+        String emp="0";
+        rs = dbModel.getTasksProjects(id);
+        if(rs.next()){
+            emp="1";
+        }
+        return emp;
     }
     
 }
