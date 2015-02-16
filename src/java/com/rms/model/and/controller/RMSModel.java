@@ -367,11 +367,32 @@ public class RMSModel {
         return rs.getInt("ph");
     }
     
+    public int getNumberOfUnassigned()throws Exception{
+        int x=0,a=getTotalResources(),b;
+        sql = "SELECT COUNT(resource.resource_id)as nanan FROM resource JOIN effort ON resource.resource_id=effort.resource_id";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        rs.next();
+        b=rs.getInt("nanan");
+        x=a-b;
+        System.out.println("UNASSIGNED IS "+x);
+        return x;
+    }
     
-    
+    //for PM's
     public ResultSet getClientProject() throws Exception{
         sql = "select client.name as cname,project.* from client JOIN project ON client.client_id=project.client_id";
         ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
+    
+    //for CLIENT
+    public ResultSet getClientProject(int client_id) throws Exception{
+        sql = "select client.name as cname,project.* from client JOIN project ON client.client_id=project.client_id WHERE client.client_id=?";
+        ps = con.prepareStatement(sql);
+        ps.setInt(1,client_id);
         rs = ps.executeQuery();
         
         return rs;
@@ -406,19 +427,20 @@ public class RMSModel {
         System.out.println(sql+taskId);
         ps = con.prepareStatement(sql);
         ps.setInt(1, taskId);
-        ps.executeUpdate();
-        return deleteResourcesInTask(projId, taskId);
+        if(ps.executeUpdate()>0){
+            deleteResourcesInTask(projId, taskId);
+            return true;
+        }
+        return false;
     }
     
-    public boolean deleteResourcesInTask(int projId,int taskId) throws Exception{
+    public void deleteResourcesInTask(int projId,int taskId) throws Exception{
         sql= "DELETE FROM effort where task_id=? AND project_id=?";
         System.out.println(sql+taskId+"--"+projId);
         ps = con.prepareStatement(sql);
         ps.setInt(1, taskId);
         ps.setInt(2,projId);
-        if(ps.executeUpdate() > 0)
-            return true;
-        return false;
+        ps.executeUpdate();
     }
     
     public boolean editTask(int taskId, String name, String status) throws Exception{
@@ -441,4 +463,6 @@ public class RMSModel {
         rs.next();
         return rs.getInt("cnt");
     }
+    
+    
 }

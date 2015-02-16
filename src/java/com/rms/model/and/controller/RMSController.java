@@ -60,9 +60,9 @@ public class RMSController {
             project.setAddedDate(rs.getString("added_date"));
             
             name=dbModel.getSpecificClient(rs.getInt("client_id"));
-            name.next();
-            project.setClientName(name.getString("name"));
-            
+            if(name.next()){
+                project.setClientName(name.getString("name"));
+            }
             projects.add(project);
         }
         return projects;
@@ -229,14 +229,33 @@ public class RMSController {
             res.setJap(dbModel.getTotalJapan());
             res.setPh(dbModel.getTotalPhilippines());
             res.setRow(dbModel.getTotalRow());
+            res.setUnassigned(dbModel.getNumberOfUnassigned());
         }catch(Exception e){
             e.printStackTrace();
         }
         return res;
     }
     
+    //for the PM view
     public List getCSummary() throws Exception{
         ResultSet rs = dbModel.getClientProject();
+        ArrayList<Client> clients=new ArrayList<>();
+        while(rs.next()){
+            Client c = new Client();
+            c.setName(rs.getString("cname"));
+            c.setProjectName(rs.getString("name"));
+            c.setMileStone(rs.getString("milestone"));
+            c.setResCount(dbModel.getNumberOfResourcesProject(rs.getInt("project_id")));
+            c.setEnd(rs.getString("end_date"));
+            c.setProjectStatus(rs.getString("status"));
+            clients.add(c);
+        }
+        return clients;
+    }
+    
+    //for the CLIENT view
+    public List getClientView(int clientId) throws Exception{
+        ResultSet rs = dbModel.getClientProject(clientId);
         ArrayList<Client> clients=new ArrayList<>();
         while(rs.next()){
             Client c = new Client();
@@ -327,9 +346,21 @@ public class RMSController {
     
     @RequestMapping("/login")
     public ModelAndView login(HttpServletRequest request) {   
+<<<<<<< HEAD
         ModelAndView mav = new ModelAndView("login", "title", "RMS - Log in");  
         if(request.getSession().getAttribute("sessVar")!=null){
             mav = new ModelAndView("redirect:/dashboard");
+=======
+        ModelAndView mav = new ModelAndView("login", "title", "RMS - Log in"); 
+        if(request.getSession().getAttribute("userType")!=null){
+            if(request.getSession().getAttribute("userType").equals("Manager")){
+                mav = new ModelAndView("redirect:/dashboard");
+            }else if(request.getSession().getAttribute("userType").equals("Employee")){
+                mav = new ModelAndView("redirect:/employeeView");
+            }else if(request.getSession().getAttribute("userType").equals("Client")){
+                mav = new ModelAndView("redirect:/clientView");
+            }
+>>>>>>> 94e9ccbbb6b705324617088876f053a6785b5ae7
         }
         return mav;
     }  
@@ -354,7 +385,7 @@ public class RMSController {
                 mav = new ModelAndView("redirect:/employeeView"); 
             }
             else if(rs.getString("type").equals("Client")){
-                request.getSession(true).setAttribute("resId",rs.getInt("client_id"));
+                request.getSession(true).setAttribute("clientId",rs.getInt("client_id"));
                 mav = new ModelAndView("redirect:/clientView"); 
             }
         }
@@ -373,12 +404,24 @@ public class RMSController {
         return mav;
     }
     
+    @RequestMapping("/clientView")
+    public ModelAndView viewClient(HttpServletRequest request) throws Exception {  
+        ModelAndView mav = new ModelAndView("clientview"); 
+        if(request.getSession().getAttribute("userType")!=null && request.getSession().getAttribute("userType").equals("Client")){
+            mav.addObject("title","RMS - Client Summary");
+            mav.addObject("clients", getClientView((int)request.getSession().getAttribute("clientId")));
+        }else{
+            mav=new ModelAndView("redirect:/login"); 
+        }
+        return mav;
+    } 
+    
     @RequestMapping("/dashboard")
     public ModelAndView viewDashboard(HttpServletRequest request) throws Exception {  
         ModelAndView mav = new ModelAndView("dashboard");
         List<Project> projects = getSummary(); 
         
-        if(request.getSession().getAttribute("sessVar")!=null){
+        if(request.getSession().getAttribute("userType")!=null&&request.getSession().getAttribute("userType").equals("Manager")){
             mav.addObject("title","RMS - Dashboard");
             mav.addObject("underload",getUnderload());
             mav.addObject("clients",getClient());
@@ -393,7 +436,7 @@ public class RMSController {
     @RequestMapping("/outlook")
     public ModelAndView viewOutlook(HttpServletRequest request) throws Exception { 
         ModelAndView mav = new ModelAndView("projectoutlook"); 
-        if(request.getSession().getAttribute("sessVar")!=null){
+        if(request.getSession().getAttribute("userType")!=null&&request.getSession().getAttribute("userType").equals("Manager")){
             mav.addObject("title","RMS - Project Outlook");
             mav.addObject("projects", getOutlook());
         }else{
@@ -406,7 +449,7 @@ public class RMSController {
     public ModelAndView employeeView(HttpServletRequest request) throws Exception {  
         ModelAndView mav = new ModelAndView("employeeview"); 
         List<Project> projects=new ArrayList<>();
-        if(request.getSession().getAttribute("sessVar")!=null){
+        if(request.getSession().getAttribute("userType")!=null&&request.getSession().getAttribute("userType").equals("Employee")){
             int id = (int) request.getSession().getAttribute("resId");
             mav.addObject("title","RMS - My Projects");
             projects=getMyProjects(id);
@@ -423,7 +466,7 @@ public class RMSController {
     @RequestMapping("/pSummary")
     public ModelAndView viewPSummary(HttpServletRequest request) throws Exception {   
         ModelAndView mav = new ModelAndView("projectsummary"); 
-        if(request.getSession().getAttribute("sessVar")!=null){
+        if(request.getSession().getAttribute("userType")!=null&&request.getSession().getAttribute("userType").equals("Manager")){
             mav.addObject("title","RMS - Project Summary");
             mav.addObject("projects", getSummary());
             mav.addObject("employees", getEmployees());
@@ -439,7 +482,7 @@ public class RMSController {
         ModelAndView mav = new ModelAndView("resprojectsummary"); 
         int id = project.getProjectId();
         String name = project.getName();
-        if(request.getSession().getAttribute("sessVar")!=null){
+        if(request.getSession().getAttribute("userType")!=null&&request.getSession().getAttribute("userType").equals("Manager")){
             mav.addObject("title","RMS - "+name);
             mav.addObject("projectId", id);
             mav.addObject("projectName", name);
@@ -456,7 +499,7 @@ public class RMSController {
     @RequestMapping("/rSummary")
     public ModelAndView viewRSummary(HttpServletRequest request) throws Exception {   
         ModelAndView mav = new ModelAndView("resourcesummary"); 
-        if(request.getSession().getAttribute("sessVar")!=null){
+        if(request.getSession().getAttribute("userType")!=null&&request.getSession().getAttribute("userType").equals("Manager")){
             SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
             Calendar c = Calendar.getInstance();
             Date now = c.getTime();
@@ -478,7 +521,7 @@ public class RMSController {
     @RequestMapping("/cSummary")
     public ModelAndView viewCSummary(HttpServletRequest request) throws Exception { 
         ModelAndView mav = new ModelAndView("clientsummary"); 
-        if(request.getSession().getAttribute("sessVar")!=null){
+        if(request.getSession().getAttribute("userType")!=null&&request.getSession().getAttribute("userType").equals("Manager")){
             mav.addObject("title","RMS - Client Summary");
             mav.addObject("clients", getCSummary());
         }else{

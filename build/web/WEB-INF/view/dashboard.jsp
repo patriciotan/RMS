@@ -154,11 +154,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Start Date</label>
-                                    <input class="form-control" type="date"  required="required" name="start">
+                                    <input class="form-control" type="date"  required="required" name="start" id="start1">
                                 </div>
                                 <div class="form-group">
                                     <label for="">End Date</label>
-                                    <input class="form-control" type="date"  required="required" name="end">
+                                    <input class="form-control" type="date"  required="required" name="end" id="end1">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Type</label>
@@ -183,7 +183,7 @@
                                 <div style="text-align: right">
                                     <input value="Ongoing" name="status" hidden="hidden">
                                     <input value="Summary" name="reference" hidden="hidden">
-                                    <input class="btn btn-success" id="add-but" type="submit" value="Submit">
+                                    <input class="btn btn-success" id="add-but1" type="submit" value="Submit">
                                     <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
@@ -235,6 +235,13 @@
         $(document).ready(function(){
 
             $("#0").attr("class","active");
+            
+            $("#add-but1").click(function(event){
+                 if($("#start1").val()>$("#end1").val()){
+                     alert("End date should be greater than start date.");
+                     event.preventDefault();
+                 } 
+            });
             
             $('.table').DataTable({
                 "order": [[ 1, "desc" ]],
