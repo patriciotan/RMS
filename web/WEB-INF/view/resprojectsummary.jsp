@@ -94,16 +94,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Start Date</label>
-                                    <input class="form-control" type="date" min="${project.start}" max="${project.end}"  required="required" name="start">
+                                    <input class="form-control" type="date" min="${project.start}" max="${project.end}"  required="required" name="start" id="start1">
                                 </div>
                                 <div class="form-group">
                                     <label for="">End Date</label>
-                                    <input class="form-control" type="date" min="${project.start}" max="${project.end}"  required="required" name="end">
+                                    <input class="form-control" type="date" min="${project.start}" max="${project.end}"  required="required" name="end" id="end1">
                                 </div>
                             </div>
                             <div class="panel-footer">
                                 <div style="text-align: right">
-                                    <input class="btn btn-success" id="add-but" type="submit" value="Submit">
+                                    <input class="btn btn-success" id="add-but1" type="submit" value="Submit">
                                     <button class="btn btn-danger" type="button" data-dismiss="modal"><span style="color: white">Cancel</span></button>
                                 </div>
                             </div>
@@ -368,6 +368,14 @@
         $(document).ready(function(){
            $("#2").attr("class","active"); 
            $(".resProjects").dataTable();
+           
+            $("#add-but1").click(function(event){
+                if($("#start1").val()>$("#end1").val()){
+                    alert("End date should be greater than start date.");
+                    event.preventDefault();
+                } 
+            });
+           
            
            $(".taskName").click(function(){
                $(this).siblings(".content").slideToggle();

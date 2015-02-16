@@ -4,15 +4,6 @@
 <%@include file="navigation.jsp" %>
 
 <div id="bodiv">
-    <div class="row" style="display:none">
-        <div style="float: left; width: 30%; margin-left: 1%;">
-            <h2>Dashboard</h2>
-        </div>
-        <div style="float: left; margin-left: 58.4%; margin-top: 18px;">
-            <button id="btnToggle" type="button" class="btn btn-success">Change layout</button>
-        </div>
-    </div>
-    <div id="boards">
     <div class="row">
         <div style="float: left; width: 30%; margin-left: 1%;">
             <h2>Dashboard</h2>

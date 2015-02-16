@@ -595,6 +595,7 @@ public class RMSController {
     public ModelAndView editSummary(@ModelAttribute("project")Project project, ModelMap model, HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
         Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date now = c.getTime();
         int updated_by = (int) request.getSession().getAttribute("userId");
         String updated_date = sdf.format(now);
