@@ -1,6 +1,6 @@
 <%@include file="navigation.jsp" %>
 <div id="bodiv">
-    <div class="row">
+    <div class="row" style="margin-top: -2%;">
         <div style="float: left; width: 40%; margin-left: 1.2%;">
             <h3><a href="pSummary">Project Summary</a> / Tasks for ${projectName}</h3>
             <input type="text" id="startDate" value="${project.start}" />

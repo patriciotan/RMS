@@ -4,7 +4,7 @@
 <%@include file="navigation.jsp" %>
 
 <div id="bodiv">
-    <div class="row">
+    <div class="row" style="margin-top: -2%;">
         <div style="float: left; width: 20%; margin-left: 2.3%;">
             <h2>Project Summary</h2>
         </div>

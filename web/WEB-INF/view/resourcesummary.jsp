@@ -1,13 +1,12 @@
 <%@include file="navigation.jsp" %>
 
 <div id="bodiv">
-    <div class="row">
+    <div class="row" style="margin-top: -2%;">
         <div style="float: left; width: 30%; margin-left: 1.2%;">
             <h2>Resource Summary</h2>
         </div>
-        <div style="float: left; margin-left: 35.4%; margin-top: 18px;">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#summary">Show head count</button>
-            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#reminder">Show Underload/Overload Employees</button>
+        <div style="float: left; margin-left: 53.8%; margin-top: 18px;">
+            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#summary">Show head count</button>
         </div>
     </div>
     <div id="resourceSummary" class="col-md-12">
@@ -125,41 +124,41 @@
             
             <!-- reminder Modal -->
                 <div class="modal fade" id="reminder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
+                    <div class="modal-dialog modal-lg" style="width: 50%;">
                         <div class="modal-content-sm">
                             <div class="modal-body-sm">
                                 <div class="panel panel-primary">  
                                     <div class="panel-heading">
-                                        <b>Underload/Overload Reminder ${month} ${year}</b>
+                                        <b>Resources Load Reminder for ${month} ${year}</b>
                                     </div>
                                     <div class="panel-body">
                                         <div class="col-md-6">
-                                            <table class="table table-hover">
+                                            <table class="table table-hover display tablee">
                                                 <thead>
-                                                    <th>Underload Employee</th>
-                                                    <th>${month}</th>
+                                                    <th style="text-align: left">Under load Employees</th>
+                                                    <th style="text-align: right">Max effort</th>
                                                 </thead>
                                                 <tbody>
                                                     <c:forEach items="${underload}" var="ul">
                                                     <tr>   
                                                         <td style="text-align: left;" class="resName"><c:out value="${ul.fname} ${ul.lname}" /></td>						
-                                                        <td><c:out value="${ul.jan}" /></td>
+                                                        <td style="text-align: right"><c:out value="${ul.jan}" /></td>
                                                     </tr>
                                                     </c:forEach>
                                                 </tbody>
                                             </table>
                                         </div>
                                         <div class="col-md-6">
-                                            <table class="table table-hover">
+                                            <table class="table table-hover display tablee">
                                                 <thead>
-                                                    <th>Overload Employee</th>
-                                                    <th>${month}</th>
+                                                    <th style="text-align: left">Full load Employees</th>
+                                                    <th style="text-align: right">Max effort</th>
                                                 </thead>
                                                 <tbody>
                                                     <c:forEach items="${overload}" var="ol">
                                                     <tr>   
                                                         <td style="text-align: left;" class="resName"><c:out value="${ol.fname} ${ol.lname}" /></td>						
-                                                        <td><c:out value="${ol.jan}" /></td>   
+                                                        <td style="text-align: right"><c:out value="${ol.jan}" /></td>   
                                                     </tr>
                                                     </c:forEach>
                                                 </tbody>
@@ -193,6 +192,14 @@
            $("#3").attr("class","active"); 
            $("#resSummary").dataTable();
            $('#reminder').modal('show');
+           
+           $('.tablee').DataTable({
+                "order": [[ 1, "desc" ]],
+                "scrollCollapse": true,
+                "paging":         false,
+                "bInfo":          false,
+                "bFilter":        false
+            });
            
             $("#resources").on('click',".resourceRow",function(){
                $.ajax({

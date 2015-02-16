@@ -330,7 +330,7 @@ public class RMSController {
     
     @RequestMapping("/login")
     public ModelAndView login(HttpServletRequest request) {   
-        ModelAndView mav = new ModelAndView("login", "title", "RMS - Log in"); 
+        ModelAndView mav = new ModelAndView("login", "title", "RMS - Log in");  
         if(request.getSession().getAttribute("sessVar")!=null){
             mav = new ModelAndView("redirect:/dashboard");
         }
@@ -339,10 +339,11 @@ public class RMSController {
     
     @RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
     public ModelAndView loginSubmit(@ModelAttribute("user")User user, ModelMap model,HttpServletRequest request) throws Exception {
-        ModelAndView mav = new ModelAndView("redirect:/login"); 
-        mav.addObject("title","RMS - Log in");   
+        ModelAndView mav = new ModelAndView("login"); 
+        String errorMsg = ""; 
         if(dbModel.canLogin(user.getUsername(), user.getPassword()))
         {
+            errorMsg = "";
             ResultSet rs = dbModel.getUser(user.getUsername(), user.getPassword());
             rs.next();
             request.getSession(true).setAttribute("sessVar",user.getUsername());
@@ -360,6 +361,10 @@ public class RMSController {
                 mav = new ModelAndView("redirect:/clientView"); 
             }
         }
+        else {
+            errorMsg = "Incorrect user name/password!";
+        }
+        mav.addObject("errorMsg", errorMsg);
         return mav;
     }
     
@@ -594,6 +599,7 @@ public class RMSController {
     @RequestMapping(value = "/editProjSumm", method = RequestMethod.POST)
     public ModelAndView editSummary(@ModelAttribute("project")Project project, ModelMap model, HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         Date now = c.getTime();
         int updated_by = (int) request.getSession().getAttribute("userId");
