@@ -53,6 +53,17 @@ public class RMSModel {
         return false;
     }
     
+    public boolean nameExists(String name) throws Exception {
+        sql = "select * from project where name=?";
+        ps = con.prepareStatement(sql);
+        ps.setString(1, name);
+        rs = ps.executeQuery();
+        
+        if(rs.first())
+            return true;
+        return false;
+    }
+    
     public ResultSet getUser(String username, String password) throws Exception{
         sql = "select * from user where binary username=? and binary password=?";
         ps = con.prepareStatement(sql);

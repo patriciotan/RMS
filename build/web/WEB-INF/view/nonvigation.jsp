@@ -10,12 +10,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${title}</title>
         <link href='<c:url value="/res/css/bootstrap.css"/>' type="text/css" rel="stylesheet">
+        <link href='<c:url value="/res/sweetAlerts/sweet-alert.css"/>' type="text/css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href='<c:url value="/res/css/dataTables.css"/>'>
         <link type="text/css" rel="stylesheet" href='<c:url value="/res/css/view.css"/>'>
         <link rel="shortcut icon" href='<c:url value="/res/images/mini_alliance.png"/>'>
         <script src='<c:url value="/res/js/jquery.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/js/bootstrap.js"/>' type="text/javascript"></script>
-        <script src='<c:url value="/res/js/jquery.dataTables.js"/>' type="text/javascript"></script>    
+        <script src='<c:url value="/res/sweetAlerts/sweet-alert.js"/>' type="text/javascript"></script>
+        <script src='<c:url value="/res/js/jquery.dataTables.js"/>' type="text/javascript"></script>       
     </head>
     <body>
         

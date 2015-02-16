@@ -69,7 +69,7 @@
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Name</label>
-                                    <input class="form-control" autocomplete="off" required="required"  type="text" name="name" size="20">
+                                    <input class="form-control" autocomplete="off" required="required" id="name1" type="text" name="name" size="20">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Client Name</label>
@@ -226,10 +226,37 @@
            $("#projSummary").dataTable();
            
             $("#add-but1").click(function(event){
-                 if($("#start1").val()>$("#end1").val()){
-                     alert("End date should be greater than start date.");
-                     event.preventDefault();
-                 } 
+                $.ajax({
+                    url:'nameExists.htm',
+                    type:'post',
+                    data:{'name':$("#name1").val()},
+                    success:function(data,status){
+                        var x = data.toString();
+                        var msg = "";
+                        if(x === "true"){
+                            msg += "Project name already exists!";
+                            if($("#start1").val()>$("#end1").val()){
+                                msg += "\nStart date cannot be ahead of end date!";
+                                alert(msg);
+                                event.preventDefault();
+                            }else {
+                                alert(msg);
+                                event.preventDefault();
+                            }
+                        }
+                        else {
+                            if($("#start1").val()>$("#end1").val()){
+                                msg += "Start date cannot be ahead of end date!";
+                                alert(msg);
+                                event.preventDefault();
+                            }
+                        }
+                    },  
+                        error : function(e) {  
+                        alert('Error: ' + e);   
+                    }
+
+                });
             });
             
             $("#add-but2").click(function(event){
