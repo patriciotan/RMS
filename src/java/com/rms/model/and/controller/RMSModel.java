@@ -198,7 +198,7 @@ public class RMSModel {
         
     public ResultSet getEmployeeProjects(int resId) throws Exception
     {
-        sql="SELECT DISTINCT project_id FROM `effort` WHERE resource_id=? order by added_date desc";
+        sql="SELECT DISTINCT project_id FROM `effort` WHERE resource_id=?";
         ps = con.prepareStatement(sql);
         ps.setInt(1, resId);
         rs = ps.executeQuery();
@@ -334,7 +334,7 @@ public class RMSModel {
     
     
     public ResultSet getClientProject() throws Exception{
-        sql = "select client.name as cname,client.added_date,project.* from client JOIN project ON client.client_id=project.client_id";
+        sql = "select client.name as cname,project.* from client JOIN project ON client.client_id=project.client_id";
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
         
@@ -395,5 +395,14 @@ public class RMSModel {
          if(ps.executeUpdate() > 0)
             return true;
         return false;
+    }
+    
+    public int getNumberOfResourcesProject(int projId) throws Exception{
+        sql = "SELECT COUNT(DISTINCT resource_id) as cnt FROM effort WHERE project_id=?";
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, projId);
+        rs = ps.executeQuery();
+        rs.next();
+        return rs.getInt("cnt");
     }
 }

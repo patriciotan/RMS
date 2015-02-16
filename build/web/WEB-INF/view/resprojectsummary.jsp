@@ -1,12 +1,12 @@
 <%@include file="navigation.jsp" %>
 <div id="bodiv">
     <div class="row">
-        <div style="float: left; width: 30%; margin-left: 1.2%;">
+        <div style="float: left; width: 40%; margin-left: 1.2%;">
             <h3><a href="pSummary">Project Summary</a> / Tasks for ${projectName}</h3>
             <input type="text" id="startDate" value="${project.start}" />
             <input type="text" id="endDate" value="${project.end}" />
         </div>
-        <div style="float: left;margin-left:56%; margin-right: -10px; margin-top: 12px;">
+        <div style="float: left;margin-left:46%; margin-right: -10px; margin-top: 12px;">
             <button type="button" class="btn btn-lg btn-primary addOption" data-toggle="modal" data-target="#addTask">Add new task</button>
         </div>
     </div>
@@ -14,7 +14,7 @@
         <div class="row">
             <c:forEach items="${tasks}" var="task">
                 <div>
-                    <div class="taskName" style="background-color:#2e2e2e;color:white;">
+                    <div class="taskName" style="background-color:#2e2e2e;color:white;padding:5px;">
                         <h4>TASK NAME: <b class="tName"><c:out value="${task.name}" /></b>    TASK STATUS:<b class="tStatus"><c:out value="${task.status}" /></b></h4>
                     </div>
                     <input type="text" class="taskStart" value="${task.start}" />

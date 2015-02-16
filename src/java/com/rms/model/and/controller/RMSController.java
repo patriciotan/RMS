@@ -240,10 +240,9 @@ public class RMSController {
         while(rs.next()){
             Client c = new Client();
             c.setName(rs.getString("cname"));
-            c.setAddedDate(rs.getString("added_date"));
             c.setProjectName(rs.getString("name"));
             c.setMileStone(rs.getString("milestone"));
-            c.setResCount(0);
+            c.setResCount(dbModel.getNumberOfResourcesProject(rs.getInt("project_id")));
             c.setEnd(rs.getString("end_date"));
             c.setProjectStatus(rs.getString("status"));
             clients.add(c);
@@ -657,6 +656,7 @@ public class RMSController {
                 proj=dbModel.getProjectName(ds.getInt("project_id"));
                 emp+="%"+proj;
             }
+            System.out.println(emp);
         }
         return emp;
     }
