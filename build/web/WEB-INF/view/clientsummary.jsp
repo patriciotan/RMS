@@ -51,11 +51,10 @@
                 <div class="modal-body-sm">
                     <div class="panel panel-primary">  
                         <div class="panel-heading">
-                            <b>Add Project</b>
+                            <b>Add Client</b>
                         </div>
                         <form id="add" name="add" action='<c:url value="addClient"/>' method="post" modelAttribute="client">
                             <div class="panel-body">
-                                <input class="form-control" type="hidden" name="addedBy" value="${sessVar}">
                                 <div class="form-group">
                                     <label for="">Name</label>
                                     <input class="form-control" autocomplete="off" required="required"  type="text" name="name" size="20">
@@ -65,7 +64,7 @@
                                 <div style="text-align: right">
                                     <input value="Outlook" name="reference" hidden="hidden">
                                     <input class="btn btn-success" id="add-but" type="submit" value="Submit">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span style="color: white">Cancel</span></button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                                 </div>
                             </div>
                         </form>

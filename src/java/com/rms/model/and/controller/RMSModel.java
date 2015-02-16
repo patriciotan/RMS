@@ -63,27 +63,45 @@ public class RMSModel {
         return rs;
     }
 
-    public boolean addOutlook(String name, String start, String end, String type, String status, String bUnit, int resNeeded, String reference, String created_by, String created_date) throws Exception {
-        sql = "insert into project (name,start_date,end_date,type,status,business_unit,resources_needed,reference,created_by,created_date) values ('"+name+"','"+start+"','"+end+"','"+type+"','"+status+"','"+bUnit+"','"+resNeeded+"','"+reference+"','"+created_by+"','"+created_date+"')";
+    public boolean addOutlook(String name, String start, String end, String type, String status, String bUnit, int resNeeded, String reference, int created_by, String created_date) throws Exception {
+        sql = "insert into project (name,start_date,end_date,type,status,business_unit,resources_needed,reference,added_by,added_date) values ('"+name+"','"+start+"','"+end+"','"+type+"','"+status+"','"+bUnit+"','"+resNeeded+"','"+reference+"',"+created_by+",'"+created_date+"')";
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;
         return false;
     }
 
-    public boolean addProject(String name, String start, String end, String type, String status, String bUnit, String reference, String created_by, String created_date) throws Exception {
-        sql = "insert into project (name,start_date,end_date,type,status,business_unit,reference) values ('"+name+"','"+start+"','"+end+"','"+type+"','"+status+"','"+bUnit+"','"+reference+"','"+created_by+"','"+created_date+"')";
+    public boolean addProject(String name, int clientId, String start, String end, String type, String status, String bUnit, String reference, int created_by, String created_date) throws Exception {
+        sql = "insert into project (name,client_id,start_date,end_date,type,status,business_unit,reference,added_by,added_date) values ('"+name+"',"+clientId+",'"+start+"','"+end+"','"+type+"','"+status+"','"+bUnit+"','"+reference+"',"+created_by+",'"+created_date+"')";
         if(st.executeUpdate(sql) > 0)
             return true;
         return false;
     }
     
-    public boolean addClient(String name, String addedBy, String addedDate) throws Exception {
-        sql = "insert into client (name,added_by,added_date) values ('"+name+"','"+addedBy+"','"+addedDate+"')";
+    public boolean addClient(String name, int addedBy, String addedDate) throws Exception {
+        sql = "insert into client (name,added_by,added_date) values ('"+name+"',"+addedBy+",'"+addedDate+"')";
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;
         return false;
+    }
+    
+    public boolean addFeedback(int projId, String subject, String content, int added_by, String added_date) throws Exception {
+        sql = "insert into feedback (project_id,subject,content,added_by,added_date) values ("+projId+",'"+subject+"','"+content+"',"+added_by+",'"+added_date+"')";
+        System.out.println(sql);
+        if(st.executeUpdate(sql) > 0)
+            return true;
+        return false;
+    }
+    
+    public ResultSet getFeedbacks(int projId) throws Exception
+    {
+        sql = "select feedback.*,resource.* from feedback join resource on resource.resource_id = feedback.added_by where project_id=?";
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, projId);
+        rs = ps.executeQuery();
+        
+        return rs;
     }
     
     public ResultSet getOutlook() throws Exception
@@ -232,16 +250,16 @@ public class RMSModel {
         return false;
     }
         
-    public boolean editOutlook(String name, String start, String end, String type, String status, String bUnit, int resNeeded,int projectId) throws Exception {
-        sql = "UPDATE project SET name='"+name+"',start_date='"+start+"',end_date='"+end+"',type='"+type+"',status='"+status+"',business_unit='"+bUnit+"',resources_needed="+resNeeded+" WHERE project_id="+projectId;
+    public boolean editOutlook(String name, String start, String end, String type, String status, String bUnit, int resNeeded,int projectId,int updated_by,String updated_date) throws Exception {
+        sql = "UPDATE project SET name='"+name+"',start_date='"+start+"',end_date='"+end+"',type='"+type+"',status='"+status+"',business_unit='"+bUnit+"',resources_needed="+resNeeded+",updated_by="+updated_by+",updated_date='"+updated_date+"' WHERE project_id="+projectId;
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;
         return false;
     }
     
-    public boolean editSummary(String name, String start, String end, String type, String bUnit,int projectId) throws Exception {
-        sql = "UPDATE project SET name='"+name+"',start_date='"+start+"',end_date='"+end+"',type='"+type+"',business_unit='"+bUnit+"' WHERE project_id="+projectId;
+    public boolean editSummary(String name, String start, String end, String type, String bUnit,int projectId,int updated_by,String updated_date) throws Exception {
+        sql = "UPDATE project SET name='"+name+"',start_date='"+start+"',end_date='"+end+"',type='"+type+"',business_unit='"+bUnit+"',updated_by="+updated_by+",updated_date='"+updated_date+"' WHERE project_id="+projectId;
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;

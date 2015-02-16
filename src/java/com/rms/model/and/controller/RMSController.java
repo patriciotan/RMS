@@ -53,6 +53,7 @@ public class RMSController {
             name=dbModel.getSpecificClient(rs.getInt("client_id"));
             name.next();
             project.setClientName(name.getString("name"));
+            project.setClientId(rs.getInt("client_id"));
             project.setStart(rs.getString("start_date"));
             project.setEnd(rs.getString("end_date"));
             project.setType(rs.getString("type"));
@@ -239,7 +240,7 @@ public class RMSController {
             Client c = new Client();
             c.setClientId(rs.getInt("client_id"));
             c.setName(rs.getString("name"));
-            c.setAddedBy(rs.getString("added_by"));
+            c.setAddedBy(rs.getInt("added_by"));
             c.setAddedDate(rs.getString("added_date"));
             clients.add(c);
         }
@@ -325,7 +326,7 @@ public class RMSController {
             request.getSession(true).setAttribute("sessVar",user.getUsername());
             request.getSession(true).setAttribute("userType",rs.getString("type"));
             request.getSession(true).setAttribute("userId",rs.getInt("user_id"));
-            //request.getSession(true).setAttribute("resId",rs.getInt("resource_id"));
+            request.getSession(true).setAttribute("resId",rs.getInt("resource_id"));
             if(rs.getString("type").equals("Manager")){
                 mav = new ModelAndView("redirect:/dashboard"); 
             }
@@ -382,7 +383,7 @@ public class RMSController {
         List<Project> projects=new ArrayList<>();
         if(request.getSession().getAttribute("sessVar")!=null){
             int id = (int) request.getSession().getAttribute("resId");
-            mav.addObject("title","RMS - Projects");
+            mav.addObject("title","RMS - My Projects");
             projects=getMyProjects(id);
             mav.addObject("projects", projects);
         }else{
@@ -465,11 +466,11 @@ public class RMSController {
     public ModelAndView addOutlook(@ModelAttribute("project")Project project, ModelMap model, HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
         
-        SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         Date now = c.getTime();
         
-        String created_by = (String) request.getSession().getAttribute("sessVar");
+        int created_by = (int) request.getSession().getAttribute("userId");
         String created_date = sdf.format(now);
         
         if(dbModel.addOutlook(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getResNeeded(),project.getReference(),created_by,created_date))
@@ -483,14 +484,14 @@ public class RMSController {
     public ModelAndView addProject(@ModelAttribute("project")Project project, ModelMap model, HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
         
-        SimpleDateFormat sdf = new SimpleDateFormat("mm/dd/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
         Date now = c.getTime();
         
-        String created_by = (String) request.getSession().getAttribute("sessVar");
+        int created_by = (int) request.getSession().getAttribute("userId");
         String created_date = sdf.format(now);
         
-        if(dbModel.addProject(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getReference(),created_by,created_date))
+        if(dbModel.addProject(project.getName(),project.getClientId(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getReference(),created_by,created_date))
         {
             mav = new ModelAndView("redirect:/pSummary"); 
         }
@@ -528,10 +529,14 @@ public class RMSController {
     }
     
     @RequestMapping(value = "/editOutlook", method = RequestMethod.POST)
-    public ModelAndView editOutlook(@ModelAttribute("project")Project project, ModelMap model) throws Exception {
+    public ModelAndView editOutlook(@ModelAttribute("project")Project project, ModelMap model, HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
-        
-        if(dbModel.editOutlook(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getResNeeded(),project.getProjectId()))
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        Date now = c.getTime();
+        int updated_by = (int) request.getSession().getAttribute("userId");
+        String updated_date = sdf.format(now);
+        if(dbModel.editOutlook(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getStatus(),project.getbUnit(),project.getResNeeded(),project.getProjectId(),updated_by,updated_date))
         {
             mav = new ModelAndView("redirect:/outlook"); 
         }
@@ -539,10 +544,14 @@ public class RMSController {
     } 
     
     @RequestMapping(value = "/editProjSumm", method = RequestMethod.POST)
-    public ModelAndView editSummary(@ModelAttribute("project")Project project, ModelMap model) throws Exception {
+    public ModelAndView editSummary(@ModelAttribute("project")Project project, ModelMap model, HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
-        
-        if(dbModel.editSummary(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getbUnit(),project.getProjectId()))
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        Date now = c.getTime();
+        int updated_by = (int) request.getSession().getAttribute("userId");
+        String updated_date = sdf.format(now);
+        if(dbModel.editSummary(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getbUnit(),project.getProjectId(),updated_by,updated_date))
         {
             mav = new ModelAndView("redirect:/pSummary"); 
         }
@@ -550,16 +559,63 @@ public class RMSController {
     } 
     
     @RequestMapping(value = "/addClient", method = RequestMethod.POST)
-    public ModelAndView addClient(@ModelAttribute("client")Client client, ModelMap model) throws Exception {
+    public ModelAndView addClient(@ModelAttribute("client")Client client, ModelMap model, HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        if(dbModel.addClient(client.getName(),client.getAddedBy(),sdf.format(Calendar.getInstance().getTime())))
+        Calendar c = Calendar.getInstance();
+        Date now = c.getTime();
+        int created_by = (int) request.getSession().getAttribute("userId");
+        String created_date = sdf.format(now);
+        if(dbModel.addClient(client.getName(),created_by,created_date))
         {
             mav = new ModelAndView("redirect:/cSummary"); 
         }
         return mav;
     } 
     
+    @RequestMapping(value = "/addFeedback", method = RequestMethod.POST)
+    public ModelAndView addFeedback(@ModelAttribute("feedback")Feedback feedback, ModelMap model, HttpServletRequest request) throws Exception {
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        Date now = c.getTime();
+        int created_by = (int) request.getSession().getAttribute("resId");
+        String created_date = sdf.format(now);
+        if(dbModel.addFeedback(feedback.getProjId(),feedback.getSubject(),feedback.getContent(),created_by,created_date))
+        {
+            mav = new ModelAndView("redirect:/employeeView"); 
+        }
+        return mav;
+    } 
+    
+    @RequestMapping(value = "/getFeedbacks")
+    public @ResponseBody String getFeedbacks(@RequestParam("projId")int projId, ModelMap model) throws Exception {
+        ResultSet rs = dbModel.getFeedbacks(projId);
+        String feedback = "",feedbacks = "";
+        int i = 0;
+        while(rs.next()) {
+            feedback = "";
+            feedback += rs.getString("subject");
+            feedback += "%";
+            feedback += rs.getString("content");
+            feedback += "%";
+            feedback += rs.getInt("added_by");
+            feedback += "%";
+            feedback += rs.getString("first_name");
+            feedback += " ";
+            feedback += rs.getString("last_name");
+            feedback += "%";
+            feedback += rs.getString("added_date");
+            
+            feedbacks += feedback;
+            feedbacks += "$";
+            i++;
+        }
+//        System.out.println(feedbacks);
+        feedbacks += "@";
+        feedbacks += i;
+        return feedbacks;
+    }
     
     @RequestMapping(value = "/assignResource", method = RequestMethod.POST)
     public ModelAndView assignResource(@ModelAttribute("effort")Effort effort, ModelMap model) throws Exception

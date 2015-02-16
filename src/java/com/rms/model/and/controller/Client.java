@@ -12,8 +12,16 @@ package com.rms.model.and.controller;
  */
 public class Client {
     
-    private String name,addedDate,addedBy;
-    private int clientId;
+    private String name,addedDate;
+    private int clientId,addedBy;
+
+    public int getAddedBy() {
+        return addedBy;
+    }
+
+    public void setAddedBy(int addedBy) {
+        this.addedBy = addedBy;
+    }
 
     public int getClientId() {
         return clientId;
@@ -37,14 +45,6 @@ public class Client {
 
     public void setAddedDate(String addedDate) {
         this.addedDate = addedDate;
-    }
-
-    public String getAddedBy() {
-        return addedBy;
-    }
-
-    public void setAddedBy(String addedBy) {
-        this.addedBy = addedBy;
     }
     
     
