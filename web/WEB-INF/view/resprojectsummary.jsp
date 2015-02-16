@@ -15,12 +15,14 @@
             <c:forEach items="${tasks}" var="task">
                 <div>
                     <div class="taskName" style="background-color:#2e2e2e;color:white;">
-                        <h4><b class="tName"><c:out value="${task.name}" /></b></h4>
+                        <h4>TASK NAME: <b class="tName"><c:out value="${task.name}" /></b>    TASK STATUS:<b class="tStatus"><c:out value="${task.status}" /></b></h4>
                     </div>
                     <input type="text" class="taskStart" value="${task.start}" />
                     <input type="text" class="taskEnd" value="${task.end}" />
                     <input type="text" class="taskId" value="${task.taskId}"/>
                     <div style="display:none;" class="content" >
+                        <button type="button" class="btn btn-lg btn-primary deleteOption pull-right" data-toggle="modal" data-target="#deleteTask">Delete Task</button>
+                        <button type="button" class="btn btn-lg btn-primary editOption pull-right" data-toggle="modal" data-target="#editTask">Edit Task</button>
                         <button type="button" class="btn btn-lg btn-primary assignOption pull-right" data-toggle="modal" data-target="#assign">Assign new resource</button>
                         <br/><br/><br/>
                         <table class="resProjects" class="display">   
@@ -285,7 +287,79 @@
             </div>
         </div>
     </div>
-    <!-- End modal for remove resource-->         
+    <!-- End modal for remove resource-->   
+    
+    <!-- Start modal for edit task-->            
+    <div class="modal fade" id="editTask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content-sm">
+                <div class="modal-body-sm">
+                    <div class="panel panel-primary">  
+                        <div class="panel-heading">
+                            <b>Edit Task</b>
+                        </div>
+                        <form id="edit" name="edit" action='<c:url value="editTask"/>' method="post" modelAttribute="task">
+                            TID<input type="text" name="taskId" id="editTaskId" />
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="">Task Name</label>
+                                    <input class="form-control" autocomplete="off" required="required" id="field1" type="text" name="name" size="20">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Status</label>
+                                    <select class="form-control" id="field2" name="status" required="required">
+                                        <option disabled="true" selected default></option>
+                                        <option value="Assigned">Assigned</option>
+                                        <option value="Done">Done</option>
+                                        <option value="Tested">Tested</option>
+                                        <option value="Accepted">Accepted</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div style="text-align: right">
+                                    <input class="btn btn-success" id="add-but" type="submit" value="Save">
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End modal for edit task-->
+    
+    <!-- Start modal for remove task-->            
+    <div class="modal fade" id="deleteTask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog-s">
+            <div class="modal-content-sm">
+                <div class="modal-body-sm">
+                    <div class="panel panel-primary">  
+                        <div class="panel-heading">
+                            <b>Delete Task</b>
+                        </div>
+                        <form name="del" action='<c:url value="deleteTask"/>' method="post" modelAttribute="effort">
+                            <div class="panel-body">
+                                <div class="form-group" style="text-align: center;">
+                                    <label>Are you sure you want to delete  <code id="dTask"></code>?</label>
+                                    TID<input type="text" name="taskId" id="deleteTId"/>
+                                    PID<input type="text" name="projId" id="deletePId" value="${projectId}"/>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div style="text-align: right;">
+                                    <input class="btn btn-success" id="add-but" type="submit" value="Yes"/>&nbsp;
+                                    <button class="btn btn-danger" type="button"  data-dismiss="modal"><span>No</span></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End modal for remove task-->   
 </div>
 </div>
 </div><!-- closing div from navigation-->
@@ -304,7 +378,18 @@
                $("#removeId").val($("#eId").val());
                $("#removeTId").val($("#eTId").val());
             });
-        
+            
+            $(".editOption").click(function(){
+                $("#editTaskId").val($(this).parent().siblings(".taskId").val());
+                $("#field1").val($(this).parent().siblings().find(".tName").text());
+                $("#field2").val($(this).parent().siblings().find(".tStatus").text());
+            });
+            
+            $(".deleteOption").click(function(){
+               $("#dTask").text($(this).parent().siblings().find(".tName").text());
+               $("#deleteTId").val($(this).parent().siblings(".taskId").val());
+            });
+            
             $(".resources").on("click",".resourceRow",function(){
                 var yearSelected=$(this).children(".resoYear").text();
                 

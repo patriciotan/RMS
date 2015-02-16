@@ -71,15 +71,15 @@ public class RMSModel {
         return false;
     }
 
-    public boolean addProject(String name, String start, String end, String type, String status, String bUnit, String reference, String created_by, String created_date) throws Exception {
-        sql = "insert into project (name,start_date,end_date,type,status,business_unit,reference) values ('"+name+"','"+start+"','"+end+"','"+type+"','"+status+"','"+bUnit+"','"+reference+"','"+created_by+"','"+created_date+"')";
+    public boolean addProject(String name, int clientId, String start, String end, String type, String status, String bUnit, String reference, int created_by, String created_date) throws Exception {
+        sql = "insert into project (name,client_id,start_date,end_date,type,status,business_unit,reference,added_by,added_date) values ('"+name+"',"+clientId+",'"+start+"','"+end+"','"+type+"','"+status+"','"+bUnit+"','"+reference+"',"+created_by+",'"+created_date+"')";
         if(st.executeUpdate(sql) > 0)
             return true;
         return false;
     }
     
-    public boolean addClient(String name, String addedBy, String addedDate) throws Exception {
-        sql = "insert into client (name,added_by,added_date) values ('"+name+"','"+addedBy+"','"+addedDate+"')";
+    public boolean addClient(String name, int addedBy, String addedDate) throws Exception {
+        sql = "insert into client (name,added_by,added_date) values ('"+name+"',"+addedBy+",'"+addedDate+"')";
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;
@@ -225,7 +225,7 @@ public class RMSModel {
     }
     
     public boolean delSummary(int projectId)throws Exception{
-        sql="UPDATE project SET status='Closed' WHERE project_id="+projectId;
+        sql="DELETE FROM project WHERE project_id="+projectId;
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;
@@ -240,8 +240,8 @@ public class RMSModel {
         return false;
     }
     
-    public boolean editSummary(String name, String start, String end, String type, String bUnit,int projectId) throws Exception {
-        sql = "UPDATE project SET name='"+name+"',start_date='"+start+"',end_date='"+end+"',type='"+type+"',business_unit='"+bUnit+"' WHERE project_id="+projectId;
+    public boolean editSummary(String name, String start, String end, String type, String bUnit,int projectId, int updateBy, String updateDate) throws Exception {
+        sql = "UPDATE project SET name='"+name+"',start_date='"+start+"',end_date='"+end+"',type='"+type+"',business_unit='"+bUnit+"',updated_by="+updateBy+",updated_date='"+updateDate+"' WHERE project_id="+projectId;
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;
@@ -331,8 +331,18 @@ public class RMSModel {
         return rs.getInt("ph");
     }
     
+    
+    
+    public ResultSet getClientProject() throws Exception{
+        sql = "select client.name as cname,client.added_date,project.* from client JOIN project ON client.client_id=project.client_id";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
+    
     public ResultSet getClient() throws Exception{
-        sql = "select * from client order by added_date desc";
+        sql = "select * FROM client ORDER BY added_date desc";
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
         
@@ -351,6 +361,38 @@ public class RMSModel {
         sql = "insert into task (name,project_id,start_date,end_date) values ('"+name+"',"+projId+",'"+start+"','"+end+"')";
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
+            return true;
+        return false;
+    }
+    
+    public boolean deleteTask(int projId,int taskId) throws Exception{
+        sql = "DELETE FROM task where task_id=?";
+        System.out.println(sql+taskId);
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, taskId);
+        ps.executeUpdate();
+        return deleteResourcesInTask(projId, taskId);
+    }
+    
+    public boolean deleteResourcesInTask(int projId,int taskId) throws Exception{
+        sql= "DELETE FROM effort where task_id=? AND project_id=?";
+        System.out.println(sql+taskId+"--"+projId);
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, taskId);
+        ps.setInt(2,projId);
+        if(ps.executeUpdate() > 0)
+            return true;
+        return false;
+    }
+    
+    public boolean editTask(int taskId, String name, String status) throws Exception{
+        sql = "UPDATE task SET name=?, status=? WHERE task_id=?";
+        System.out.println(sql+taskId);
+        ps = con.prepareStatement(sql);
+        ps.setString(1, name);
+        ps.setString(2, status);
+        ps.setInt(3, taskId);
+         if(ps.executeUpdate() > 0)
             return true;
         return false;
     }

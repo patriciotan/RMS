@@ -5,6 +5,15 @@
 
 <div id="bodiv">
     <div class="row">
+        <div style="float: left; width: 30%; margin-left: 1%;">
+            <h2>Dashboard</h2>
+        </div>
+        <div style="float: left; margin-left: 58.4%; margin-top: 18px;">
+            <button id="btnToggle" type="button" class="btn btn-success">Change layout</button>
+        </div>
+    </div>
+    <div id="boards">
+    <div class="row">
         <div class="col-md-4 col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading"><a href="rSummary" class="pull-right">View more</a> <h5><b>Under loaded resources for February</b></h5></div>
@@ -36,12 +45,12 @@
                     <br/>
                     <div style="width: 100%" class="input-group text-center">
                         <input style="float: left; width: 60%;" disabled type="text" class="form-control" placeholder="New project">
-                        <button style="float: left; width: 40%;" class="btn btn-primary" type="button">Add</button>
+                        <button style="float: left; width: 40%;" class="btn btn-primary" type="button" data-toggle="modal" data-target="#addProject">Add</button>
                     </div>
                     <br/>
                     <div style="width: 100%" class="input-group text-center">
                         <input style="float: left; width: 60%;" disabled type="text" class="form-control" placeholder="New client">
-                        <button style="float: left; width: 40%;" class="btn btn-primary" type="button">Add</button>
+                        <button style="float: left; width: 40%;" class="btn btn-primary" type="button" data-toggle="modal" data-target="#addClient">Add</button>
                     </div>
                 </form>
                 <br/>
@@ -114,7 +123,107 @@
             </div>
         </div>
     </div>
+    </div>
 </div>
+
+<!-- Start modal for add project-->                
+    <div class="modal fade" id="addProject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content-sm">
+                <div class="modal-body-sm">
+                    <div class="panel panel-primary">  
+                        <div class="panel-heading">
+                            <b>Add Project</b>
+                        </div>
+                        <form id="add" name="add" action='<c:url value="addProject"/>' method="post" modelAttribute="project">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="">Name</label>
+                                    <input class="form-control" autocomplete="off" required="required"  type="text" name="name" size="20">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Client Name</label>
+                                    <select class="form-control" name="clientId" required="required" >
+                                        <option disabled="true" value="default" selected default></option>
+                                        <c:forEach items="${clients}" var="client">
+                                            <option value="${client.clientId}"><c:out value="${client.name}" /></option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Start Date</label>
+                                    <input class="form-control" type="date"  required="required" name="start">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">End Date</label>
+                                    <input class="form-control" type="date"  required="required" name="end">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Type</label>
+                                    <select class="form-control" name="type" required="required" >
+                                        <option disabled="true" selected default></option>
+                                        <option value="Project-Based">Project-Based</option>
+                                        <option value="Time and Material">Time and Material</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Business Unit</label>
+                                    <select class="form-control" name="bUnit" required="required">
+                                        <option disabled="true" selected default></option>
+                                        <option value="Philippines">Philippines</option>
+                                        <option value="Japan">Japan</option>
+                                        <option value="Rest of the World">Rest of the World</option>
+                                        <option value="Alliance">Alliance</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div style="text-align: right">
+                                    <input value="Ongoing" name="status" hidden="hidden">
+                                    <input value="Summary" name="reference" hidden="hidden">
+                                    <input class="btn btn-success" id="add-but" type="submit" value="Submit">
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End modal for add project-->
+
+<!-- Start modal for add client-->            
+    <div class="modal fade" id="addClient" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content-sm">
+                <div class="modal-body-sm">
+                    <div class="panel panel-primary">  
+                        <div class="panel-heading">
+                            <b>Add Client</b>
+                        </div>
+                        <form id="add" name="add" action='<c:url value="addClient"/>' method="post" modelAttribute="client">
+                            <div class="panel-body">
+                                <input class="form-control" type="text" name="addedBy" value="${userId}">
+                                <div class="form-group">
+                                    <label for="">Name</label>
+                                    <input class="form-control" autocomplete="off" required="required"  type="text" name="name" size="20">
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div style="text-align: right">
+                                    <input value="Outlook" name="reference" hidden="hidden">
+                                    <input class="btn btn-success" id="add-but" type="submit" value="Submit">
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End modal for add client-->
 
 </div>
 </div>
@@ -132,6 +241,17 @@
                 "paging":         false,
                 "bInfo":          false,
                 "bFilter":        false
+            });
+            
+            $('#btnToggle').click(function(){
+                if ($(this).hasClass('on')) {
+                    $('#boards .col-md-6').addClass('col-md-4').removeClass('col-md-6');
+                    $(this).removeClass('on');
+                }
+                else {
+                    $('#boards .col-md-4').addClass('col-md-6').removeClass('col-md-4');
+                    $(this).addClass('on');
+                }
             });
 
         });

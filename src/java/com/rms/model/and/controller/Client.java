@@ -12,8 +12,56 @@ package com.rms.model.and.controller;
  */
 public class Client {
     
-    private String name,addedDate,addedBy;
-    private int clientId;
+    private String name,addedDate,projectName,mileStone,end,projectStatus;
+    private int clientId,addedBy,resCount;
+
+    public int getResCount() {
+        return resCount;
+    }
+
+    public void setResCount(int resCount) {
+        this.resCount = resCount;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getMileStone() {
+        return mileStone;
+    }
+
+    public void setMileStone(String mileStone) {
+        this.mileStone = mileStone;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
+    }
+
+    public String getProjectStatus() {
+        return projectStatus;
+    }
+
+    public void setProjectStatus(String projectStatus) {
+        this.projectStatus = projectStatus;
+    }
+
+    public int getAddedBy() {
+        return addedBy;
+    }
+
+    public void setAddedBy(int addedBy) {
+        this.addedBy = addedBy;
+    }
 
     public int getClientId() {
         return clientId;
@@ -37,14 +85,6 @@ public class Client {
 
     public void setAddedDate(String addedDate) {
         this.addedDate = addedDate;
-    }
-
-    public String getAddedBy() {
-        return addedBy;
-    }
-
-    public void setAddedBy(String addedBy) {
-        this.addedBy = addedBy;
     }
     
     
