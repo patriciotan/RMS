@@ -131,10 +131,6 @@
                                 <div class="form-group">
                                     <label for="">Name:</label>
                                     <select class="form-control" name="empId" required="required" id="empName">
-                                        <option disabled="true" value="default" selected default></option>
-                                        <c:forEach items="${employees}" var="employee">
-                                            <option value="${employee.empId}"><c:out value="${employee.fname} ${employee.lname}" /></option>
-                                        </c:forEach>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -381,6 +377,7 @@
            
            
            $(".taskName").click(function(){
+               $(".content").hide();
                $(this).siblings(".content").slideToggle();
            });
         
@@ -511,7 +508,26 @@
                                             "<td><input type='number' name='dece' value='0' min='0' readonly disabled='true' style='width:55px;' step='0.1' class='month"+(parseInt(t)+12)+"'/></td>" +
                                         "</tr>");
                }
-                $("#empName").val("default");
+                
+                
+                $.ajax({
+                    url:'getEmployeesNotTask.htm',
+                    type:'post',
+                    data:{'id':$(this).parent().siblings(".taskId").val()},
+                    success:function(data,status){
+                        $("#empName").html("");
+                        $("#empName").append('<option disabled="true" value="default" selected default></option>');
+                        var line = data.toString().split("$$$");
+                        for(var x=0;x<line.length-1;x++){
+                            var each = line[x].split("%-.");
+                            $("#empName").append('<option value="'+each[0]+'">'+each[1]+'</option>');
+                        }
+                        
+                        
+                        
+                        $("#empName").val("default");
+                    }
+                })
             });
            
             $("#empName").change(function(){

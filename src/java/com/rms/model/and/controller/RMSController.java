@@ -462,7 +462,6 @@ public class RMSController {
         if(request.getSession().getAttribute("userType")!=null&&request.getSession().getAttribute("userType").equals("Manager")){
             mav.addObject("title","RMS - Project Summary");
             mav.addObject("projects", getSummary());
-            mav.addObject("employees", getEmployees());
             mav.addObject("clients",getClient());
         }else{
             mav=new ModelAndView("redirect:/login"); 
@@ -499,7 +498,7 @@ public class RMSController {
                 mav.addObject("title","RMS - "+name);
                 mav.addObject("projectId", id);
                 mav.addObject("projectName", name);
-                mav.addObject("employees", getEmployees());
+//                mav.addObject("employees", getEmployees());
                 mav.addObject("tasks",getTasks(id));
             }else{
                 mav = new ModelAndView("redirect:/pSummary"); 
@@ -832,6 +831,19 @@ public class RMSController {
             emp="1";
         }
         return emp;
+    }
+    
+    @RequestMapping(value = "/getEmployeesNotTask")
+    public @ResponseBody String getEmployeesNotTask(@RequestParam("id")int taskId, ModelMap model) throws Exception
+    {
+        ResultSet rs =null;
+        String res="";
+        rs=dbModel.getEmployeesNotTask(taskId);
+        while(rs.next()){
+            res+=rs.getInt("resource_id")+"%-."+rs.getString("first_name")+" "+rs.getString("last_name");
+            res+="$$$";
+        }
+        return res;
     }
     
 }

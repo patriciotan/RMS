@@ -153,6 +153,16 @@ public class RMSModel {
         return rs;
     }
     
+    public ResultSet getEmployeesNotTask(int taskId) throws Exception
+    {
+        sql = "SELECT * FROM resource WHERE resource_id NOT IN (SELECT resource.resource_id FROM resource JOIN effort ON effort.resource_id=resource.resource_id WHERE effort.task_id=?)";
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, taskId);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
+    
     public ResultSet getResource(int resId) throws Exception
     {
         sql = "SELECT resource.*,effort.* FROM resource JOIN effort ON resource.resource_id = effort.resource_id WHERE resource.resource_id=?";
@@ -472,6 +482,5 @@ public class RMSModel {
         rs.next();
         return rs.getInt("cnt");
     }
-    
     
 }
