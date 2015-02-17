@@ -15,7 +15,12 @@
             <c:forEach items="${tasks}" var="task">
                 <div>
                     <div class="taskName" style="background-color:#2e2e2e;color:white;padding:5px;">
-                        <h4>TASK NAME: <b class="tName"><c:out value="${task.name}" /></b>    TASK STATUS:<b class="tStatus"><c:out value="${task.status}" /></b></h4>
+                        <h4>
+                            TASK NAME: <b class="tName"><c:out value="${task.name}" /></b>    
+                            TASK STATUS: <b class="tStatus"><c:out value="${task.status}" /></b>
+                            START DATE: <b><c:out value="${task.start}" /></b>
+                            END DATE: <b><c:out value="${task.end}" /></b>
+                        </h4>
                     </div>
                     <input type="text" class="taskStart" value="${task.start}" />
                     <input type="text" class="taskEnd" value="${task.end}" />
