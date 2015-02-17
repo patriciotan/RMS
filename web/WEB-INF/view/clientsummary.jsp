@@ -57,7 +57,7 @@
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Name</label>
-                                    <input class="form-control" autocomplete="off" required="required"  type="text" name="name" size="20">
+                                    <input class="form-control" autocomplete="off" required="required"  type="text" name="name" maxlength="30" pattern=".{4,30}" title="4 to 30 Characters" />
                                 </div>
                             </div>
                             <div class="panel-footer">

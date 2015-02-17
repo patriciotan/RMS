@@ -470,6 +470,7 @@ public class RMSController {
         return mav;
     }  
     
+    //wa nani gamita--2/17
     @RequestMapping(value = "/resProject", method = RequestMethod.POST)
     public ModelAndView viewResProject(@ModelAttribute("project")Project project, ModelMap model, HttpServletRequest request) throws Exception {   
         ModelAndView mav = new ModelAndView("resprojectsummary"); 
