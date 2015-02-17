@@ -382,7 +382,7 @@
            
            
            $(".taskName").click(function(){
-               $(".content").hide();
+               $(".content").slideUp();
                $(this).siblings(".content").slideToggle();
            });
         
