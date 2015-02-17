@@ -6,15 +6,16 @@
 <div id="bodiv">
     <div class="row">
         <div style="float: left; width: 20%; margin-left: 2.3%;">
-            <h2>My Projects</h2>
+            <h2>My Tasks</h2>
         </div>
     </div>
     <div id="taskSummary" class="col-md-12">
         <table class="table table-striped" id="effortTable">
             <thead>
                 <tr>
-                    <th>Project Name</th>
                     <th>Task Name</th>
+                    <th>Project Name</th>
+                    <th>Year</th>
                     <th>Start Date</th>
                     <th>End Date</th>
                     <th style="display:none;">Year</th>
@@ -40,8 +41,9 @@
                 <c:forEach items="${projects}" var="project">
                     <tr class="effortRow">
                         <input type="hidden" class="taskid" value="${project.taskId}"/>
-                        <td class="projectName"><c:out value="${project.name}" /></td>
                         <td class="taskName"><c:out value="${project.taskName}" /></td>
+                        <td class="projectName"><c:out value="${project.name}" /></td>
+                        <td><c:out value="${project.year}" /></td>
                         <td><c:out value="${project.start}" /></td>
                         <td><c:out value="${project.end}" /></td>
                         <td style="display:none;" class="hYear"><c:out value="${project.year}" /></td>
@@ -100,19 +102,19 @@
                                             <th>Dec</th>
                                         </thead>
                                         <tbody>
-                                        <td class="vYear"></td>
-                                        <td class="v1"></td>
-                                        <td class="v2"></td>
-                                        <td class="v3"></td>
-                                        <td class="v4"></td>
-                                        <td class="v5"></td>
-                                        <td class="v6"></td>
-                                        <td class="v7"></td>
-                                        <td class="v8"></td>
-                                        <td class="v9"></td>
-                                        <td class="v10"></td>
-                                        <td class="v11"></td>
-                                        <td class="v12"></td>
+                                            <td class="vYear"></td>
+                                            <td class="v1"></td>
+                                            <td class="v2"></td>
+                                            <td class="v3"></td>
+                                            <td class="v4"></td>
+                                            <td class="v5"></td>
+                                            <td class="v6"></td>
+                                            <td class="v7"></td>
+                                            <td class="v8"></td>
+                                            <td class="v9"></td>
+                                            <td class="v10"></td>
+                                            <td class="v11"></td>
+                                            <td class="v12"></td>
                                         </tbody>
                                     </table>
                                 </div>

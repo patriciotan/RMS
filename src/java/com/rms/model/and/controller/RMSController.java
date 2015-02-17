@@ -383,7 +383,7 @@ public class RMSController {
             request.getSession(true).setAttribute("userType",rs.getString("type"));
             request.getSession(true).setAttribute("userId",rs.getInt("user_id"));
             if(rs.getString("type").equals("Manager")){
-                mav = new ModelAndView("redirect:/dashboard"); 
+                mav = new ModelAndView("redirect:/dashboard");
             }
             else if(rs.getString("type").equals("Employee")){
                 request.getSession(true).setAttribute("resId",rs.getInt("resource_id"));
@@ -403,8 +403,7 @@ public class RMSController {
     
     @RequestMapping(value = "/logoutSubmit", method = RequestMethod.POST)
     public ModelAndView logoutSubmit(ModelMap model,HttpServletRequest request) throws Exception {
-        ModelAndView mav = new ModelAndView("redirect:/login"); 
-        mav.addObject("title","RMS - Log in");
+        ModelAndView mav = new ModelAndView("redirect:/login");
         request.getSession().invalidate();
         return mav;
     }
