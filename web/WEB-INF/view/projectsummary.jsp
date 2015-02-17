@@ -70,8 +70,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Client Name</label>
-                                    <select class="form-control" name="clientId" required="required" >
-                                        <option disabled="true" value="default" selected default></option>
+                                    <select class="form-control" name="clientId" required="required">
+                                        <option disabled="true" selected default></option>
                                         <c:forEach items="${clients}" var="client">
                                             <option value="${client.clientId}"><c:out value="${client.name}" /></option>
                                         </c:forEach>
@@ -140,7 +140,6 @@
                                 <div class="form-group">
                                     <label for="">Client Name</label>
                                     <select class="form-control" name="clientId" required="required" id="field6">
-                                        <option disabled="true" value="default" selected default></option>
                                         <c:forEach items="${clients}" var="client">
                                             <option value="${client.clientId}"><c:out value="${client.name}" /></option>
                                         </c:forEach>
@@ -157,7 +156,6 @@
                                 <div class="form-group">
                                     <label for="">Type</label>
                                     <select class="form-control" name="type" required="required" id="field4">
-                                        <option disabled="true" selected default></option>
                                         <option value="Project-Based">Project-Based</option>
                                         <option value="Time and Material">Time and Material</option>
                                     </select>
@@ -165,7 +163,6 @@
                                 <div class="form-group">
                                     <label for="">Business Unit</label>
                                     <select class="form-control" name="bUnit" required="required" id="field5">
-                                        <option disabled="true" selected default></option>
                                         <option value="Philippines">Philippines</option>
                                         <option value="Japan">Japan</option>
                                         <option value="Rest of the World">Rest of the World</option>

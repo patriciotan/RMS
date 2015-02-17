@@ -141,7 +141,7 @@
                                 <div class="form-group">
                                     <label for="">Client Name</label>
                                     <select class="form-control" name="clientId" required="required" >
-                                        <option disabled="true" value="default" selected default></option>
+                                        <option disabled="true" selected default></option>
                                         <c:forEach items="${clients}" var="client">
                                             <option value="${client.clientId}"><c:out value="${client.name}" /></option>
                                         </c:forEach>

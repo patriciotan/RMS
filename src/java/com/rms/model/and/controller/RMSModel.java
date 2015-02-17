@@ -295,8 +295,8 @@ public class RMSModel {
         return false;
     }
     
-    public boolean editSummary(String name, String start, String end, String type, String bUnit,int projectId,int updated_by,String updated_date) throws Exception {
-        sql = "UPDATE project SET name='"+name+"',start_date='"+start+"',end_date='"+end+"',type='"+type+"',business_unit='"+bUnit+"',updated_by="+updated_by+",updated_date='"+updated_date+"' WHERE project_id="+projectId;
+    public boolean editSummary(String name,int clientId, String start, String end, String type, String bUnit,int projectId,int updated_by,String updated_date) throws Exception {
+        sql = "UPDATE project SET name='"+name+"',client_id="+clientId+",start_date='"+start+"',end_date='"+end+"',type='"+type+"',business_unit='"+bUnit+"',updated_by="+updated_by+",updated_date='"+updated_date+"' WHERE project_id="+projectId;
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;
@@ -481,6 +481,15 @@ public class RMSModel {
         rs = ps.executeQuery();
         rs.next();
         return rs.getInt("cnt");
+    }
+    
+    public ResultSet getTask(int taskid) throws Exception{
+        sql = "SELECT * FROM task WHERE task_id=?";
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, taskid);
+        rs = ps.executeQuery();
+        
+        return rs;
     }
     
 }

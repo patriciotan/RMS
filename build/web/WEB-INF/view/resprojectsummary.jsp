@@ -3,8 +3,8 @@
     <div class="row" style="margin-top: -2%;">
         <div style="float: left; width: 40%; margin-left: 1.2%;">
             <h3><a href="pSummary">Project Summary</a> / Tasks for ${projectName}</h3>
-            <input type="text" id="startDate" value="${project.start}" />
-            <input type="text" id="endDate" value="${project.end}" />
+            <input type="text" id="startDate" value="${start}" />
+            <input type="text" id="endDate" value="${end}" />
         </div>
         <div style="float: left;margin-left:46%; margin-right: -10px; margin-top: 12px;">
             <button type="button" class="btn btn-lg btn-primary addOption" data-toggle="modal" data-target="#addTask">Add new task</button>
@@ -94,11 +94,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Start Date</label>
-                                    <input class="form-control" type="date" min="${project.start}" max="${project.end}"  required="required" name="start" id="start1">
+                                    <input class="form-control" type="date" min="${start}" max="${end}"  required="required" name="start" id="start1">
                                 </div>
                                 <div class="form-group">
                                     <label for="">End Date</label>
-                                    <input class="form-control" type="date" min="${project.start}" max="${project.end}"  required="required" name="end" id="end1">
+                                    <input class="form-control" type="date" min="${start}" max="${end}"  required="required" name="end" id="end1">
                                 </div>
                             </div>
                             <div class="panel-footer">
