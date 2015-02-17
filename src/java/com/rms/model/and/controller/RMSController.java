@@ -56,6 +56,7 @@ public class RMSController {
             project.setType(rs.getString("type"));
             project.setStatus(rs.getString("status"));
             project.setbUnit(rs.getString("business_unit"));
+            project.setMilestone(rs.getString("milestone"));
             project.setAddedBy(rs.getString("added_by"));
             project.setAddedDate(rs.getString("added_date"));
             
@@ -318,6 +319,7 @@ public class RMSController {
             a.setName(rs.getString("name"));
             a.setStart(rs.getString("start_date"));
             a.setEnd(rs.getString("end_date"));
+            a.setPerformance(rs.getInt("performance"));
             zac = dbModel.getResourcesTasks(a.getTaskId());
             while(zac.next()){
                 Resource resource = new Resource();
@@ -622,7 +624,7 @@ public class RMSController {
     @RequestMapping(value = "/editTask", method = RequestMethod.POST)
     public ModelAndView editTask(@ModelAttribute("task")Task task, ModelMap model) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
-        if(dbModel.editTask(task.getTaskId(), task.getName(), task.getStatus()))
+        if(dbModel.editTask(task.getTaskId(), task.getName(), task.getStatus(),task.getPerformance()))
         {
             mav = new ModelAndView("redirect:/openProject?getId="+task.getProjectId()); 
         }
@@ -676,7 +678,7 @@ public class RMSController {
         Date now = c.getTime();
         int updated_by = (int) request.getSession().getAttribute("userId");
         String updated_date = sdf.format(now);
-        if(dbModel.editSummary(project.getName(),project.getClientId(),project.getStart(),project.getEnd(),project.getType(),project.getbUnit(),project.getProjectId(),updated_by,updated_date))
+        if(dbModel.editSummary(project.getName(),project.getClientId(),project.getStart(),project.getEnd(),project.getType(),project.getbUnit(),project.getProjectId(),project.getMilestone(),updated_by,updated_date))
         {
             mav = new ModelAndView("redirect:/pSummary"); 
         }

@@ -15,12 +15,13 @@
             <c:forEach items="${tasks}" var="task">
                 <div>
                     <div class="taskName" style="background-color:#2e2e2e;color:white;padding:5px;">
-                        <h4>
+                        <h5>
                             TASK NAME: <b class="tName"><c:out value="${task.name}" /></b>    
                             TASK STATUS: <b class="tStatus"><c:out value="${task.status}" /></b>
                             START DATE: <b><c:out value="${task.start}" /></b>
                             END DATE: <b><c:out value="${task.end}" /></b>
-                        </h4>
+                            PERFORMANCE: <b class="tPerformance"><c:out value="${task.performance}" /></b>
+                        </h5>
                     </div>
                     <input type="text" class="taskStart" value="${task.start}" />
                     <input type="text" class="taskEnd" value="${task.end}" />
@@ -319,6 +320,10 @@
                                         <option value="Accepted">Accepted</option>
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label for="">Performance</label>
+                                    <input class="form-control" type="number" min="1" max="5" step="1" name="performance" id="field3" required="required"/>
+                                </div>
                             </div>
                             <div class="panel-footer">
                                 <div style="text-align: right">
@@ -396,6 +401,7 @@
                 $("#editTaskId").val($(this).parent().siblings(".taskId").val());
                 $("#field1").val($(this).parent().siblings().find(".tName").text());
                 $("#field2").val($(this).parent().siblings().find(".tStatus").text());
+                $("#field3").val($(this).parent().siblings().find(".tPerformance").text());
             });
             
             $(".deleteOption").click(function(){

@@ -295,8 +295,8 @@ public class RMSModel {
         return false;
     }
     
-    public boolean editSummary(String name,int clientId, String start, String end, String type, String bUnit,int projectId,int updated_by,String updated_date) throws Exception {
-        sql = "UPDATE project SET name='"+name+"',client_id="+clientId+",start_date='"+start+"',end_date='"+end+"',type='"+type+"',business_unit='"+bUnit+"',updated_by="+updated_by+",updated_date='"+updated_date+"' WHERE project_id="+projectId;
+    public boolean editSummary(String name,int clientId, String start, String end, String type, String bUnit,int projectId,String miles,int updated_by,String updated_date) throws Exception {
+        sql = "UPDATE project SET name='"+name+"',client_id="+clientId+",start_date='"+start+"',end_date='"+end+"',type='"+type+"',business_unit='"+bUnit+"',milestone='"+miles+"',updated_by="+updated_by+",updated_date='"+updated_date+"' WHERE project_id="+projectId;
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;
@@ -462,13 +462,14 @@ public class RMSModel {
         ps.executeUpdate();
     }
     
-    public boolean editTask(int taskId, String name, String status) throws Exception{
-        sql = "UPDATE task SET name=?, status=? WHERE task_id=?";
+    public boolean editTask(int taskId, String name, String status, int performance) throws Exception{
+        sql = "UPDATE task SET name=?, status=?, performance=? WHERE task_id=?";
         System.out.println(sql+taskId);
         ps = con.prepareStatement(sql);
         ps.setString(1, name);
         ps.setString(2, status);
-        ps.setInt(3, taskId);
+        ps.setInt(3, performance);
+        ps.setInt(4, taskId);
          if(ps.executeUpdate() > 0)
             return true;
         return false;
