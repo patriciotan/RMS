@@ -14,10 +14,26 @@ import java.sql.Date;
  */
 public class Project {
     
-    private String name,type,status,bUnit,start,end,reference,clientName,addedDate,addedBy,milestone;
-    private int resNeeded,projectId,year,clientId;
+    private String name,type,status,bUnit,start,end,reference,clientName,addedDate,addedBy,milestone,taskName;
+    private int resNeeded,projectId,year,clientId,taskId;
     private float jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dece;
 
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public int getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
+    
     public String getMilestone() {
         return milestone;
     }

@@ -56,6 +56,7 @@ public class RMSController {
             project.setType(rs.getString("type"));
             project.setStatus(rs.getString("status"));
             project.setbUnit(rs.getString("business_unit"));
+            project.setMilestone(rs.getString("milestone"));
             project.setAddedBy(rs.getString("added_by"));
             project.setAddedDate(rs.getString("added_date"));
             
@@ -68,17 +69,22 @@ public class RMSController {
         return projects;
     } 
     public List getMyProjects(int id) throws Exception {  
-        ResultSet rs = dbModel.getMyProjects(id);
+        ResultSet rs = dbModel.getMyProjects(id),task = null;
         List<Project> projects=new ArrayList<>();
         while(rs.next()){
             Project project = new Project();
             project.setProjectId(rs.getInt("project_id"));
             project.setName(rs.getString("name"));
-            project.setStart(rs.getString("start_date"));
-            project.setEnd(rs.getString("end_date"));
             project.setType(rs.getString("type"));
             project.setStatus(rs.getString("status"));
             project.setbUnit(rs.getString("business_unit"));
+            task=dbModel.getTask(rs.getInt("task_id"));
+            if(task.next()){
+                project.setTaskId(rs.getInt("task_id"));
+                project.setTaskName(task.getString("name"));
+                project.setStart(task.getString("start_date"));
+                project.setEnd(task.getString("end_date"));
+            }
             project.setYear(rs.getInt("year"));
             project.setJan(rs.getFloat("jan"));
             project.setFeb(rs.getFloat("feb"));
@@ -315,6 +321,7 @@ public class RMSController {
             a.setName(rs.getString("name"));
             a.setStart(rs.getString("start_date"));
             a.setEnd(rs.getString("end_date"));
+            a.setPerformance(rs.getInt("performance"));
             zac = dbModel.getResourcesTasks(a.getTaskId());
             while(zac.next()){
                 Resource resource = new Resource();
@@ -440,6 +447,7 @@ public class RMSController {
         }
         return mav;
     }  
+     
     
     @RequestMapping("/employeeView")
     public ModelAndView employeeView(HttpServletRequest request) throws Exception {  
@@ -503,6 +511,8 @@ public class RMSController {
                 mav.addObject("start",rs.getString("start_date"));
                 mav.addObject("end",rs.getString("end_date"));
 //                mav.addObject("employees", getEmployees());
+                mav.addObject("start",rs.getString("start_date"));
+                mav.addObject("end",rs.getString("end_date"));
                 mav.addObject("tasks",getTasks(id));
             }else{
                 mav = new ModelAndView("redirect:/pSummary"); 
@@ -618,7 +628,7 @@ public class RMSController {
     @RequestMapping(value = "/editTask", method = RequestMethod.POST)
     public ModelAndView editTask(@ModelAttribute("task")Task task, ModelMap model) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
-        if(dbModel.editTask(task.getTaskId(), task.getName(), task.getStatus()))
+        if(dbModel.editTask(task.getTaskId(), task.getName(), task.getStatus(),task.getPerformance()))
         {
             mav = new ModelAndView("redirect:/openProject?getId="+task.getProjectId()); 
         }
@@ -672,7 +682,7 @@ public class RMSController {
         Date now = c.getTime();
         int updated_by = (int) request.getSession().getAttribute("userId");
         String updated_date = sdf.format(now);
-        if(dbModel.editSummary(project.getName(),project.getStart(),project.getEnd(),project.getType(),project.getbUnit(),project.getProjectId(),updated_by,updated_date))
+        if(dbModel.editSummary(project.getName(),project.getClientId(),project.getStart(),project.getEnd(),project.getType(),project.getbUnit(),project.getProjectId(),project.getMilestone(),updated_by,updated_date))
         {
             mav = new ModelAndView("redirect:/pSummary"); 
         }

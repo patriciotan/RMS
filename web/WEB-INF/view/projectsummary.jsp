@@ -23,6 +23,7 @@
                     <th style="text-align: center">End Date</th>
                     <th style="text-align: center">Type</th>
                     <th style="text-align: center">Business Unit</th>
+                    <th style="text-align: center">Current Milestone</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -40,6 +41,7 @@
                     <td class="endDate"><c:out value="${project.end}" /></td>
                     <td class="projType"><c:out value="${project.type}" /></td>
                     <td class="bUnit"><c:out value="${project.bUnit}" /></td>
+                    <td class="mileSto"><c:out value="${project.milestone}" /></td>
                     <td><button class="btn btn-warning editOption" data-toggle="modal" data-target="#editProject">Edit</button></td>
                     <td><button id="deleteButton3" class="btn btn-danger end" data-toggle="modal" data-target="#endProject">End</button></td>
                 </tr>
@@ -70,8 +72,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Client Name</label>
-                                    <select class="form-control" name="clientId" required="required" >
-                                        <option disabled="true" value="default" selected default></option>
+                                    <select class="form-control" name="clientId" required="required">
+                                        <option disabled="true" selected default></option>
                                         <c:forEach items="${clients}" var="client">
                                             <option value="${client.clientId}"><c:out value="${client.name}" /></option>
                                         </c:forEach>
@@ -140,7 +142,6 @@
                                 <div class="form-group">
                                     <label for="">Client Name</label>
                                     <select class="form-control" name="clientId" required="required" id="field6">
-                                        <option disabled="true" value="default" selected default></option>
                                         <c:forEach items="${clients}" var="client">
                                             <option value="${client.clientId}"><c:out value="${client.name}" /></option>
                                         </c:forEach>
@@ -157,7 +158,6 @@
                                 <div class="form-group">
                                     <label for="">Type</label>
                                     <select class="form-control" name="type" required="required" id="field4">
-                                        <option disabled="true" selected default></option>
                                         <option value="Project-Based">Project-Based</option>
                                         <option value="Time and Material">Time and Material</option>
                                     </select>
@@ -165,12 +165,15 @@
                                 <div class="form-group">
                                     <label for="">Business Unit</label>
                                     <select class="form-control" name="bUnit" required="required" id="field5">
-                                        <option disabled="true" selected default></option>
                                         <option value="Philippines">Philippines</option>
                                         <option value="Japan">Japan</option>
                                         <option value="Rest of the World">Rest of the World</option>
                                         <option value="Alliance">Alliance</option>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Current Milestone</label>
+                                    <input class="form-control" type="text" name="milestone" required="required" id="field7" />
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -276,7 +279,8 @@
                $("#field3").val($(this).parent().siblings(".endDate").text());
                $("#field4").val($(this).parent().siblings(".projType").text());
                $("#field5").val($(this).parent().siblings(".bUnit").text()); 
-               $("#field6").val($(this).parent().siblings(".clientI").text()); 
+               $("#field6").val($(this).parent().siblings(".clientI").text());
+               $("#field7").val($(this).parent().siblings(".mileSto").text());
                $.ajax({
                     url:'checkProjectTask.htm',
                     type:'post',

@@ -148,7 +148,6 @@
                                 <div class="form-group">
                                     <label for="">Type</label>
                                     <select class="form-control" name="type" required="required" id="field6">
-                                        <option disabled="true" selected default></option>
                                         <option value="Project-Based">Project-Based</option>
                                         <option value="Time and Material">Time and Material</option>
                                     </select>
@@ -156,7 +155,6 @@
                                 <div class="form-group">
                                     <label for="">Status</label>
                                     <select class="form-control" name="status" required="required" id="field4">
-                                        <option disabled="true" selected default></option>
                                         <option value="No movement"> No movement </option>
                                         <option value="Proposal"> Proposal </option>
                                         <option value="Official go"> Official go</option>
@@ -168,7 +166,6 @@
                                 <div class="form-group">
                                     <label for="">Business Unit</label>
                                     <select class="form-control" name="bUnit" required="required" id="field5">
-                                        <option disabled="true" selected default></option>
                                         <option value="Philippines">Philippines</option>
                                         <option value="Japan">Japan</option>
                                         <option value="Rest of the World">Rest of the World</option>
