@@ -30,6 +30,7 @@
                         <button type="button" class="btn btn-lg btn-primary deleteOption pull-right" data-toggle="modal" data-target="#deleteTask">Delete Task</button>
                         <button type="button" class="btn btn-lg btn-primary editOption pull-right" data-toggle="modal" data-target="#editTask">Edit Task</button>
                         <button type="button" class="btn btn-lg btn-primary assignOption pull-right" data-toggle="modal" data-target="#assign">Assign new resource</button>
+                        <button type="button" class="btn btn-lg btn-primary viewFeedback pull-right" data-toggle="modal" data-target="#viewFeedback">View Feedback</button>
                         <br/><br/><br/>
                         <table class="resProjects" class="display">   
                             <thead>
@@ -369,6 +370,43 @@
         </div>
     </div>
     <!-- End modal for remove task-->   
+    
+    <!-- Start modal for view feedbacks-->            
+    <div class="modal fade" id="viewFeedback" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog-l">
+            <div class="modal-content-sm">
+                <div class="modal-body-sm">
+                    <div class="panel panel-primary">  
+                        <div class="panel-heading">
+                            <b>Feedbacks of ${projectName}/<code id="vfName"></code></b>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: left;" width="200px">Subject</th>
+                                        <th style="text-align: left;">Content</th>
+                                        <th style="text-align: right;" width="200px">Added by</th>
+                                        <th style="text-align: right;" width="100px">Added on</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="viewFbTable">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel-footer">
+                            <div style="text-align: right">
+                                <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End modal for view feedbacks-->
+    
 </div>
 </div>
 </div><!-- closing div from navigation-->
@@ -385,6 +423,33 @@
                 } 
             });
            
+           $("#resourceSummary").on('click',".viewFeedback",function(){
+                $("#viewFbTable").html("");
+                $("#vfName").text($(this).parent().siblings().find(".tName").text());
+                $.ajax({
+                    url:'getFeedbacks.htm',
+                    type:'post',
+                    data:{'taskId': $(this).parent().siblings(".taskId").val()},
+                    success:function(data){
+                        var x = data.toString();
+                        var parts = x.split("@");
+                        var row = parts[0].split("$");
+//                        alert("subject: "+rec[0]+", content: "+rec[1]+", res id: "+rec[2]+", date added: "+rec[3]);
+                        for(var i = 0; i < parseInt(parts[1]); i ++){
+                            var rec = row[i].split("%");
+                            $("#viewFbTable").append("<tr>" +
+                                                        "<td style='text-align: left;'>"+rec[0]+"</td>" +
+                                                        "<td style='text-align: left;'>"+rec[1]+"</td>" +
+                                                        "<td style='text-align: right;'>"+rec[3]+"</td>" +
+                                                        "<td style='text-align: right;'>"+rec[4]+"</td>" +
+                                                    "</tr>");
+                        }
+                    },  
+                        error : function(e) {  
+                        alert('Error: ' + e);   
+                    }
+                }); 
+            });
            
            $(".taskName").click(function(){
                $(".content").slideUp();

@@ -15,8 +15,16 @@ import java.sql.Date;
 public class Project {
     
     private String name,type,status,bUnit,start,end,reference,clientName,addedDate,addedBy,milestone,taskName;
-    private int resNeeded,projectId,year,clientId,taskId;
+    private int resNeeded,projectId,year,clientId,taskId,performance;
     private float jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dece;
+
+    public int getPerformance() {
+        return performance;
+    }
+
+    public void setPerformance(int performance) {
+        this.performance = performance;
+    }
 
     public String getTaskName() {
         return taskName;

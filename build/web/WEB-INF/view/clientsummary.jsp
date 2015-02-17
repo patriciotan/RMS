@@ -20,19 +20,22 @@
                     <th style="text-align: center">Resource Count</th>
                     <th style="text-align: center">End Date</th>
                     <th style="text-align: center">Status</th>
-                    <th style="text-align: center">View</th>
+                    <th style="text-align: center"></th>
                 </tr>
             </thead>
             <tbody id="clientsTable">
                 <c:forEach items="${clients}" var="client">
                 <tr>
                     <td class="clientName"><c:out value="${client.name}" /></td>
-                    <td><c:out value="${client.projectName}" /></td>
+                    <td class="projName"><c:out value="${client.projectName}" /></td>
                     <td><c:out value="${client.mileStone}" /></td>
                     <td><c:out value="${client.resCount}" /></td>
                     <td><c:out value="${client.end}" /></td>
                     <td><c:out value="${client.projectStatus}" /></td>
-                    <td>VIEW ME</td>
+                    <td>
+                        <button class="btn btn-primary viewRm" data-toggle="modal" data-target="#viewRemarks">View Remarks</button>
+                        <input type="hidden" class="remarkss" value="<c:out value='${client.remarks}' />"/>
+                    </td>
                 </tr>
                 </c:forEach>
             </tbody>
@@ -75,12 +78,40 @@
     </div>
     <!-- End modal for add client-->
 
+    <!-- Start modal for view remarks-->            
+    <div class="modal fade" id="viewRemarks" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content-sm">
+                <div class="modal-body-sm">
+                    <div class="panel panel-primary">  
+                        <div class="panel-heading">
+                            <b>Remarks of <code id="viewName"></code></b>
+                        </div>
+                        <div class="panel-body">
+                            <p id="remarksArea"></p>
+                        </div>
+                        <div class="panel-footer">
+                            <div style="text-align: right">
+                                <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End modal for view remarks-->
+    
     </body>
     <script>
         $(document).ready(function(){
-           $("#4").attr("class","active");
-           $("#clientSummary").dataTable();
+            $("#4").attr("class","active");
+            $("#clientSummary").dataTable();
            
+            $("#clientSummary").on("click",".viewRm",function(){
+                $("#remarksArea").html($(this).next().val());
+                $("#viewName").text($(this).parent().siblings(".projName").text());
+            });
         });
     </script>
 </html>

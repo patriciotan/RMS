@@ -10,7 +10,7 @@ package com.rms.model.and.controller;
  */
 public class Feedback {
     private String subject, content, created_date, resName;
-    private int created_by,projId;
+    private int created_by,taskId;
 
     public String getResName() {
         return resName;
@@ -20,12 +20,12 @@ public class Feedback {
         this.resName = resName;
     }
 
-    public int getProjId() {
-        return projId;
+    public int getTaskId() {
+        return taskId;
     }
 
-    public void setProjId(int projId) {
-        this.projId = projId;
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
     }
 
     public String getContent() {

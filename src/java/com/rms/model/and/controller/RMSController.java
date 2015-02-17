@@ -84,6 +84,7 @@ public class RMSController {
                 project.setTaskName(task.getString("name"));
                 project.setStart(task.getString("start_date"));
                 project.setEnd(task.getString("end_date"));
+                project.setPerformance(task.getInt("performance"));
             }
             project.setYear(rs.getInt("year"));
             project.setJan(rs.getFloat("jan"));
@@ -254,6 +255,7 @@ public class RMSController {
             c.setResCount(dbModel.getNumberOfResourcesProject(rs.getInt("project_id")));
             c.setEnd(rs.getString("end_date"));
             c.setProjectStatus(rs.getString("status"));
+            c.setRemarks(rs.getString("remarks"));
             clients.add(c);
         }
         return clients;
@@ -712,7 +714,7 @@ public class RMSController {
         Date now = c.getTime();
         int created_by = (int) request.getSession().getAttribute("resId");
         String created_date = sdf.format(now);
-        if(dbModel.addFeedback(feedback.getProjId(),feedback.getSubject(),feedback.getContent(),created_by,created_date))
+        if(dbModel.addFeedback(feedback.getTaskId(),feedback.getSubject(),feedback.getContent(),created_by,created_date))
         {
             mav = new ModelAndView("redirect:/employeeView"); 
         }
@@ -730,8 +732,8 @@ public class RMSController {
     }
     
     @RequestMapping(value = "/getFeedbacks")
-    public @ResponseBody String getFeedbacks(@RequestParam("projId")int projId, ModelMap model) throws Exception {
-        ResultSet rs = dbModel.getFeedbacks(projId);
+    public @ResponseBody String getFeedbacks(@RequestParam("taskId")int taskId, ModelMap model) throws Exception {
+        ResultSet rs = dbModel.getFeedbacks(taskId);
         String feedback = "",feedbacks = "";
         int i = 0;
         while(rs.next()) {
@@ -752,7 +754,7 @@ public class RMSController {
             feedbacks += "$";
             i++;
         }
-//        System.out.println(feedbacks);
+        System.out.println("------------"+feedbacks);
         feedbacks += "@";
         feedbacks += i;
         return feedbacks;

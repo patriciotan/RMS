@@ -24,7 +24,7 @@
                 <c:forEach items="${clients}" var="client">
                 <tr>
                     <input type="hidden" class="projid" value="<c:out value='${client.projId}' />"/>
-                    <td><c:out value="${client.projectName}" /></td>
+                    <td class="projName"><c:out value="${client.projectName}" /></td>
                     <td><c:out value="${client.mileStone}" /></td>
                     <td><c:out value="${client.resCount}" /></td>
                     <td><c:out value="${client.end}" /></td>
@@ -52,13 +52,13 @@
                 <div class="modal-body-sm">
                     <div class="panel panel-primary">  
                         <div class="panel-heading">
-                            <b>Update Remarks</b>
+                            <b>Update Remarks of <code id="uName"></code></b>
                         </div>
                         <form id="add" name="add" action='<c:url value="updateRemarks"/>' method="post" modelAttribute="feedback">
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Remarks</label>
-                                    <textarea id="updateArea" class="form-control" required="required" name="remarks"rows="10"></textarea>
+                                    <textarea id="updateArea" class="form-control" required="required" name="remarks" rows="10" maxlength="100"></textarea>
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -83,7 +83,7 @@
                 <div class="modal-body-sm">
                     <div class="panel panel-primary">  
                         <div class="panel-heading">
-                            <b><code>Remarks</code></b>
+                            <b>Remarks of <code id="vName"></code></b>
                         </div>
                         <div class="panel-body">
                             <p id="remarksArea"></p>
@@ -114,9 +114,11 @@
 
             $(".viewRm").click(function(){
                 $("#remarksArea").html($(this).next().val());
+                $("#vName").text($(this).parent().siblings(".projName").text());
             });
 
             $(".upRm").click(function(){
+                $("#uName").text($(this).parent().siblings(".projName").text());
                 $("#updateArea").html($(this).parent().prev().children().next().val());
                 $("#myprojid").val($(this).parent().parent().children().val());
             });

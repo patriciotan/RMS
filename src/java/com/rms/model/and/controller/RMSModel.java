@@ -104,19 +104,19 @@ public class RMSModel {
         return false;
     }
     
-    public boolean addFeedback(int projId, String subject, String content, int added_by, String added_date) throws Exception {
-        sql = "insert into feedback (project_id,subject,content,added_by,added_date) values ("+projId+",'"+subject+"','"+content+"',"+added_by+",'"+added_date+"')";
+    public boolean addFeedback(int taskId, String subject, String content, int added_by, String added_date) throws Exception {
+        sql = "insert into feedback (task_id,subject,content,added_by,added_date) values ("+taskId+",'"+subject+"','"+content+"',"+added_by+",'"+added_date+"')";
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;
         return false;
     }
     
-    public ResultSet getFeedbacks(int projId) throws Exception
+    public ResultSet getFeedbacks(int taskId) throws Exception
     {
-        sql = "select feedback.*,resource.* from feedback join resource on resource.resource_id = feedback.added_by where project_id=? order by feedback.added_date desc";
+        sql = "select feedback.*,resource.* from feedback join resource on resource.resource_id = feedback.added_by where task_id=? order by feedback.added_date desc";
         ps = con.prepareStatement(sql);
-        ps.setInt(1, projId);
+        ps.setInt(1, taskId);
         rs = ps.executeQuery();
         
         return rs;

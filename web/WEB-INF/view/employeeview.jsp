@@ -57,7 +57,7 @@
                         <td style="display:none;" class="h10"><c:out value="${project.oct}" /></td>
                         <td style="display:none;" class="h11"><c:out value="${project.nov}" /></td>
                         <td style="display:none;" class="h12"><c:out value="${project.dece}" /></td>
-                        <td>Hi</td>
+                        <td><c:out value="${project.performance}" /></td>
                         <td><button class="btn btn-info viewEffort" data-toggle="modal" data-target="#viewEffort">View Effort</button></td>
                         <td><button class="btn btn-success addFeedback" data-toggle="modal" data-target="#addFeedback">Add Feedback</button></td>
                         <td class="tdFb"><button class="btn btn-primary viewFeedback" data-toggle="modal" data-target="#viewFeedback">View Feedbacks</button></td>
@@ -137,17 +137,17 @@
                 <div class="modal-body-sm">
                     <div class="panel panel-primary">  
                         <div class="panel-heading">
-                            <b>Add Feedback</b>
+                            <b>Add Feedback on <code id="aFeed"></code></b>
                         </div>
                         <form id="add" name="add" action='<c:url value="addFeedback"/>' method="post" modelAttribute="feedback">
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Subject</label>
-                                    <input class="form-control" autocomplete="off" required="required" type="text" name="subject" size="20">
+                                    <input class="form-control" autocomplete="off" required="required" type="text" name="subject" maxlength="30">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Content</label>
-                                    <textarea class="form-control" required="required" name="content"rows="10"></textarea>
+                                    <textarea class="form-control" required="required" name="content" rows="10" required="required"></textarea>
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -172,7 +172,7 @@
                 <div class="modal-body-sm">
                     <div class="panel panel-primary">  
                         <div class="panel-heading">
-                            <b><code>Feedbacks</code></b>
+                            <b>Feedbacks of <code id="vFeed"></code></b>
                         </div>
                         <div class="panel-body">
                             <table class="table table-hover">
@@ -216,14 +216,16 @@
             
             $("#taskSummary").on('click',".addFeedback",function(){
                 $("#myTaskid").val($(this).parent().siblings(".taskid").val());
+                $("#aFeed").text($(this).parent().siblings(".projectName").text()+"/"+$(this).parent().siblings(".taskName").text());
             });
 
             $("#taskSummary").on('click',".viewFeedback",function(){
                 $("#viewFbTable").html("");
+                $("#vFeed").text($(this).parent().siblings(".projectName").text()+"/"+$(this).parent().siblings(".taskName").text());
                 $.ajax({
                     url:'getFeedbacks.htm',
                     type:'post',
-                    data:{'projId': $(this).parent().siblings(".projId").val()},
+                    data:{'taskId': $(this).parent().siblings(".taskid").val()},
                     success:function(data){
                         var x = data.toString();
                         var parts = x.split("@");
