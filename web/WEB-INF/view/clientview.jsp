@@ -16,18 +16,24 @@
                     <th style="text-align: center">Resource Count</th>
                     <th style="text-align: center">End Date</th>
                     <th style="text-align: center">Status</th>
-                    <th style="text-align: center">View</th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody id="clientsTable">
                 <c:forEach items="${clients}" var="client">
                 <tr>
+                    <input type="hidden" class="projid" value="<c:out value='${client.projId}' />"/>
                     <td><c:out value="${client.projectName}" /></td>
                     <td><c:out value="${client.mileStone}" /></td>
                     <td><c:out value="${client.resCount}" /></td>
                     <td><c:out value="${client.end}" /></td>
                     <td><c:out value="${client.projectStatus}" /></td>
-                    <td>VIEW ME</td>
+                    <td>
+                        <button class="btn btn-primary viewRm" data-toggle="modal" data-target="#viewRemarks">View Remarks</button>
+                        <input type="hidden" class="remarkss" value="<c:out value='${client.remarks}' />"/>
+                    </td>
+                    <td><button class="btn btn-success upRm" data-toggle="modal" data-target="#reMark">Update remarks</button></td>
                 </tr>
                 </c:forEach>
             </tbody>
@@ -39,12 +45,81 @@
 </div>
 </div><!-- closing div from navigation-->
 
+    <!-- Start modal for update remarks-->                
+    <div class="modal fade" id="reMark" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content-sm">
+                <div class="modal-body-sm">
+                    <div class="panel panel-primary">  
+                        <div class="panel-heading">
+                            <b>Update Remarks</b>
+                        </div>
+                        <form id="add" name="add" action='<c:url value="updateRemarks"/>' method="post" modelAttribute="feedback">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="">Remarks</label>
+                                    <textarea id="updateArea" class="form-control" required="required" name="remarks"rows="10"></textarea>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div style="text-align: right">
+                                    <input type="text" id="myprojid" name="projId" value=""/>
+                                    <input class="btn btn-success" id="add-but" type="submit" value="Save">
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End modal for update remarks-->
+    
+    <!-- Start modal for view remarks-->            
+    <div class="modal fade" id="viewRemarks" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content-sm">
+                <div class="modal-body-sm">
+                    <div class="panel panel-primary">  
+                        <div class="panel-heading">
+                            <b><code>Remarks</code></b>
+                        </div>
+                        <div class="panel-body">
+                            <p id="remarksArea"></p>
+                        </div>
+                        <div class="panel-footer">
+                            <div style="text-align: right">
+                                <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End modal for view remarks-->
+
     </body>
     <script>
         $(document).ready(function(){
-           $("#4").attr("class","active");
-           $("#clientSummary").dataTable();
-           
+            $("#4").attr("class","active");
+            $('#clientSummary').DataTable({
+                "order": [[ 3, "asc" ]],
+                "scrollCollapse": true,
+                "paging":         false,
+                "bInfo":          false,
+                "bFilter":        false
+            });
+
+            $(".viewRm").click(function(){
+                $("#remarksArea").html($(this).next().val());
+            });
+
+            $(".upRm").click(function(){
+                $("#updateArea").html($(this).parent().prev().children().next().val());
+                $("#myprojid").val($(this).parent().parent().children().val());
+            });
         });
     </script>
 </html>

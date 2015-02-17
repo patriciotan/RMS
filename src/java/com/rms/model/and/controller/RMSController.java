@@ -261,10 +261,12 @@ public class RMSController {
             Client c = new Client();
             c.setName(rs.getString("cname"));
             c.setProjectName(rs.getString("name"));
+            c.setProjId(rs.getInt("project_id"));
             c.setMileStone(rs.getString("milestone"));
             c.setResCount(dbModel.getNumberOfResourcesProject(rs.getInt("project_id")));
             c.setEnd(rs.getString("end_date"));
             c.setProjectStatus(rs.getString("status"));
+            c.setRemarks(rs.getString("remarks"));
             clients.add(c);
         }
         return clients;
@@ -498,6 +500,8 @@ public class RMSController {
                 mav.addObject("title","RMS - "+name);
                 mav.addObject("projectId", id);
                 mav.addObject("projectName", name);
+                mav.addObject("start",rs.getString("start_date"));
+                mav.addObject("end",rs.getString("end_date"));
 //                mav.addObject("employees", getEmployees());
                 mav.addObject("tasks",getTasks(id));
             }else{
@@ -704,6 +708,16 @@ public class RMSController {
         }
         return mav;
     } 
+    
+    @RequestMapping(value = "/updateRemarks", method = RequestMethod.POST)
+    public ModelAndView updateRemarks(@ModelAttribute("remarks")Remarks remarks, ModelMap model) throws Exception {
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
+        if(dbModel.updateRemarks(remarks.getProjId(),remarks.getRemarks()))
+        {
+            mav = new ModelAndView("redirect:/clientView"); 
+        }
+        return mav;
+    }
     
     @RequestMapping(value = "/getFeedbacks")
     public @ResponseBody String getFeedbacks(@RequestParam("projId")int projId, ModelMap model) throws Exception {

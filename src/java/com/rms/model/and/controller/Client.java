@@ -12,8 +12,24 @@ package com.rms.model.and.controller;
  */
 public class Client {
     
-    private String name,addedDate,projectName,mileStone,end,projectStatus;
-    private int clientId,addedBy,resCount;
+    private String name,addedDate,projectName,mileStone,end,projectStatus,remarks;
+    private int clientId,addedBy,resCount,projId;
+
+    public int getProjId() {
+        return projId;
+    }
+
+    public void setProjId(int projId) {
+        this.projId = projId;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
 
     public int getResCount() {
         return resCount;

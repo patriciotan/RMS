@@ -114,12 +114,21 @@ public class RMSModel {
     
     public ResultSet getFeedbacks(int projId) throws Exception
     {
-        sql = "select feedback.*,resource.* from feedback join resource on resource.resource_id = feedback.added_by where project_id=?";
+        sql = "select feedback.*,resource.* from feedback join resource on resource.resource_id = feedback.added_by where project_id=? order by feedback.added_date desc";
         ps = con.prepareStatement(sql);
         ps.setInt(1, projId);
         rs = ps.executeQuery();
         
         return rs;
+    }
+    
+    public boolean updateRemarks(int projId, String remarks) throws Exception
+    {
+        sql = "UPDATE project SET remarks='"+remarks+"' WHERE project_id="+projId;
+        System.out.println(sql);
+        if(st.executeUpdate(sql) > 0)
+            return true;
+        return false;
     }
     
     public ResultSet getOutlook() throws Exception

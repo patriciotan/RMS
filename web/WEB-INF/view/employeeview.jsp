@@ -115,7 +115,7 @@
     </div>
     <!-- End modal for add feedback-->
     
-    <!-- Start modal for view resources-->            
+    <!-- Start modal for view feedbacks-->            
     <div class="modal fade" id="viewFeedback" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog-l">
             <div class="modal-content-sm">
@@ -128,10 +128,10 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th width="100px">Subject</th>
-                                        <th>Content</th>
-                                        <th width="100px">Added by</th>
-                                        <th width="100px">Added on</th>
+                                        <th style="text-align: left;" width="200px">Subject</th>
+                                        <th style="text-align: left;">Content</th>
+                                        <th style="text-align: right;" width="200px">Added by</th>
+                                        <th style="text-align: right;" width="100px">Added on</th>
                                     </tr>
                                 </thead>
                                 <tbody id="viewFbTable">
@@ -149,7 +149,7 @@
             </div>
         </div>
     </div>
-    <!-- End modal for view resources-->
+    <!-- End modal for view feedbacks-->
     
     <script>
         $(document).ready(function(){
@@ -174,10 +174,10 @@
                         for(var i = 0; i < parseInt(parts[1]); i ++){
                             var rec = row[i].split("%");
                             $("#viewFbTable").append("<tr>" +
-                                                        "<td>"+rec[0]+"</td>" +
-                                                        "<td>"+rec[1]+"</td>" +
-                                                        "<td>"+rec[3]+"</td>" +
-                                                        "<td>"+rec[4]+"</td>" +
+                                                        "<td style='text-align: left;'>"+rec[0]+"</td>" +
+                                                        "<td style='text-align: left;'>"+rec[1]+"</td>" +
+                                                        "<td style='text-align: right;'>"+rec[3]+"</td>" +
+                                                        "<td style='text-align: right;'>"+rec[4]+"</td>" +
                                                     "</tr>");
                         }
                     },  
