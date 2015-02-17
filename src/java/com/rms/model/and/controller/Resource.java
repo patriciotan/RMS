@@ -12,7 +12,15 @@ public class Resource {
     
     private String fname,lname,mname,bUnit,status,dateHired;
     private float jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dece;
-    private int empId,year,effortId;
+    private int empId,year,effortId,projId;
+
+    public int getProjId() {
+        return projId;
+    }
+
+    public void setProjId(int projId) {
+        this.projId = projId;
+    }
 
     public int getEffortId() {
         return effortId;

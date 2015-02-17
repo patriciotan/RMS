@@ -30,12 +30,9 @@
             <tbody id="projTable">
                 <c:forEach items="${projects}" var="project">
                 <tr>
-                    <form class="specificProject" action='<c:url value="resProject"/>' method="post" modelAttribute="project">
-                        <input type="hidden" name="projectId" class="projId" value="${project.projectId}"/>
-                        <input type="hidden" name="name" value="${project.name}"/>
-                        <input type="hidden" name="start" value="${project.start}"/>
-                        <input type="hidden" name="end" value="${project.end}"/>
-                        <td class="projectName"><a class="projectnamelink" href="#"><c:out value="${project.name}" /></a></td>
+                    <form class="specificProject" action='<c:url value="openProject"/>' method="get">
+                        <input type="hidden" name="getId" class="projId" value="${project.projectId}"/>
+                        <td class="projectName"><a class="projectnamelink"><c:out value="${project.name}" /></a></td>
                     </form>
                     <td class="clientN"><c:out value="${project.clientName}" /></td>
                     <td style="display:none" class="clientI"><c:out value="${project.clientId}" /></td>

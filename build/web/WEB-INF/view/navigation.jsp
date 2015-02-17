@@ -14,10 +14,13 @@
         <link rel="stylesheet" type="text/css" href='<c:url value="/res/css/dataTables.css"/>'>
         <link type="text/css" rel="stylesheet" href='<c:url value="/res/css/view.css"/>'>
         <link rel="shortcut icon" href='<c:url value="/res/images/mini_alliance.png"/>'>
+        <link type="text/css" rel="stylesheet" href='<c:url value="/res/css/sweet-alert.css"/>'>
+        
         <script src='<c:url value="/res/js/jquery.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/js/bootstrap.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/sweetalert-master/lib/sweet-alert.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/js/jquery.dataTables.js"/>' type="text/javascript"></script>    
+        <script src='<c:url value="/res/js/sweet-alert.js"/>' type="text/javascript"></script>    
     </head>
     <body>
         

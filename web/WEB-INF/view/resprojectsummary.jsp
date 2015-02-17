@@ -205,6 +205,7 @@
                                         EID<input type="text" name="empId" id="eId"/>
                                         EFID<input type="text" name="effortId" id="effortId" />
                                         TID<input type="text" id="eTId">
+                                        PID<input type="text" name="projId" value="${projectId}"/>
                                     </label>
                                     <table class="table table-hover">
                                         <thead>
@@ -273,6 +274,7 @@
                                     <label>Are you sure you want to remove <b id="remName"></b>?</label>
                                     EID<input type="text" name="empId" id="removeId"/>
                                     TID<input type="text" name="taskId" id="removeTId"/>
+                                    PID<input type="text" name="projId" value="${projectId}"/>
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -300,6 +302,7 @@
                         </div>
                         <form id="edit" name="edit" action='<c:url value="editTask"/>' method="post" modelAttribute="task">
                             TID<input type="text" name="taskId" id="editTaskId" />
+                            PID<input type="text" name="projectId" value="${projectId}"/>
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Task Name</label>

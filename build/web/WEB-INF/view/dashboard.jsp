@@ -28,11 +28,6 @@
                                         <td style="text-align: right"><c:out value="${ul.jan}" /></td>
                                     </tr>
                                 </c:forEach>
-                                    <tr><td>asdf</td><td>asdf</td></tr>
-                                    <tr><td>asdf</td><td>asdf</td></tr>
-                                    <tr><td>asdf</td><td>asdf</td></tr>
-                                    <tr><td>asdf</td><td>asdf</td></tr>
-                                    <tr><td>asdf</td><td>asdf</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -233,7 +228,6 @@
 
     <script>
         $(document).ready(function(){
-
             $("#0").attr("class","active");
             
             $("#add-but1").click(function(event){

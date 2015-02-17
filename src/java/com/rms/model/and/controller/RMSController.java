@@ -346,11 +346,6 @@ public class RMSController {
     
     @RequestMapping("/login")
     public ModelAndView login(HttpServletRequest request) {   
-<<<<<<< HEAD
-        ModelAndView mav = new ModelAndView("login", "title", "RMS - Log in");  
-        if(request.getSession().getAttribute("sessVar")!=null){
-            mav = new ModelAndView("redirect:/dashboard");
-=======
         ModelAndView mav = new ModelAndView("login", "title", "RMS - Log in"); 
         if(request.getSession().getAttribute("userType")!=null){
             if(request.getSession().getAttribute("userType").equals("Manager")){
@@ -360,7 +355,6 @@ public class RMSController {
             }else if(request.getSession().getAttribute("userType").equals("Client")){
                 mav = new ModelAndView("redirect:/clientView");
             }
->>>>>>> 94e9ccbbb6b705324617088876f053a6785b5ae7
         }
         return mav;
     }  
@@ -456,7 +450,6 @@ public class RMSController {
             mav.addObject("projects", projects);
         }else{
             mav=new ModelAndView("redirect:/login"); 
-            mav.addObject("title","RMS - Log in"); 
         }
         if(projects!=null)
             return mav;
@@ -490,10 +483,31 @@ public class RMSController {
             mav.addObject("tasks",getTasks(id));
         }else{
             mav=new ModelAndView("redirect:/login"); 
-            mav.addObject("title","RMS - Log in"); 
         }
         return mav;
     }  
+    
+    @RequestMapping(value = "/openProject", method = RequestMethod.GET)
+    public ModelAndView viewOpenProject(@RequestParam("getId") int id, ModelMap model, HttpServletRequest request) throws Exception {   
+        ModelAndView mav = new ModelAndView("resprojectsummary"); 
+        
+        if(request.getSession().getAttribute("userType")!=null&&request.getSession().getAttribute("userType").equals("Manager")){
+            ResultSet rs=dbModel.getProject(id);
+            if(rs.next()){
+                String name = rs.getString("name");
+                mav.addObject("title","RMS - "+name);
+                mav.addObject("projectId", id);
+                mav.addObject("projectName", name);
+                mav.addObject("employees", getEmployees());
+                mav.addObject("tasks",getTasks(id));
+            }else{
+                mav = new ModelAndView("redirect:/pSummary"); 
+            }
+        }else{
+            mav=new ModelAndView("redirect:/login"); 
+        }
+        return mav;
+    } 
     
     
     @RequestMapping("/rSummary")
@@ -581,7 +595,7 @@ public class RMSController {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
         if(dbModel.addTask(task.getName(),task.getProjectId(),task.getStart(),task.getEnd()))
         {
-            mav = new ModelAndView("redirect:/pSummary"); 
+            mav = new ModelAndView("redirect:/openProject?getId="+task.getProjectId()); 
         }
         return mav;
     }
@@ -592,7 +606,7 @@ public class RMSController {
         System.out.println("Im here hahaha"+effort.getProjId()+"--"+effort.getTaskId());
         if(dbModel.deleteTask(effort.getProjId(),effort.getTaskId()))
         {
-            mav = new ModelAndView("redirect:/pSummary"); 
+            mav = new ModelAndView("redirect:/openProject?getId="+effort.getProjId()); 
         }
         return mav;
     }
@@ -602,7 +616,7 @@ public class RMSController {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
         if(dbModel.editTask(task.getTaskId(), task.getName(), task.getStatus()))
         {
-            mav = new ModelAndView("redirect:/pSummary"); 
+            mav = new ModelAndView("redirect:/openProject?getId="+task.getProjectId()); 
         }
         return mav;
     }
@@ -730,7 +744,7 @@ public class RMSController {
                 flag=false;
             }
             if(flag==true){
-                mav = new ModelAndView("redirect:/pSummary"); 
+                mav = new ModelAndView("redirect:/openProject?getId="+effort.getProjId()); 
             }
         }
         return mav;
@@ -742,7 +756,7 @@ public class RMSController {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Edit Resource Failed");
         System.out.println(effort.getEffortId()+"--"+effort.getYear()+"--"+effort.getJan()+"--"+effort.getFeb()+"--"+effort.getMar()+"--"+effort.getApr()+"--"+effort.getMay());
         if(dbModel.editResource(effort.getEffortId(),effort.getYear(),effort.getJan(),effort.getFeb(),effort.getMar(),effort.getApr(),effort.getMay(),effort.getJun(),effort.getJul(),effort.getAug(),effort.getSep(),effort.getOct(),effort.getNov(),effort.getDece())){
-            mav = new ModelAndView("redirect:/pSummary");  
+            mav = new ModelAndView("redirect:/openProject?getId="+effort.getProjId());  
         }
         return mav;
     }
@@ -753,7 +767,7 @@ public class RMSController {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Edit Resource Failed");
         System.out.println(effort.getTaskId()+"--"+effort.getEmpId());
         if(dbModel.deleteResource(effort.getTaskId(),effort.getEmpId())){
-            mav = new ModelAndView("redirect:/pSummary");  
+            mav = new ModelAndView("redirect:/openProject?getId="+effort.getProjId());  
         }
         return mav;
     }

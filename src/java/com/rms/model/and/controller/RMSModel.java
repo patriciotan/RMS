@@ -252,6 +252,15 @@ public class RMSModel {
         return rs.getString("name");
     }
     
+    public ResultSet getProject(int projId) throws Exception
+    {
+        sql="SELECT * FROM `project` WHERE project_id=?";
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, projId);
+        rs = ps.executeQuery();
+        return rs;
+    }
+    
     public boolean delProject(int projectId)throws Exception{
         sql="DELETE FROM project WHERE project_id="+projectId;
         System.out.println(sql);
