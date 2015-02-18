@@ -33,7 +33,7 @@
                 <tr>
                     <form class="specificProject" action='<c:url value="openProject"/>' method="get">
                         <input type="hidden" name="getId" class="projId" value="${project.projectId}"/>
-                        <td class="projectName"><a class="projectnamelink"><c:out value="${project.name}" /></a></td>
+                        <td class="projectName"><a class="projectnamelink"  data-toggle="tooltip" data-placement="top" title="Click me to open project contents."><c:out value="${project.name}" /></a></td>
                     </form>
                     <td class="clientN"><c:out value="${project.clientName}" /></td>
                     <td style="display:none" class="clientI"><c:out value="${project.clientId}" /></td>
@@ -223,7 +223,7 @@
         $(document).ready(function(){
            $("#2").attr("class","active"); 
            $("#projSummary").dataTable();
-           
+            $(".projectnamelink").tooltip();
             $("#add-but1").click(function(event){
                 $.ajax({
                     url:'nameExists.htm',

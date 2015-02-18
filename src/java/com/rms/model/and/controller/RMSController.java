@@ -43,6 +43,7 @@ public class RMSController {
         }
         return projects;
     }  
+    
     public List getSummary() throws Exception {  
         ResultSet rs = dbModel.getSummary(),name=null;
         List<Project> projects=new ArrayList<>();
