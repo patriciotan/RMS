@@ -639,7 +639,6 @@ public class RMSController {
     @RequestMapping(value = "/deleteTask", method = RequestMethod.POST)
     public ModelAndView deleteTask(@ModelAttribute("effort")Effort effort, ModelMap model) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
-        System.out.println("Im here hahaha"+effort.getProjId()+"--"+effort.getTaskId());
         if(dbModel.deleteTask(effort.getProjId(),effort.getTaskId()))
         {
             mav = new ModelAndView("redirect:/openProject?getId="+effort.getProjId()); 
