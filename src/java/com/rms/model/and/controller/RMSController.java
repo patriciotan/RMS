@@ -85,8 +85,8 @@ public class RMSController {
                 project.setTaskName(task.getString("name"));
                 project.setStart(task.getString("start_date"));
                 project.setEnd(task.getString("end_date"));
-                project.setPerformance(task.getInt("performance"));
             }
+            project.setPerformance(rs.getInt("performance"));
             project.setYear(rs.getInt("year"));
             project.setJan(rs.getFloat("jan"));
             project.setFeb(rs.getFloat("feb"));
@@ -324,7 +324,6 @@ public class RMSController {
             a.setName(rs.getString("name"));
             a.setStart(rs.getString("start_date"));
             a.setEnd(rs.getString("end_date"));
-            a.setPerformance(rs.getInt("performance"));
             zac = dbModel.getResourcesTasks(a.getTaskId());
             while(zac.next()){
                 Resource resource = new Resource();
@@ -334,6 +333,7 @@ public class RMSController {
                 resource.setMname(zac.getString("middle_name"));
                 resource.setLname(zac.getString("last_name"));
                 resource.setbUnit(zac.getString("business_unit"));
+                resource.setPerformance(zac.getInt("performance"));
                 resource.setDateHired(zac.getString("date_hired"));
                 resource.setYear(zac.getInt("year"));
                 resource.setJan(zac.getFloat("jan"));
@@ -650,7 +650,7 @@ public class RMSController {
     @RequestMapping(value = "/editTask", method = RequestMethod.POST)
     public ModelAndView editTask(@ModelAttribute("task")Task task, ModelMap model) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS | Add Project Failed");
-        if(dbModel.editTask(task.getTaskId(), task.getName(), task.getStatus(),task.getPerformance()))
+        if(dbModel.editTask(task.getTaskId(), task.getName(), task.getStatus()))
         {
             mav = new ModelAndView("redirect:/openProject?getId="+task.getProjectId()); 
         }
@@ -802,7 +802,7 @@ public class RMSController {
     {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Edit Resource Failed");
         System.out.println(effort.getEffortId()+"--"+effort.getYear()+"--"+effort.getJan()+"--"+effort.getFeb()+"--"+effort.getMar()+"--"+effort.getApr()+"--"+effort.getMay());
-        if(dbModel.editResource(effort.getEffortId(),effort.getYear(),effort.getJan(),effort.getFeb(),effort.getMar(),effort.getApr(),effort.getMay(),effort.getJun(),effort.getJul(),effort.getAug(),effort.getSep(),effort.getOct(),effort.getNov(),effort.getDece())){
+        if(dbModel.editResource(effort.getEffortId(),effort.getPerformance(),effort.getYear(),effort.getJan(),effort.getFeb(),effort.getMar(),effort.getApr(),effort.getMay(),effort.getJun(),effort.getJul(),effort.getAug(),effort.getSep(),effort.getOct(),effort.getNov(),effort.getDece())){
             mav = new ModelAndView("redirect:/openProject?getId="+effort.getProjId());  
         }
         return mav;

@@ -13,16 +13,8 @@ import java.util.List;
  */
 public class Task {
     private String name,start,end,status;
-    private int taskId,projectId,performance;
+    private int taskId,projectId;
     public List<Resource> resources = new ArrayList<Resource>();
-
-    public int getPerformance() {
-        return performance;
-    }
-
-    public void setPerformance(int performance) {
-        this.performance = performance;
-    }
     
     public String getStatus() {
         return status;

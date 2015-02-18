@@ -20,7 +20,6 @@
                             TASK STATUS: <b class="tStatus"><c:out value="${task.status}" /></b>
                             START DATE: <b><c:out value="${task.start}" /></b>
                             END DATE: <b><c:out value="${task.end}" /></b>
-                            PERFORMANCE: <b class="tPerformance"><c:out value="${task.performance}" /></b>
                         </h5>
                     </div>
                     <input type="hidden" class="taskStart" value="${task.start}" />
@@ -51,6 +50,7 @@
                                     <th>Oct</th>
                                     <th>Nov</th>
                                     <th>Dec</th>
+                                    <th>Performance</th>
                                 </tr>
                             </thead>
                             <tbody class="resources">
@@ -72,6 +72,7 @@
                                     <td class="resoOct"><c:out value="${resource.oct}" /></td>   
                                     <td class="resoNov"><c:out value="${resource.nov}" /></td>   
                                     <td class="resoDece"><c:out value="${resource.dece}" /></td>
+                                    <td class="resoPerformance"><c:out value="${resource.performance}" /></td>
                                 </tr>
                                 </c:forEach>
                             </tbody>
@@ -226,6 +227,7 @@
                                                 <th>Oct</th>
                                                 <th>Nov</th>
                                                 <th>Dec</th>
+                                                <th>Performance</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -243,6 +245,7 @@
                                                 <td><input type="number" name="oct" style="width:55px;" value="0" min="0" step="0.1" id="e10"/></td>
                                                 <td><input type="number" name="nov" style="width:55px;" value="0" min="0" step="0.1" id="e11"/></td>
                                                 <td><input type="number" name="dece" style="width:55px;" value="0" min="0" step="0.1" id="e12"/></td>
+                                                <td><input type="number" name="performance" style="width:55px;" value="0" min="1" max="5" step="1" id="e13"/></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -320,10 +323,6 @@
                                         <option value="Tested">Tested</option>
                                         <option value="Accepted">Accepted</option>
                                     </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Performance</label>
-                                    <input class="form-control" type="number" min="1" max="5" step="1" name="performance" id="field3" required="required"/>
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -468,7 +467,6 @@
                 $("#editTaskId").val($(this).parent().siblings(".taskId").val());
                 $("#field1").val($(this).parent().siblings().find(".tName").text());
                 $("#field2").val($(this).parent().siblings().find(".tStatus").text());
-                $("#field3").val($(this).parent().siblings().find(".tPerformance").text());
             });
             
             $(".deleteOption").click(function(){
@@ -496,6 +494,7 @@
                 $("#e10").val($(this).children(".resoOct").text());
                 $("#e11").val($(this).children(".resoNov").text());
                 $("#e12").val($(this).children(".resoDece").text());
+                $("#e13").val($(this).children(".resoPerformance").text());
                 
                 $("#editStart").val($(this).parent().parent().parent().parent().parent().find(".taskStart").val());
                 $("#editEnd").val($(this).parent().parent().parent().parent().parent().find(".taskEnd").val());

@@ -321,9 +321,9 @@ public class RMSModel {
         return false;
     }
     
-    public boolean editResource(int effortId,int year, float jan, float feb, float mar, float apr, float may, float jun, float jul, float aug, float sep, float oct, float nov, float dece) throws Exception
+    public boolean editResource(int effortId,int performance,int year, float jan, float feb, float mar, float apr, float may, float jun, float jul, float aug, float sep, float oct, float nov, float dece) throws Exception
     {
-        sql="UPDATE effort SET jan=?, feb=?, mar=?, apr=?, may=?, jun=?, jul=?, aug=?, sep=?, oct=?, nov=?, dece=? WHERE effort_id=? AND year=?";
+        sql="UPDATE effort SET jan=?, feb=?, mar=?, apr=?, may=?, jun=?, jul=?, aug=?, sep=?, oct=?, nov=?, dece=?, performance=? WHERE effort_id=? AND year=?";
         ps = con.prepareStatement(sql);
         ps.setFloat(1,jan);
         ps.setFloat(2,feb);
@@ -337,8 +337,9 @@ public class RMSModel {
         ps.setFloat(10,oct);
         ps.setFloat(11,nov);
         ps.setFloat(12,dece);
-        ps.setInt(13,effortId);
-        ps.setInt(14, year);
+        ps.setInt(13,performance);
+        ps.setInt(14,effortId);
+        ps.setInt(15, year);
         if(ps.executeUpdate()==1)
             return true;
         return false;
@@ -471,14 +472,13 @@ public class RMSModel {
         ps.executeUpdate();
     }
     
-    public boolean editTask(int taskId, String name, String status, int performance) throws Exception{
-        sql = "UPDATE task SET name=?, status=?, performance=? WHERE task_id=?";
+    public boolean editTask(int taskId, String name, String status) throws Exception{
+        sql = "UPDATE task SET name=?, status=? WHERE task_id=?";
         System.out.println(sql+taskId);
         ps = con.prepareStatement(sql);
         ps.setString(1, name);
         ps.setString(2, status);
-        ps.setInt(3, performance);
-        ps.setInt(4, taskId);
+        ps.setInt(3, taskId);
          if(ps.executeUpdate() > 0)
             return true;
         return false;
