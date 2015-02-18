@@ -420,6 +420,7 @@ public class RMSController {
         return mav;
     } 
     
+    
     @RequestMapping("/dashboard")
     public ModelAndView viewDashboard(HttpServletRequest request) throws Exception {  
         ModelAndView mav = new ModelAndView("dashboard");
@@ -436,6 +437,25 @@ public class RMSController {
         }
         return mav;
     } 
+    
+    //With Alert
+//    @RequestMapping(name="/dashboardAlert", method = RequestMethod.GET)
+//    public ModelAndView viewDashboard(@RequestParam("alert")int alert,HttpServletRequest request) throws Exception {  
+//        ModelAndView mav = new ModelAndView("dashboard");
+//        List<Project> projects = getSummary(); 
+//        
+//        if(request.getSession().getAttribute("userType")!=null&&request.getSession().getAttribute("userType").equals("Manager")){
+//            mav.addObject("title","RMS - Dashboard");
+//            mav.addObject("underload",getUnderload());
+//            mav.addObject("clients",getClient());
+//            mav.addObject("projects",projects);
+//            mav.addObject("unPro",getNextUnpro());
+//            mav.addObject("alertVal",alert);
+//        }else{
+//            mav=new ModelAndView("redirect:/login"); 
+//        }
+//        return mav;
+//    } 
     
     @RequestMapping("/outlook")
     public ModelAndView viewOutlook(HttpServletRequest request) throws Exception { 
@@ -683,6 +703,7 @@ public class RMSController {
         Date now = c.getTime();
         int updated_by = (int) request.getSession().getAttribute("userId");
         String updated_date = sdf.format(now);
+        System.out.println("------CLIENT ID IS-----"+project.getClientId());
         if(dbModel.editSummary(project.getName(),project.getClientId(),project.getStart(),project.getEnd(),project.getType(),project.getbUnit(),project.getProjectId(),project.getMilestone(),updated_by,updated_date))
         {
             mav = new ModelAndView("redirect:/pSummary"); 

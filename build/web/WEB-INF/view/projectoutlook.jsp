@@ -231,39 +231,7 @@
                  $("#delName").text($(this).parent().siblings(".projectName").text());
             });
            
-            $("#add-but1").click(function(event){
-                $.ajax({
-                    url:'nameExists.htm',
-                    type:'post',
-                    data:{'name':$("#name1").val()},
-                    success:function(data,status){
-                        var x = data.toString();
-                        var msg = "";
-                        if(x === "true"){
-                            msg += "Project name already exists!";
-                            if($("#start1").val()>$("#end1").val()){
-                                msg += "\nStart date cannot be ahead of end date!";
-                                alert(msg);
-                                event.preventDefault();
-                            }else {
-                                alert(msg);
-                                event.preventDefault();
-                            }
-                        }
-                        else {
-                            if($("#start1").val()>$("#end1").val()){
-                                msg += "Start date cannot be ahead of end date!";
-                                alert(msg);
-                                event.preventDefault();
-                            }
-                        }
-                    },  
-                        error : function(e) {  
-                        alert('Error: ' + e);   
-                    }
-
-                });
-            });
+            
             
             $("#add-but2").click(function(event){
                  if($("#field2").val()>$("#field3").val()){

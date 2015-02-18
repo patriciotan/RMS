@@ -133,7 +133,6 @@
                         </div>
                         <form id="edit" name="edit" action='<c:url value="editProjSumm"/>' method="post" modelAttribute="project">
                             <input type="text" name="projectId" id="editProjId" />
-                            <input type="text" name="clientId" value="${userId}">
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Name</label>
@@ -200,7 +199,7 @@
                             <b>End Project</b>
                         </div>
                         <form id="del" name="del" action='<c:url value="delSummary"/>' method="post" modelAttribute="project">
-                            <input type="text" name="projectId" id="delProjId"/>
+                            <input type="hidden" name="projectId" id="delProjId"/>
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
                                     <br/>

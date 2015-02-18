@@ -1,12 +1,12 @@
 <%@include file="navigation.jsp" %>
 <div id="bodiv">
     <div class="row" style="margin-top: -2%;">
-        <div style="float: left; width: 40%; margin-left: 1.2%;">
-            <h3><a href="pSummary">Project Summary</a> / Tasks for ${projectName}</h3>
-            <input type="text" id="startDate" value="${start}" />
-            <input type="text" id="endDate" value="${end}" />
+        <div style="float: left; width: 80%; margin-left: 1.2%;">
+            <h3><a href="pSummary">Project Summary</a> / Tasks for ${projectName} || Project Duration: ${start} to ${end}</h3>
+            <input type="hidden" id="startDate" value="${start}" />
+            <input type="hidden" id="endDate" value="${end}" />
         </div>
-        <div style="float: left;margin-left:46%; margin-right: -10px; margin-top: 12px;">
+        <div style="float: left;margin-left:5%; margin-right: -10px; margin-top: 12px;">
             <button type="button" class="btn btn-lg btn-primary addOption" data-toggle="modal" data-target="#addTask">Add new task</button>
         </div>
     </div>
@@ -14,7 +14,7 @@
         <div class="row">
             <c:forEach items="${tasks}" var="task">
                 <div>
-                    <div class="taskName" style="background-color:#2e2e2e;color:white;padding:5px;">
+                    <div class="taskName" style="background-color:#2e2e2e;color:white;padding:5px;" data-toggle="tooltip" data-placement="top" title="Click me to show task contents, click me again to hide task contents.">
                         <h5>
                             TASK NAME: <b class="tName"><c:out value="${task.name}" /></b>    
                             TASK STATUS: <b class="tStatus"><c:out value="${task.status}" /></b>
@@ -23,9 +23,9 @@
                             PERFORMANCE: <b class="tPerformance"><c:out value="${task.performance}" /></b>
                         </h5>
                     </div>
-                    <input type="text" class="taskStart" value="${task.start}" />
-                    <input type="text" class="taskEnd" value="${task.end}" />
-                    <input type="text" class="taskId" value="${task.taskId}"/>
+                    <input type="hidden" class="taskStart" value="${task.start}" />
+                    <input type="hidden" class="taskEnd" value="${task.end}" />
+                    <input type="hidden" class="taskId" value="${task.taskId}"/>
                     <div style="display:none;" class="content" >
                         <button type="button" class="btn btn-lg btn-primary deleteOption pull-right" data-toggle="modal" data-target="#deleteTask">Delete Task</button>
                         <button type="button" class="btn btn-lg btn-primary editOption pull-right" data-toggle="modal" data-target="#editTask">Edit Task</button>
@@ -55,7 +55,7 @@
                             </thead>
                             <tbody class="resources">
                                 <c:forEach items="${task.resources}" var="resource">
-                                <tr class="resourceRow" data-toggle="modal" data-target="#editResource">  
+                                <tr class="resourceRow" data-toggle="modal" data-target="#editResource" data-toggle="tooltip" data-placement="top" title="Click me to Edit/Delete resource.">  
                                     <td style="display:none;"><input type="hidden" class="resoId" value="${resource.empId}"/></td>
                                     <td style="display:none;"><input type="hidden" class="resoEId" value="${resource.effortId}"/></td>
                                     <td style="text-align: left;" class="aResource"><c:out value="${resource.fname} ${resource.lname}" /></td>						
@@ -94,7 +94,7 @@
                         </div>
                         <form id="add" name="add" action='<c:url value="addTask"/>' method="post" modelAttribute="task">
                             <div class="panel-body">
-                                <input type="text" name="projectId" value="${projectId}"/>
+                                <input type="hidden" name="projectId" value="${projectId}"/>
                                 <div class="form-group">
                                     <label for="">Task Name</label>
                                     <input class="form-control" autocomplete="off" required="required"  type="text" name="name" maxlength="40" pattern=".{4,40}" title="4 to 40 Characters">
@@ -130,8 +130,8 @@
                     <div class="panel panel-primary">  
                         <div class="panel-heading">
                             <b>Assign resource to ${projectName} with Task of <code id="aTask"></code></b>
-                            <input type="text" id="assignStart" />
-                            <input type="text" id="assignEnd"/>
+                            <input type="hidden" id="assignStart" />
+                            <input type="hidden" id="assignEnd"/>
                         </div>
                         <form name="assign" action='<c:url value="assignResource"/>' method="post" modelAttribute="effort">
                             <div class="panel-body">
@@ -168,9 +168,9 @@
                             </div>
                             <div class="panel-footer">
                                 <div style="text-align: right">
-                                    PID<input type="text" name="projId" id="projectId" value="${projectId}"/>
-                                    COUNT<input type="text" name="count" id="count"/>
-                                    TID<input type="text" name="taskId" id="tID"/>
+                                    <input type="hidden" name="projId" id="projectId" value="${projectId}"/>
+                                    <input type="hidden" name="count" id="count"/>
+                                    <input type="hidden" name="taskId" id="tID"/>
                                     <input class="btn btn-success" id="add-but" type="submit" value="Assign">
                                     <button class="btn btn-danger" type="button" data-dismiss="modal"><span>Cancel</span></button>
                                 </div>
@@ -192,8 +192,8 @@
                         <div class="panel-heading">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             <b>Edit resource effort</b>
-                            <input type="text" id="editStart" />
-                            <input type="text" id="editEnd"/>
+                            <input type="hidden" id="editStart" />
+                            <input type="hidden" id="editEnd"/>
                         </div>
                         <form name="edit" action='<c:url value="editResource"/>' method="post" modelAttribute="effort">
                             <div class="panel-body">
@@ -205,10 +205,10 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Effort
-                                        EID<input type="text" name="empId" id="eId"/>
-                                        EFID<input type="text" name="effortId" id="effortId" />
-                                        TID<input type="text" id="eTId">
-                                        PID<input type="text" name="projId" value="${projectId}"/>
+                                        <input type="hidden" name="empId" id="eId"/>
+                                        <input type="hidden" name="effortId" id="effortId" />
+                                        <input type="hidden" id="eTId">
+                                        <input type="hidden" name="projId" value="${projectId}"/>
                                     </label>
                                     <table class="table table-hover">
                                         <thead>
@@ -275,9 +275,9 @@
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
                                     <label>Are you sure you want to remove <b id="remName"></b>?</label>
-                                    EID<input type="text" name="empId" id="removeId"/>
-                                    TID<input type="text" name="taskId" id="removeTId"/>
-                                    PID<input type="text" name="projId" value="${projectId}"/>
+                                    <input type="hidden" name="empId" id="removeId"/>
+                                    <input type="hidden" name="taskId" id="removeTId"/>
+                                    <input type="hidden" name="projId" value="${projectId}"/>
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -304,8 +304,8 @@
                             <b>Edit Task</b>
                         </div>
                         <form id="edit" name="edit" action='<c:url value="editTask"/>' method="post" modelAttribute="task">
-                            TID<input type="text" name="taskId" id="editTaskId" />
-                            PID<input type="text" name="projectId" value="${projectId}"/>
+                            <input type="hidden" name="taskId" id="editTaskId" />
+                            <input type="hidden" name="projectId" value="${projectId}"/>
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Task Name</label>
@@ -353,8 +353,8 @@
                             <div class="panel-body">
                                 <div class="form-group" style="text-align: center;">
                                     <label>Are you sure you want to delete  <code id="dTask"></code>?</label>
-                                    TID<input type="text" name="taskId" id="deleteTId"/>
-                                    PID<input type="text" name="projId" id="deletePId" value="${projectId}"/>
+                                    <input type="hidden" name="taskId" id="deleteTId"/>
+                                    <input type="hidden" name="projId" id="deletePId" value="${projectId}"/>
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -415,6 +415,8 @@
         $(document).ready(function(){
            $("#2").attr("class","active"); 
            $(".resProjects").dataTable();
+           $(".taskName").tooltip();
+           $(".resourceRow").tooltip();
            
             $("#add-but1").click(function(event){
                 if($("#start1").val()>$("#end1").val()){
@@ -439,7 +441,7 @@
                             var rec = row[i].split("%");
                             $("#viewFbTable").append("<tr>" +
                                                         "<td style='text-align: left;'>"+rec[0]+"</td>" +
-                                                        "<td style='text-align: left;'>"+rec[1]+"</td>" +
+                                                        "<td style='text-align: left;'><p>"+rec[1]+"</p></td>" +
                                                         "<td style='text-align: right;'>"+rec[3]+"</td>" +
                                                         "<td style='text-align: right;'>"+rec[4]+"</td>" +
                                                     "</tr>");
@@ -592,7 +594,6 @@
                     data:{'id':$(this).parent().siblings(".taskId").val()},
                     success:function(data,status){
                         $("#empName").html("");
-                        $("#empName").append('<option disabled="true" value="default" selected default></option>');
                         var line = data.toString().split("$$$");
                         for(var x=0;x<line.length-1;x++){
                             var each = line[x].split("%-.");

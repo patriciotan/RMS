@@ -63,7 +63,7 @@
                             </div>
                             <div class="panel-footer">
                                 <div style="text-align: right">
-                                    <input type="text" id="myprojid" name="projId" value=""/>
+                                    <input type="hidden" id="myprojid" name="projId" value=""/>
                                     <input class="btn btn-success" id="add-but" type="submit" value="Save">
                                     <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                                 </div>
@@ -104,6 +104,7 @@
     <script>
         $(document).ready(function(){
             $("#4").attr("class","active");
+            
             $('#clientSummary').DataTable({
                 "order": [[ 3, "asc" ]],
                 "scrollCollapse": true,

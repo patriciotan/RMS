@@ -149,12 +149,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="">Content</label>
-                                    <textarea class="form-control" required="required" name="content" rows="10" required="required"></textarea>
+                                    <textarea class="form-control" required="required" name="content" rows="10" maxlength="500" required="required"></textarea>
                                 </div>
                             </div>
                             <div class="panel-footer">
                                 <div style="text-align: right">
-                                    <input type="text" id="myTaskid" name="taskId" value=""/>
+                                    <input type="hidden" id="myTaskid" name="taskId" value=""/>
                                     <input class="btn btn-success" id="add-but" type="submit" value="Add">
                                     <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
                                 </div>
@@ -237,7 +237,7 @@
                             var rec = row[i].split("%");
                             $("#viewFbTable").append("<tr>" +
                                                         "<td style='text-align: left;'>"+rec[0]+"</td>" +
-                                                        "<td style='text-align: left;'>"+rec[1]+"</td>" +
+                                                        "<td style='text-align: left;'><p>"+rec[1]+"</p></td>" +
                                                         "<td style='text-align: right;'>"+rec[3]+"</td>" +
                                                         "<td style='text-align: right;'>"+rec[4]+"</td>" +
                                                     "</tr>");

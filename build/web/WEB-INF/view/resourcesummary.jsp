@@ -33,7 +33,7 @@
                     </thead>
                     <tbody id="resources">
                         <c:forEach items="${resources}" var="resource">
-                        <tr class="resourceRow" data-toggle="modal" data-target="#resInfo">   
+                        <tr class="resourceRow" data-toggle="modal" data-target="#resInfo" data-toggle="tooltip" data-placement="top" title="Click me to show Employee Information.">   
                             <input type="hidden" class="resId" value="${resource.empId}"/>
                             <td style="text-align: left;" class="resName"><c:out value="${resource.fname} ${resource.lname}" /></td>						
                             <td><c:out value="${resource.year}" /></td>   
@@ -192,7 +192,7 @@
            $("#3").attr("class","active"); 
            $("#resSummary").dataTable();
            $('#reminder').modal('show');
-           
+           $(".resourceRow").tooltip();
            $('.tablee').DataTable({
                 "order": [[ 1, "desc" ]],
                 "scrollCollapse": true,

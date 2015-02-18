@@ -15,9 +15,17 @@ import java.sql.Date;
 public class Project {
     
     private String name,type,status,bUnit,start,end,reference,clientName,addedDate,addedBy,milestone,taskName;
-    private int resNeeded,projectId,year,clientId,taskId,performance;
+    private int resNeeded,projectId,year,clientId,taskId,performance,userId;
     private float jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dece;
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+    
     public int getPerformance() {
         return performance;
     }
