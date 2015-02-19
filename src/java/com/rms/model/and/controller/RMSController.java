@@ -590,6 +590,16 @@ public class RMSController {
         }
     }
     
+    @RequestMapping(value = "/clientExists", method = RequestMethod.POST)
+    public @ResponseBody String clientExists(@RequestParam("name")String name, ModelMap model) throws Exception {
+        if(dbModel.clientExists(name)) {
+            return "true";
+        }
+        else {
+            return "false";
+        }
+    }
+    
     @RequestMapping(value = "/addOutlook", method = RequestMethod.POST)
     public ModelAndView addOutlook(@ModelAttribute("project")Project project, ModelMap model, HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");

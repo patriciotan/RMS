@@ -135,8 +135,8 @@
                         <form id="add" name="add" action='<c:url value="addProject"/>' method="post" modelAttribute="project">
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <label for="">Name</label>
-                                    <input class="form-control" autocomplete="off" required="required"  type="text" name="name" maxlength="30" pattern=".{4,30}" title="4 to 30 Characters">
+                                    <label for="">Name<font style="margin-left:20px;display:none;" color="red" id="error1"></font></label>
+                                    <input class="form-control" autocomplete="off" required="required"  type="text" name="name" id="name1" maxlength="30" pattern=".{4,30}" title="4 to 30 Characters">
                                 </div>
                                 <div class="form-group">
                                     <label for="">Client Name</label>
@@ -152,7 +152,7 @@
                                     <input class="form-control" type="date"  required="required" name="start" id="start1">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">End Date</label>
+                                    <label for="">End Date<font style="margin-left:20px;display:none;" color="red" id="error3"></font></label>
                                     <input class="form-control" type="date"  required="required" name="end" id="end1">
                                 </div>
                                 <div class="form-group">
@@ -202,8 +202,8 @@
                         <form id="add" name="add" action='<c:url value="addClient"/>' method="post" modelAttribute="client">
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <label for="">Name</label>
-                                    <input class="form-control" autocomplete="off" required="required"  type="text" name="name" maxlength="30" pattern=".{4,30}" title="4 to 30 Characters">
+                                    <label for="">Name<font style="margin-left:20px;display:none;" color="red" id="cerror1"></font></label>
+                                    <input class="form-control" autocomplete="off" required="required"  type="text" name="name" id="cname1" maxlength="30" pattern=".{4,30}" title="4 to 30 Characters">
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -230,11 +230,61 @@
         $(document).ready(function(){
             $("#0").attr("class","active");
             
-            $("#add-but1").click(function(event){
-                 if($("#start1").val()>$("#end1").val()){
-                     alert("End date should be greater than start date.");
-                     event.preventDefault();
-                 } 
+            $("#cname1").change(function(){
+                $("#cerror1").html("");
+                $.ajax({
+                    url:'clientExists.htm',
+                    type:'post',
+                    data:{'name':$(this).val()},
+                    success:function(data,status){
+                        if(data=="true"){
+                            $("#cerror1").css("display","true");
+                            $("#cerror1").text("Client Name Already Exist!");
+                            $("#add-but").attr("disabled","true");
+                        }else{
+                            $("#add-but").removeAttr("disabled");
+                        }
+                    }
+                });
+            });
+            
+            $("#name1").change(function(){
+                $("#error1").html("");
+                $.ajax({
+                    url:'nameExists.htm',
+                    type:'post',
+                    data:{'name':$(this).val()},
+                    success:function(data,status){
+                        if(data=="true"){
+                            $("#error1").css("display","true");
+                            $("#error1").text("Project Name Already Exist!");
+                            $("#add-but1").attr("disabled","true");
+                        }else{
+                            if($("#error3").html()==""){
+                                $("#add-but1").removeAttr("disabled");
+                            }
+                        }
+                    }
+                });
+            });
+            
+            $("#end1").change(function(){
+                $("#error3").html("");
+                var startDate = new Date($("#start1").val());
+                var endDate = new Date($(this).val());
+                if(startDate>endDate){
+                    $("#error3").css("display","true");
+                    $("#error3").text("End date should be after or equal the start date.");
+                    $("#add-but1").attr("disabled","true");
+                }else{
+                    if($("#error1").html()==""){
+                        $("#add-but1").removeAttr("disabled");
+                    }
+                }
+            });
+            
+            $("#start1").change(function(){
+               $("#end1").change(); 
             });
             
             $('.table').DataTable({
