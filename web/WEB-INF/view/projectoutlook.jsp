@@ -44,7 +44,7 @@
                     <th style="text-align: center">Business Unit</th>
                     <th style="text-align: center">Resources Needed</th>
                     <th style="width:75px;"></th>
-                    <th style="100px;"></th>
+                    <th style="width:100px;"></th>
                 </tr>
             </thead>
             <tbody id="projects">

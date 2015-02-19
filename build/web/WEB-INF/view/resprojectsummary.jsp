@@ -42,8 +42,8 @@
                     <div class="taskName" style="background-color:#2e2e2e;color:white;padding: 5px 5px 5px 40px;" data-toggle="tooltip" data-placement="top" title="Click to show/hide task details">
                         <table border="0" style="width:60%;">
                             <tr>
-                                <td>Name <code><c:out value="${task.name}" /></code></td>
-                                <td>Status <code><c:out value="${task.status}" /></code></td>
+                                <td>Name <code class="tName"><c:out value="${task.name}" /></code></td>
+                                <td>Status <code class="tStatus"><c:out value="${task.status}" /></code></td>
                                 <td>Start <code><c:out value="${task.start}" /></code></td>
                                 <td>End <code><c:out value="${task.end}" /></code></td>
                             </tr>
@@ -139,11 +139,11 @@
                                     <input class="form-control" autocomplete="off" required="required"  type="text" name="name" maxlength="40" pattern=".{4,40}" title="4 to 40 Characters">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Start Date</label>
+                                    <label for="">Start Date<font style="margin-left:20px;display:none;" color="red" id="error1"></font></label>
                                     <input class="form-control" type="date" min="${start}" max="${end}"  required="required" name="start" id="start1">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">End Date</label>
+                                    <label for="">End Date<font style="margin-left:20px;display:none;" color="red" id="error2"></font></label>
                                     <input class="form-control" type="date" min="${start}" max="${end}"  required="required" name="end" id="end1">
                                 </div>
                             </div>
@@ -481,20 +481,35 @@
            $(".taskName").tooltip();
            $(".resourceRow").tooltip();
            
-            $("#add-but1").click(function(event){
-                if($("#start1").val()>$("#end1").val()){
-                    alert("End date should be greater than start date.");
-                    event.preventDefault();
-                } 
+           $("#end1").change(function(){
+                $("#error2").html("");
+                var startDate = new Date($("#start1").val());
+                var endDate = new Date($(this).val());
+                if(startDate>endDate){
+                    $("#error2").css("display","true");
+                    $("#error2").text("End date should be after or equal the start date.");
+                    $("#add-but1").attr("disabled","true");
+                }else{
+                    $("#add-but1").removeAttr("disabled");
+                }
             });
+            
+            $("#start1").change(function(){
+               $("#end1").change(); 
+            });
+           
+           
+           
+           
+           
            
            $("#resourceSummary").on('click',".viewFeedback",function(){
                 $("#viewFbTable").html("");
-                $("#vfName").text($(this).parent().siblings().find(".tName").text());
+                $("#vfName").text($(this).parent().parent().parent().parent().parent().siblings().find(".tName").text());
                 $.ajax({
                     url:'getFeedbacks.htm',
                     type:'post',
-                    data:{'taskId': $(this).parent().siblings(".taskId").val()},
+                    data:{'taskId': $(this).parent().parent().parent().parent().parent().siblings(".taskId").val()},
                     success:function(data){
                         var x = data.toString();
                         var parts = x.split("@");
@@ -528,14 +543,14 @@
             });
             
             $(".editOption").click(function(){
-                $("#editTaskId").val($(this).parent().siblings(".taskId").val());
-                $("#field1").val($(this).parent().siblings().find(".tName").text());
-                $("#field2").val($(this).parent().siblings().find(".tStatus").text());
+                $("#editTaskId").val($(this).parent().parent().parent().parent().parent().siblings(".taskId").val());
+                $("#field1").val($(this).parent().parent().parent().parent().parent().siblings().find(".tName").text());
+                $("#field2").val($(this).parent().parent().parent().parent().parent().siblings().find(".tStatus").text());
             });
             
             $(".deleteOption").click(function(){
-               $("#dTask").text($(this).parent().siblings().find(".tName").text());
-               $("#deleteTId").val($(this).parent().siblings(".taskId").val());
+               $("#dTask").text($(this).parent().parent().parent().parent().parent().siblings().find(".tName").text());
+               $("#deleteTId").val($(this).parent().parent().parent().parent().parent().siblings(".taskId").val());
             });
             
             $(".resources").on("click",".resourceRow",function(){
@@ -618,11 +633,11 @@
             
             $(".assignOption").click(function(){ 
                $("#addResTable").html("");
-               $("#assignStart").val($(this).parent().siblings(".taskStart").val());
-               $("#assignEnd").val($(this).parent().siblings(".taskEnd").val());
-               $("#tID").val($(this).parent().siblings(".taskId").val());
+               $("#assignStart").val($(this).parent().parent().parent().parent().parent().siblings(".taskStart").val());
+               $("#assignEnd").val($(this).parent().parent().parent().parent().parent().siblings(".taskEnd").val());
+               $("#tID").val($(this).parent().parent().parent().parent().parent().siblings(".taskId").val());
 
-               $("#aTask").text($(this).parent().siblings().find(".tName").text());
+               $("#aTask").text($(this).parent().parent().parent().parent().parent().siblings().find(".tName").text());
                var start = $("#assignStart").val();
                var end = $("#assignEnd").val();
                var startYear = start.substring(0,4);
@@ -654,7 +669,7 @@
                 $.ajax({
                     url:'getEmployeesNotTask.htm',
                     type:'post',
-                    data:{'id':$(this).parent().siblings(".taskId").val()},
+                    data:{'id':$(this).parent().parent().parent().parent().parent().siblings(".taskId").val()},
                     success:function(data,status){
                         $("#empName").html("");
                         var line = data.toString().split("$$$");
@@ -662,9 +677,6 @@
                             var each = line[x].split("%-.");
                             $("#empName").append('<option value="'+each[0]+'">'+each[1]+'</option>');
                         }
-                        
-                        
-                        
                         $("#empName").val("default");
                     }
                 })

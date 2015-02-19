@@ -286,17 +286,6 @@
                 "bFilter":        false
             });
             
-            $('#btnToggle').click(function(){
-                if ($(this).hasClass('on')) {
-                    $('#boards .col-md-6').addClass('col-md-4').removeClass('col-md-6');
-                    $(this).removeClass('on');
-                }
-                else {
-                    $('#boards .col-md-4').addClass('col-md-6').removeClass('col-md-4');
-                    $(this).addClass('on');
-                }
-            });
-            
             $('ul li').each(function(){
                 var effort = parseInt($(this).children().next().children().html());
                 $(this).find('.progress-bar').css('width', effort+'%');

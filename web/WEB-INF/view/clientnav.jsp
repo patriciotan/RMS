@@ -46,7 +46,7 @@
         <div class="collapse navbar-collapse">
             <a class="pull-left" style=" margin-top: 6px;" href="#"><img src="<c:url value="/res/images/asi_logo_white.png"/>" height="40px" alt="alliance logo" /></a>
             <ol class="nav navbar-nav">
-                <li id="1"><a href="clientView">My projects</a></li>
+                <li id="1"><a href="clientView">My Projects</a></li>
             </ol>
             <ol class="nav navbar-nav navbar-right" style="margin-right: -124px">
                 <li class="dropdown navbar-right">

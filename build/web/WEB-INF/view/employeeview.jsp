@@ -275,12 +275,11 @@
                 $.ajax({
                     url:'getFeedbacks.htm',
                     type:'post',
-                    data:{'taskId': $(this).parent().parent().parent().parent().siblings(".taskid").val()},
+                    data:{'taskId': $(this).parent().parent().parent().parent().parent().find(".taskid").val()},
                     success:function(data){
                         var x = data.toString();
                         var parts = x.split("@");
                         var row = parts[0].split("$");
-                        alert("subject: "+rec[0]+", content: "+rec[1]+", res id: "+rec[2]+", date added: "+rec[3]);
                         for(var i = 0; i < parseInt(parts[1]); i ++){
                             var rec = row[i].split("%");
                             $("#viewFbTable").append("<tr>" +

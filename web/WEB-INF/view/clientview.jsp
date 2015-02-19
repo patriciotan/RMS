@@ -146,12 +146,12 @@
                 "bFilter":        false
             });
 
-            $(".viewRm").click(function(){
+            $("#clientSummary").on("click",".viewRm",function(){
                 $("#remarksArea").html($(this).next().val());
                 $("#vName").text($(this).parent().siblings(".projName").text());
             });
 
-            $(".upRm").click(function(){
+            $("#clientSummary").on("click",".upRm",function(){
                 $("#uName").text($(this).parent().siblings(".projName").text());
                 $("#updateArea").html($(this).parent().prev().children().next().val());
                 $("#myprojid").val($(this).parent().parent().children().val());
