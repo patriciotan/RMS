@@ -18,6 +18,11 @@
         
         <script src='<c:url value="/res/js/jquery.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/js/bootstrap.js"/>' type="text/javascript"></script>
+        <script src='<c:url value="/res/js/tableExport.js"/>' type="text/javascript"></script>
+        <script src='<c:url value="/res/js/jquery.base64.js"/>' type="text/javascript"></script>
+        <script src='<c:url value="/res/js/sprintf.js"/>' type="text/javascript"></script>
+        <script src='<c:url value="/res/js/jspdf.js"/>' type="text/javascript"></script>
+        <script src='<c:url value="/res/js/base64.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/sweetalert-master/lib/sweet-alert.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/js/jquery.dataTables.js"/>' type="text/javascript"></script>    
         <script src='<c:url value="/res/js/sweet-alert.js"/>' type="text/javascript"></script>    
@@ -40,17 +45,17 @@
         <form id="logoutform" action='<c:url value="logoutSubmit"/>' method="post">
         <div class="collapse navbar-collapse">
             <a class="pull-left" style=" margin-top: 6px;" href="#"><img src="<c:url value="/res/images/asi_logo_white.png"/>" height="40px" alt="alliance logo" /></a>
-            <ul class="nav navbar-nav">
+            <ol class="nav navbar-nav">
                 <li id="1"><a href="employeeView">My Tasks</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right" style="margin-right: -124px">
+            </ol>
+            <ol class="nav navbar-nav navbar-right" style="margin-right: -124px">
                 <li class="dropdown navbar-right">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">${sessVar} <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a id="logoutlink" href="#" style="color: graytext">Sign out</a></li>
                     </ul>
                 </li>
-            </ul>
+            </ol>
         </div><!--/.nav-collapse -->
         </form>
     </div><!--/.container -->

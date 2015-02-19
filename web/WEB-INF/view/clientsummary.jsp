@@ -2,12 +2,31 @@
 
 <div id="bodiv">
     <div class="row page-header" style="margin-top: 0%;">
-        <div style="float: left; width: 90%;">
+        <div style="float: left; width: 79%;">
             <ol class="breadcrumb">
                 <li class="active">Client Summary</li>
             </ol>
         </div>
         <div style="float: left;" class="pull-right">
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span style="color: #333333" class="glyphicon glyphicon-export" aria-hidden="true"></span> <b>Export table</b> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'json',escape:'false'});"> <img src='<c:url value="/res/images/json.png"/>' width='16px'> JSON</a></li>
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'json',escape:'false',ignoreColumn:'[2,3]'});"> <img src='<c:url value="/res/images/json.png"/>' width='16px'> JSON (ignoreColumn)</a></li>
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'json',escape:'true'});"> <img src='<c:url value="/res/images/json.png"/>' width='16px'> JSON (with Escape)</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'xml',escape:'false'});"> <img src='<c:url value="/res/images/xml.png"/>' width='16px'> XML</a></li>
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'sql'});"> <img src='<c:url value="/res/images/sql.png"/>' width='16px'> SQL</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'csv',escape:'false'});"> <img src='<c:url value="/res/images/csv.png"/>' width='16px'> CSV</a></li>
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'txt',escape:'false'});"> <img src='<c:url value="/res/images/txt.png"/>' width='16px'> TXT</a></li>
+                    <li class="divider"></li>	
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'excel',escape:'false'});"> <img src='<c:url value="/res/images/xls.png"/>' width='16px'> XLS</a></li>
+                     <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'pdf',escape:'false'});"> <img src='<c:url value="/res/images/pdf.png"/>' width='16px'> PDF</a></li>
+                </ul>
+            </div>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addClient">
                 <span style="color: #333333" class="glyphicon glyphicon-plus" aria-hidden="true"></span> <b>New client</b>
             </button>
@@ -37,7 +56,7 @@
                     <td><c:out value="${client.end}" /></td>
                     <td><c:out value="${client.projectStatus}" /></td>
                     <td>
-                        <button class="btn btn-primary viewRm" data-toggle="modal" data-target="#viewRemarks">
+                        <button class="btn btn-success viewRm" data-toggle="modal" data-target="#viewRemarks">
                             <span style="color: #333333" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <b>Remarks</b>
                         </button>
                         <input type="hidden" class="remarkss" value="<c:out value='${client.remarks}' />"/>

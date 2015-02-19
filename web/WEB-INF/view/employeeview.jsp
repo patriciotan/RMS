@@ -4,12 +4,36 @@
 <%@include file="empnavigation.jsp" %>
 
 <div id="bodiv">
-    <div class="row">
-        <div style="float: left; width: 20%; margin-left: 2.3%;">
-            <h2>My Tasks</h2>
+    <div class="row page-header" style="margin-top: 0%;">
+        <div style="float: left; width: 100%;">
+            <ol class="breadcrumb">
+                <li class="active">My tasks</li>
+            </ol>
         </div>
     </div>
     <div id="taskSummary" class="col-md-12">
+        <div style="float: left;">
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span style="color: #333333" class="glyphicon glyphicon-export" aria-hidden="true"></span> <b>Export table</b> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#" onClick ="$('#effortTable').tableExport({type:'json',escape:'false'});"> <img src='<c:url value="/res/images/json.png"/>' width='16px'> JSON</a></li>
+                    <li><a href="#" onClick ="$('#effortTable').tableExport({type:'json',escape:'false',ignoreColumn:'[2,3]'});"> <img src='<c:url value="/res/images/json.png"/>' width='16px'> JSON (ignoreColumn)</a></li>
+                    <li><a href="#" onClick ="$('#effortTable').tableExport({type:'json',escape:'true'});"> <img src='<c:url value="/res/images/json.png"/>' width='16px'> JSON (with Escape)</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#effortTable').tableExport({type:'xml',escape:'false'});"> <img src='<c:url value="/res/images/xml.png"/>' width='16px'> XML</a></li>
+                    <li><a href="#" onClick ="$('#effortTable').tableExport({type:'sql'});"> <img src='<c:url value="/res/images/sql.png"/>' width='16px'> SQL</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#effortTable').tableExport({type:'csv',escape:'false'});"> <img src='<c:url value="/res/images/csv.png"/>' width='16px'> CSV</a></li>
+                    <li><a href="#" onClick ="$('#effortTable').tableExport({type:'txt',escape:'false'});"> <img src='<c:url value="/res/images/txt.png"/>' width='16px'> TXT</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#effortTable').tableExport({type:'excel',escape:'false'});"> <img src='<c:url value="/res/images/xls.png"/>' width='16px'> XLS</a></li>
+                    <li><a href="#" onClick ="$('#effortTable').tableExport({type:'pdf',escape:'false'});"> <img src='<c:url value="/res/images/pdf.png"/>' width='16px'> PDF</a></li>
+                </ul>
+            </div>
+            <br/><br/>
+        </div>
         <table class="table table-striped" id="effortTable">
             <thead>
                 <tr>
@@ -32,9 +56,8 @@
                     <th style="display:none;">Nov</th>
                     <th style="display:none;">Dec</th>
                     <th>Performance</th>
-                    <th>View Effort</th>
-                    <th>Add</th>
                     <th>View</th>
+                    <th>Add</th>
                 </tr>
             </thead>
             <tbody>
@@ -60,9 +83,26 @@
                         <td style="display:none;" class="h11"><c:out value="${project.nov}" /></td>
                         <td style="display:none;" class="h12"><c:out value="${project.dece}" /></td>
                         <td><c:out value="${project.performance}" /></td>
-                        <td><button class="btn btn-info viewEffort" data-toggle="modal" data-target="#viewEffort">View Effort</button></td>
-                        <td><button class="btn btn-success addFeedback" data-toggle="modal" data-target="#addFeedback">Add Feedback</button></td>
-                        <td class="tdFb"><button class="btn btn-primary viewFeedback" data-toggle="modal" data-target="#viewFeedback">View Feedbacks</button></td>
+                        <td>
+                            <div class="btn-group dropup">
+                                <button type="button" class="btn btn-success" disabled>
+                                    <span style="color: #333333" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <b>View</b>
+                                </button>
+                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#" class="viewEffort" data-toggle="modal" data-target="#viewEffort">Effort</a></li>
+                                    <li><a href="#" class="viewFeedback" data-toggle="modal" data-target="#viewFeedback">Feedbacks</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary addFeedback" data-toggle="modal" data-target="#addFeedback">
+                                <span style="color: #333333" class="glyphicon glyphicon-plus" aria-hidden="true"></span> <b>Add Feedback</b>
+                            </button>
+                        </td>
                     </tr>    
                 </c:forEach>
             </tbody>
@@ -121,7 +161,9 @@
                             </div>
                             <div class="panel-footer">
                                 <div style="text-align: right;">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Close</b>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -155,8 +197,12 @@
                             <div class="panel-footer">
                                 <div style="text-align: right">
                                     <input type="hidden" id="myTaskid" name="taskId" value=""/>
-                                    <input class="btn btn-success" id="add-but" type="submit" value="Add">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-success" id="add-but" type="submit">
+                                        <span style="color: #333333" class="glyphicon glyphicon-plus" aria-hidden="true"></span> <b>Add</b>
+                                    </button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Cancel</b>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -193,7 +239,9 @@
                         </div>
                         <div class="panel-footer">
                             <div style="text-align: right">
-                                <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button class="btn btn-danger" data-dismiss="modal">
+                                    <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Close</b>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -209,10 +257,10 @@
             $("#effortTable").dataTable();
 
             $("#taskSummary").on("click",".viewEffort",function(){
-                $("#TaskName").text($(this).parent().siblings(".taskName").text());
-                $(".vYear").text($(this).parent().siblings(".hYear").text());
+                $("#TaskName").text($(this).parent().parent().parent().parent().siblings(".taskName").text());
+                $(".vYear").text($(this).parent().parent().parent().parent().siblings(".hYear").text());
                 for(var i=0;i<=12;i++){
-                    $(".v"+i).text($(this).parent().siblings(".h"+i).text());
+                    $(".v"+i).text($(this).parent().parent().parent().parent().siblings(".h"+i).text());
                 }
             });
             
@@ -223,16 +271,16 @@
 
             $("#taskSummary").on('click',".viewFeedback",function(){
                 $("#viewFbTable").html("");
-                $("#vFeed").text($(this).parent().siblings(".projectName").text()+"/"+$(this).parent().siblings(".taskName").text());
+                $("#vFeed").text($(this).parent().parent().parent().parent().siblings(".projectName").text()+"/"+$(this).parent().parent().parent().parent().siblings(".taskName").text());
                 $.ajax({
                     url:'getFeedbacks.htm',
                     type:'post',
-                    data:{'taskId': $(this).parent().siblings(".taskid").val()},
+                    data:{'taskId': $(this).parent().parent().parent().parent().siblings(".taskid").val()},
                     success:function(data){
                         var x = data.toString();
                         var parts = x.split("@");
                         var row = parts[0].split("$");
-//                        alert("subject: "+rec[0]+", content: "+rec[1]+", res id: "+rec[2]+", date added: "+rec[3]);
+                        alert("subject: "+rec[0]+", content: "+rec[1]+", res id: "+rec[2]+", date added: "+rec[3]);
                         for(var i = 0; i < parseInt(parts[1]); i ++){
                             var rec = row[i].split("%");
                             $("#viewFbTable").append("<tr>" +

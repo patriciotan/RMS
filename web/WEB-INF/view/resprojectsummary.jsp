@@ -1,16 +1,35 @@
 <%@include file="navigation.jsp" %>
 <div id="bodiv">
     <div class="row page-header" style="margin-top: 0%;">
-        <div style="float: left; width: 91%;">
+        <div style="float: left; width: 80%;">
             <ol class="breadcrumb">
                 <li><a href="pSummary">Project Summary</a></li>
                 <li class="active">${projectName}</li>
-                <li>${start} to ${end}</li>
+                <li class="pull-right">Duration: <code>${start} to ${end}</code></li>
             </ol>
             <input type="hidden" id="startDate" value="${start}" />
             <input type="hidden" id="endDate" value="${end}" />
         </div>
         <div style="float: left;" class="pull-right">
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span style="color: #333333" class="glyphicon glyphicon-export" aria-hidden="true"></span> <b>Export table</b> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#" onClick ="$('#respSummary').tableExport({type:'json',escape:'false'});"> <img src='<c:url value="/res/images/json.png"/>' width='16px'> JSON</a></li>
+                    <li><a href="#" onClick ="$('#respSummary').tableExport({type:'json',escape:'false',ignoreColumn:'[2,3]'});"> <img src='<c:url value="/res/images/json.png"/>' width='16px'> JSON (ignoreColumn)</a></li>
+                    <li><a href="#" onClick ="$('#respSummary').tableExport({type:'json',escape:'true'});"> <img src='<c:url value="/res/images/json.png"/>' width='16px'> JSON (with Escape)</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#respSummary').tableExport({type:'xml',escape:'false'});"> <img src='<c:url value="/res/images/xml.png"/>' width='16px'> XML</a></li>
+                    <li><a href="#" onClick ="$('#respSummary').tableExport({type:'sql'});"> <img src='<c:url value="/res/images/sql.png"/>' width='16px'> SQL</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#respSummary').tableExport({type:'csv',escape:'false'});"> <img src='<c:url value="/res/images/csv.png"/>' width='16px'> CSV</a></li>
+                    <li><a href="#" onClick ="$('#respSummary').tableExport({type:'txt',escape:'false'});"> <img src='<c:url value="/res/images/txt.png"/>' width='16px'> TXT</a></li>
+                    <li class="divider"></li>	
+                    <li><a href="#" onClick ="$('#respSummary').tableExport({type:'excel',escape:'false'});"> <img src='<c:url value="/res/images/xls.png"/>' width='16px'> XLS</a></li>
+                    <li><a href="#" onClick ="$('#respSummary').tableExport({type:'pdf',escape:'false'});"> <img src='<c:url value="/res/images/pdf.png"/>' width='16px'> PDF</a></li>
+                </ul>
+            </div>
             <button type="button" class="btn btn-primary addOption" data-toggle="modal" data-target="#addTask">
                 <span style="color: #333333" class="glyphicon glyphicon-plus" aria-hidden="true"></span> <b>New task</b>
             </button>
@@ -20,24 +39,37 @@
         <div class="row">
             <c:forEach items="${tasks}" var="task">
                 <div>
-                    <div class="taskName" style="background-color:#2e2e2e;color:white;padding:5px;" data-toggle="tooltip" data-placement="top" title="Click me to show/hide task contents.">
-                        <h5>
-                            TASK NAME: <b class="tName"><c:out value="${task.name}" /></b>    
-                            TASK STATUS: <b class="tStatus"><c:out value="${task.status}" /></b>
-                            START DATE: <b><c:out value="${task.start}" /></b>
-                            END DATE: <b><c:out value="${task.end}" /></b>
-                        </h5>
+                    <div class="taskName" style="background-color:#2e2e2e;color:white;padding: 5px 5px 5px 40px;" data-toggle="tooltip" data-placement="top" title="Click to show/hide task details">
+                        <table border="0" style="width:60%;">
+                            <tr>
+                                <td>Name <code><c:out value="${task.name}" /></code></td>
+                                <td>Status <code><c:out value="${task.status}" /></code></td>
+                                <td>Start <code><c:out value="${task.start}" /></code></td>
+                                <td>End <code><c:out value="${task.end}" /></code></td>
+                            </tr>
+                        </table>
                     </div>
                     <input type="hidden" class="taskStart" value="${task.start}" />
                     <input type="hidden" class="taskEnd" value="${task.end}" />
                     <input type="hidden" class="taskId" value="${task.taskId}"/>
                     <div style="display:none;" class="content" >
-                        <button type="button" class="btn btn-lg btn-primary deleteOption pull-right" data-toggle="modal" data-target="#deleteTask">Delete Task</button>
-                        <button type="button" class="btn btn-lg btn-primary editOption pull-right" data-toggle="modal" data-target="#editTask">Edit Task</button>
-                        <button type="button" class="btn btn-lg btn-primary assignOption pull-right" data-toggle="modal" data-target="#assign">Assign new resource</button>
-                        <button type="button" class="btn btn-lg btn-primary viewFeedback pull-right" data-toggle="modal" data-target="#viewFeedback">View Feedback</button>
+                        <br/>
+                        <div style="float: left;">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <span style="color: #333333" class="glyphicon glyphicon-tasks" aria-hidden="true"></span> <b>Task actions</b> <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#" class="editOption" data-toggle="modal" data-target="#editTask">Edit task</a></li>
+                                    <li><a href="#" class="assignOption" data-toggle="modal" data-target="#assign">Assign new resource</a></li>
+                                    <li><a href="#" class="viewFeedback" data-toggle="modal" data-target="#viewFeedback">View feedback</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#" class="deleteOption" data-toggle="modal" data-target="#deleteTask">Delete task</a></li>
+                                </ul>
+                            </div>
+                        </div>
                         <br/><br/><br/>
-                        <table class="resProjects" class="display">   
+                        <table id="respSummary" class="resProjects" class="display">   
                             <thead>
                                 <tr>
                                     <th style="display:none;"></th>
@@ -61,7 +93,7 @@
                             </thead>
                             <tbody class="resources">
                                 <c:forEach items="${task.resources}" var="resource">
-                                <tr class="resourceRow" data-toggle="modal" data-target="#editResource" data-toggle="tooltip" data-placement="top" title="Click me to Edit/Delete resource.">  
+                                <tr class="resourceRow" data-toggle="modal" data-target="#editResource" data-toggle="tooltip" data-placement="top" title="Click to edit/delete resource">  
                                     <td style="display:none;"><input type="hidden" class="resoId" value="${resource.empId}"/></td>
                                     <td style="display:none;"><input type="hidden" class="resoEId" value="${resource.effortId}"/></td>
                                     <td style="text-align: left;" class="aResource"><c:out value="${resource.fname} ${resource.lname}" /></td>						
@@ -117,8 +149,12 @@
                             </div>
                             <div class="panel-footer">
                                 <div style="text-align: right">
-                                    <input class="btn btn-success" id="add-but1" type="submit" value="Submit">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span style="color: white">Cancel</span></button>
+                                    <button class="btn btn-success" id="add-but1" type="submit">
+                                        <span style="color: #333333" class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> <b>Submit</b>
+                                    </button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Cancel</b>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -178,8 +214,12 @@
                                     <input type="hidden" name="projId" id="projectId" value="${projectId}"/>
                                     <input type="hidden" name="count" id="count"/>
                                     <input type="hidden" name="taskId" id="tID"/>
-                                    <input class="btn btn-success" id="add-but" type="submit" value="Assign">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal"><span>Cancel</span></button>
+                                    <button class="btn btn-success" id="add-but" type="submit">
+                                        <span style="color: #333333" class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> <b>Assign</b>
+                                    </button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Cancel</b>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -205,9 +245,9 @@
                         <form name="edit" action='<c:url value="editResource"/>' method="post" modelAttribute="effort">
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <label for=""><b id="eResource"></b></label>
-                                    <a class="pull-right removeRes" data-dismiss="modal" data-toggle="modal" data-target="#removeRes">
-                                        <img style="width: 30px;" src='<c:url value="/res/images/delete.png"/>'>
+                                    <label for=""><code><b id="eResource"></b></code></label>
+                                    <a href="#" class="pull-right removeRes" data-dismiss="modal" data-toggle="modal" data-target="#removeRes">
+                                        <span style="color: #333333" class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                     </a>
                                 </div>
                                 <div class="form-group">
@@ -259,8 +299,12 @@
                             </div>
                         <div class="panel-footer">
                             <div style="text-align: right">
-                                <input class="btn btn-success" id="add-but" type="submit" value="Save">
-                                <button class="btn btn-danger" type="button" data-dismiss="modal" data-toggle="modal" data-target="#view"><span>Cancel</span></button>
+                                <button class="btn btn-success" id="add-but" type="submit">
+                                    <span style="color: #333333" class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> <b>Save</b>
+                                </button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                    <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Cancel</b>
+                                </button>
                             </div>
                         </div>
                         </form>
@@ -291,8 +335,12 @@
                             </div>
                             <div class="panel-footer">
                                 <div style="text-align: right;">
-                                    <input class="btn btn-success" id="add-but" type="submit" value="Yes"/>&nbsp;
-                                    <button class="btn btn-danger" type="button"  data-dismiss="modal" data-toggle="modal" data-target="#editResource"><span>No</span></button>
+                                    <button class="btn btn-success" id="add-but" type="submit">
+                                        <span style="color: #333333" class="glyphicon glyphicon-floppy-ok" aria-hidden="true"></span> <b>Yes</b>
+                                    </button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>No</b>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -333,8 +381,12 @@
                             </div>
                             <div class="panel-footer">
                                 <div style="text-align: right">
-                                    <input class="btn btn-success" id="add-but" type="submit" value="Save">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-success" id="add-but" type="submit">
+                                        <span style="color: #333333" class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> <b>Save</b>
+                                    </button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Cancel</b>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -364,8 +416,12 @@
                             </div>
                             <div class="panel-footer">
                                 <div style="text-align: right;">
-                                    <input class="btn btn-success" id="add-but" type="submit" value="Yes"/>&nbsp;
-                                    <button class="btn btn-danger" type="button"  data-dismiss="modal"><span>No</span></button>
+                                    <button class="btn btn-success" id="add-but" type="submit">
+                                        <span style="color: #333333" class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> <b>Yes</b>
+                                    </button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>No</b>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -402,7 +458,9 @@
                         </div>
                         <div class="panel-footer">
                             <div style="text-align: right">
-                                <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                    <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Close</b>
+                                </button>
                             </div>
                         </div>
                     </div>

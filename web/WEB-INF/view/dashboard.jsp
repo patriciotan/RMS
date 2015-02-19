@@ -160,8 +160,13 @@
                                 <div style="text-align: right">
                                     <input value="Ongoing" name="status" hidden="hidden">
                                     <input value="Summary" name="reference" hidden="hidden">
-                                    <input class="btn btn-success" id="add-but1" type="submit" value="Submit">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-success" id="add-but1" type="submit">
+                                        <span style="color: #333333" class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> <b>Submit</b>
+                                    </button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Cancel</b>
+                                    </button>
+                                </div>
                                 </div>
                             </div>
                         </form>
@@ -191,8 +196,12 @@
                             <div class="panel-footer">
                                 <div style="text-align: right">
                                     <input value="Outlook" name="reference" hidden="hidden">
-                                    <input class="btn btn-success" id="add-but" type="submit" value="Submit">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-success" id="add-but" type="submit">
+                                        <span style="color: #333333" class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> <b>Submit</b>
+                                    </button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Cancel</b>
+                                    </button>
                                 </div>
                             </div>
                         </form>

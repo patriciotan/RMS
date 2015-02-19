@@ -2,12 +2,31 @@
 
 <div id="bodiv">
     <div class="row page-header" style="margin-top: 0%;">
-        <div style="float: left; width: 86%;">
+        <div style="float: left; width: 75%;">
             <ol class="breadcrumb">
                 <li class="active">Resource Summary</li>
             </ol>
         </div>
         <div style="float: left;" class="pull-right">
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span style="color: #333333" class="glyphicon glyphicon-export" aria-hidden="true"></span> <b>Export table</b> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#" onClick ="$('#resSummary').tableExport({type:'json',escape:'false'});"> <img src='<c:url value="/res/images/json.png"/>' width='16px'> JSON</a></li>
+                    <li><a href="#" onClick ="$('#resSummary').tableExport({type:'json',escape:'false',ignoreColumn:'[2,3]'});"> <img src='<c:url value="/res/images/json.png"/>' width='16px'> JSON (ignoreColumn)</a></li>
+                    <li><a href="#" onClick ="$('#resSummary').tableExport({type:'json',escape:'true'});"> <img src='<c:url value="/res/images/json.png"/>' width='16px'> JSON (with Escape)</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#resSummary').tableExport({type:'xml',escape:'false'});"> <img src='<c:url value="/res/images/xml.png"/>' width='16px'> XML</a></li>
+                    <li><a href="#" onClick ="$('#resSummary').tableExport({type:'sql'});"> <img src='<c:url value="/res/images/sql.png"/>' width='16px'> SQL</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#resSummary').tableExport({type:'csv',escape:'false'});"> <img src='<c:url value="/res/images/csv.png"/>' width='16px'> CSV</a></li>
+                    <li><a href="#" onClick ="$('#resSummary').tableExport({type:'txt',escape:'false'});"> <img src='<c:url value="/res/images/txt.png"/>' width='16px'> TXT</a></li>
+                    <li class="divider"></li>	
+                    <li><a href="#" onClick ="$('#resSummary').tableExport({type:'excel',escape:'false'});"> <img src='<c:url value="/res/images/xls.png"/>' width='16px'> XLS</a></li>
+                    <li><a href="#" onClick ="$('#resSummary').tableExport({type:'pdf',escape:'false'});"> <img src='<c:url value="/res/images/pdf.png"/>' width='16px'> PDF</a></li>
+                </ul>
+            </div>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#summary">
                 <span style="color: #333333" class="glyphicon glyphicon-plus" aria-hidden="true"></span> <b>Show head count</b>
             </button>
@@ -101,15 +120,17 @@
                                     </div>
                                     <div class="panel-body">
                                         <div id="chartContainer" style="height:390px;"></div>
-                                        <input id="phVal" type="hidden" value="${summary.ph}">
-                                        <input id="jpVal" type="hidden" value="${summary.jap}">
-                                        <input id="rwVal" type="hidden" value="${summary.row}">
-                                        <input id="alVal" type="hidden" value="${summary.alli}">
-                                        <input id="unVal" type="hidden" value="${summary.unassigned}">
+<!--                                        <input id="phVal" type="hidden" value=${summary.ph}>
+                                        <input id="jpVal" type="hidden" value=${summary.jap}>
+                                        <input id="rwVal" type="hidden" value=${summary.row}>
+                                        <input id="alVal" type="hidden" value=${summary.alli}>
+                                        <input id="unVal" type="hidden" value=${summary.unassigned}>-->
                                     </div>
                                     <div class="panel-footer">
                                         <div style="text-align: right;">
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                                <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Close</b>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -187,28 +208,6 @@
 </div><!-- closing div from navigation-->
     </body>
     
-    <script type="text/javascript">
-    window.onload = function () {
-        var chart = new CanvasJS.Chart("chartContainer",
-        {
-        data: [
-        {
-            type: "pie",
-        dataPoints: [
-        {  y: $("#phVal").val(), indexLabel: "Philippines" },
-        {  y: $("#jpVal").val(), indexLabel: "Japan" },
-        {  y: $("#rwVal").val(), indexLabel: "Rest of the World" },
-        {  y: $("#alVal").val(), indexLabel: "Alliance" },
-        {  y: $("#unVal").val(), indexLabel: "Unassigned" }
-        ]
-        }
-        ]
-    });
-
-        chart.render();
-    }
-    </script>
-    
     <script>
         $(document).ready(function(){
            $("#3").attr("class","active"); 
@@ -248,6 +247,23 @@
                    
                });
            });
+           
+            new CanvasJS.Chart("chartContainer",
+            {
+            data: [
+            {
+                type: "pie",
+                showInLegend: true,
+                dataPoints: [
+                    {  y: ${summary.ph}, legendText:"Philippines", indexLabel: "Philippines" },
+                    {  y: ${summary.jap}, legendText:"Japan", indexLabel: "Japan" },
+                    {  y: ${summary.row}, legendText:"ROW", indexLabel: "Rest of the World" },
+                    {  y: ${summary.alli}, legendText:"Alliance", indexLabel: "Alliance" },
+                    {  y: ${summary.unassigned}, legendText:"Unassigned", indexLabel: "Unassigned" }
+                ]
+            }
+            ]
+            }).render();
         
         });
     </script>

@@ -410,7 +410,7 @@ public class RMSModel {
     
     public int getNumberOfUnassigned()throws Exception{
         int x=0,a=getTotalResources(),b;
-        sql = "SELECT COUNT(resource.resource_id)as nanan FROM resource JOIN effort ON resource.resource_id=effort.resource_id";
+        sql = "SELECT COUNT(DISTINCT resource.resource_id) as nanan FROM resource JOIN effort ON resource.resource_id=effort.resource_id";
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
         rs.next();

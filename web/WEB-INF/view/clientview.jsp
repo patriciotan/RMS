@@ -1,13 +1,36 @@
-<%@include file="nonvigation.jsp"%>
+<%@include file="clientnav.jsp"%>
 
 <div id="bodiv">
-    <div class="row">
-        <div style="float: left; margin-left: 2.3%;">
-            <h2>My Projects With Alliance</h2>
+    <div class="row page-header" style="margin-top: 0%;">
+        <div style="float: left; width: 100%;">
+            <ol class="breadcrumb">
+                <li class="active">My projects</li>
+            </ol>
         </div>
     </div>
-    <br/>
     <div id="clientsSummary" class="col-md-12">
+        <div style="float: left;">
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <span style="color: #333333" class="glyphicon glyphicon-export" aria-hidden="true"></span> <b>Export table</b> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'json',escape:'false'});"> <img src='<c:url value="/res/images/json.png"/>' width='16px'> JSON</a></li>
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'json',escape:'false',ignoreColumn:'[2,3]'});"> <img src='<c:url value="/res/images/json.png"/>' width='16px'> JSON (ignoreColumn)</a></li>
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'json',escape:'true'});"> <img src='<c:url value="/res/images/json.png"/>' width='16px'> JSON (with Escape)</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'xml',escape:'false'});"> <img src='<c:url value="/res/images/xml.png"/>' width='16px'> XML</a></li>
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'sql'});"> <img src='<c:url value="/res/images/sql.png"/>' width='16px'> SQL</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'csv',escape:'false'});"> <img src='<c:url value="/res/images/csv.png"/>' width='16px'> CSV</a></li>
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'txt',escape:'false'});"> <img src='<c:url value="/res/images/txt.png"/>' width='16px'> TXT</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'excel',escape:'false'});"> <img src='<c:url value="/res/images/xls.png"/>' width='16px'> XLS</a></li>
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'pdf',escape:'false'});"> <img src='<c:url value="/res/images/pdf.png"/>' width='16px'> PDF</a></li>
+                </ul>
+            </div>
+            <br/><br/>
+        </div>
         <table id="clientSummary" class="display">
             <thead>
                 <tr>
@@ -30,10 +53,16 @@
                     <td><c:out value="${client.end}" /></td>
                     <td><c:out value="${client.projectStatus}" /></td>
                     <td>
-                        <button class="btn btn-primary viewRm" data-toggle="modal" data-target="#viewRemarks">View Remarks</button>
+                        <button class="btn btn-success viewRm" data-toggle="modal" data-target="#viewRemarks">
+                            <span style="color: #333333" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <b>View remarks</b>
+                        </button>
                         <input type="hidden" class="remarkss" value="<c:out value='${client.remarks}' />"/>
                     </td>
-                    <td><button class="btn btn-success upRm" data-toggle="modal" data-target="#reMark">Update remarks</button></td>
+                    <td>
+                        <button class="btn btn-primary upRm" data-toggle="modal" data-target="#reMark">
+                            <span style="color: #333333" class="glyphicon glyphicon-plus" aria-hidden="true"></span> <b>Update remarks</b>
+                        </button>
+                    </td>
                 </tr>
                 </c:forEach>
             </tbody>
@@ -65,7 +94,9 @@
                                 <div style="text-align: right">
                                     <input type="hidden" id="myprojid" name="projId" value=""/>
                                     <input class="btn btn-success" id="add-but" type="submit" value="Save">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Cancel</b>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -90,7 +121,9 @@
                         </div>
                         <div class="panel-footer">
                             <div style="text-align: right">
-                                <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button class="btn btn-danger" data-dismiss="modal">
+                                    <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Close</b>
+                                </button>
                             </div>
                         </div>
                     </div>

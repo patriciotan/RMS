@@ -16,9 +16,14 @@
         <link rel="shortcut icon" href='<c:url value="/res/images/mini_alliance.png"/>'>
         <link type="text/css" rel="stylesheet" href='<c:url value="/res/css/sweet-alert.css"/>'>
         
-        <script src='<c:url value="/res/js/canvasjs.min.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/js/jquery.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/js/bootstrap.js"/>' type="text/javascript"></script>
+        <script src='<c:url value="/res/js/canvasjs.js"/>' type="text/javascript"></script>
+        <script src='<c:url value="/res/js/tableExport.js"/>' type="text/javascript"></script>
+        <script src='<c:url value="/res/js/jquery.base64.js"/>' type="text/javascript"></script>
+        <script src='<c:url value="/res/js/sprintf.js"/>' type="text/javascript"></script>
+        <script src='<c:url value="/res/js/jspdf.js"/>' type="text/javascript"></script>
+        <script src='<c:url value="/res/js/base64.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/sweetalert-master/lib/sweet-alert.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/js/jquery.dataTables.js"/>' type="text/javascript"></script>    
         <script src='<c:url value="/res/js/sweet-alert.js"/>' type="text/javascript"></script>    
