@@ -40,6 +40,7 @@
                                     <br/>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-login btn-block btn-lg">Sign in</button>
+                                        <h5 style="color: red">${errorMsg}</h5>
                                     </div>
                                 </div>
                             </div>

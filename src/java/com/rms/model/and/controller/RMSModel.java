@@ -43,6 +43,7 @@ public class RMSModel {
     }
     public boolean canLogin(String username, String password) throws Exception {
         sql = "select * from user where binary username=? and binary password=?";
+        System.out.println(sql);
         ps = con.prepareStatement(sql);
         ps.setString(1, username);
         ps.setString(2, password);
@@ -155,7 +156,7 @@ public class RMSModel {
     
     public ResultSet getEmployees() throws Exception
     {
-        sql = "select * from resource";
+        sql = "select * from resource order by first_name asc";
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
         

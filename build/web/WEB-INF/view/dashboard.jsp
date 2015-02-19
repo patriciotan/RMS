@@ -4,9 +4,11 @@
 <%@include file="navigation.jsp" %>
 
 <div id="bodiv">
-    <div class="row" style="margin-top: -2%;">
-        <div style="float: left; width: 30%; margin-left: 1%;">
-            <h2>Dashboard</h2>
+    <div class="row page-header" style="margin-top: 0%;">
+        <div style="float: left; width: 100%;">
+            <ol class="breadcrumb">
+                <li class="active">Dashboard</li>
+            </ol>
         </div>
     </div>
     <div id="boards">
@@ -15,22 +17,18 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><a href="rSummary" class="pull-right">View more</a> <h5><b>Under loaded resources for February</b></h5></div>
                 <div class="panel-body">
-                    <div>
-                        <table class="table table-hover">
-                            <thead>
-                                <th style="text-align: left">Resource Name</th>
-                                <th style="text-align: right">Total Effort</th>
-                            </thead>
-                            <tbody>
-                                <c:forEach items="${underload}" var="ul">
-                                    <tr>
-                                        <td style="text-align: left"><c:out value="${ul.fname} ${ul.lname}" /></td>
-                                        <td style="text-align: right"><c:out value="${ul.jan}" /></td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
+                    <ul id="underl" class="list-group">
+                        <c:forEach items="${underload}" var="ul">
+                        <li class="list-group-item" style="padding-left:5px;padding-right:5px;height:60px;">
+                            <code>${ul.fname} ${ul.lname}</code>
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar-danger progress-bar" style="min-width: 1em;" role="progressbar" aria-valuenow=${ul.jan} aria-valuemin="0" aria-valuemax="100" width="">
+                                    ${ul.jan}
+                                </div>
+                            </div>
+                        </li>
+                        </c:forEach>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -41,13 +39,15 @@
                     <h5><b>Add new project or client</b></h5>
                     <br/>
                     <div style="width: 100%" class="input-group text-center">
-                        <input style="float: left; width: 60%;" disabled type="text" class="form-control" placeholder="New project">
-                        <button style="float: left; width: 40%;" class="btn btn-primary" type="button" data-toggle="modal" data-target="#addProject">Add</button>
+                        <button style="width: 80%;" class="btn btn-primary" type="button" data-toggle="modal" data-target="#addProject">
+                            <span style="color: #333333" class="glyphicon glyphicon-plus" aria-hidden="true"></span> <b>New project</b>
+                        </button>
                     </div>
                     <br/>
                     <div style="width: 100%" class="input-group text-center">
-                        <input style="float: left; width: 60%;" disabled type="text" class="form-control" placeholder="New client">
-                        <button style="float: left; width: 40%;" class="btn btn-primary" type="button" data-toggle="modal" data-target="#addClient">Add</button>
+                        <button style="width: 80%;" class="btn btn-primary" type="button" data-toggle="modal" data-target="#addClient">
+                            <span style="color: #333333" class="glyphicon glyphicon-plus" aria-hidden="true"></span> <b>New client</b>
+                        </button>
                     </div>
                 </form>
                 <br/>
@@ -56,20 +56,14 @@
                 <div class="panel-heading"><a href="cSummary" class="pull-right">View more</a> <h5><b>Latest clients added</b></h5></div>
                 <div class="panel-body">
                     <div>
-                        <table class="table table-hover">
-                            <thead>
-                                <th style="text-align: left">Client Name</th>
-                                <th style="text-align: right">Date Added</th>
-                            </thead>
-                            <tbody>
-                                <c:forEach end="2" items="${clients}" var="client">
-                                    <tr>
-                                        <td style="text-align: left">${client.name}</td>
-                                        <td style="text-align: right">${client.addedDate}</td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
+                        <ol class="list-group">
+                            <c:forEach end="2" items="${clients}" var="client">
+                            <li class="list-group-item">
+                                <span class="badge">${client.addedDate}</span>
+                                <code>${client.name}</code>
+                            </li>
+                            </c:forEach>
+                        </ol>
                     </div>
                 </div>
             </div>
@@ -80,20 +74,14 @@
                 <div class="panel-heading"><a href="pSummary" class="pull-right">View more</a> <h5><b>Latest projects added</b></h5></div>
                 <div class="panel-body">
                     <div>
-                        <table class="table table-hover">
-                            <thead>
-                                <th style="text-align: left">Project Name</th>
-                                <th style="text-align: right">Date Added</th>
-                            </thead>
-                            <tbody>
-                                <c:forEach end="2" items="${projects}" var="project">
-                                    <tr>
-                                        <td style="text-align: left">${project.name}</td>
-                                        <td style="text-align: right">${project.addedDate}</td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
+                        <ol class="list-group">
+                            <c:forEach end="2" items="${projects}" var="project">
+                            <li class="list-group-item">
+                                <span class="badge">${project.addedDate}</span>
+                                <code>${project.name}</code>
+                            </li>
+                            </c:forEach>
+                        </ol>
                     </div>
                 </div>
             </div>
@@ -101,20 +89,14 @@
                 <div class="panel-heading"><a href="pSummary" class="pull-right">View more</a> <h5><b>Projects ending this month</b></h5></div>
                 <div class="panel-body">
                     <div>
-                        <table class="table table-hover">
-                            <thead>
-                                <th style="text-align: left">Project Name</th>
-                                <th style="text-align: right">End Date</th>
-                            </thead>
-                            <tbody>
-                                <c:forEach end="2" items="${unPro}" var="up">
-                                    <tr>
-                                        <td style="text-align: left">${up.name}</td>
-                                        <td style="text-align: right">${up.end}</td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
+                        <ol class="list-group">
+                            <c:forEach end="2" items="${unPro}" var="up">
+                            <li class="list-group-item">
+                                <span class="badge">${up.end}</span>
+                                <code>${up.name}</code>
+                            </li>
+                            </c:forEach>
+                        </ol>
                     </div>
                 </div>
             </div>
@@ -254,6 +236,13 @@
                     $('#boards .col-md-4').addClass('col-md-6').removeClass('col-md-4');
                     $(this).addClass('on');
                 }
+            });
+            
+            $('ul li').each(function(){
+                var effort = parseInt($(this).children().next().children().html());
+                $(this).find('.progress-bar').css('width', effort+'%');
+                effort = effort/100;
+                $(this).children().next().children().html(effort);
             });
 
         });

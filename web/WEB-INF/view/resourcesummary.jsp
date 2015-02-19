@@ -1,12 +1,16 @@
 <%@include file="navigation.jsp" %>
 
 <div id="bodiv">
-    <div class="row" style="margin-top: -2%;">
-        <div style="float: left; width: 30%; margin-left: 1.2%;">
-            <h2>Resource Summary</h2>
+    <div class="row page-header" style="margin-top: 0%;">
+        <div style="float: left; width: 86%;">
+            <ol class="breadcrumb">
+                <li class="active">Resource Summary</li>
+            </ol>
         </div>
-        <div style="float: left; margin-left: 53.8%; margin-top: 18px;">
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#summary">Show head count</button>
+        <div style="float: left;" class="pull-right">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#summary">
+                <span style="color: #333333" class="glyphicon glyphicon-plus" aria-hidden="true"></span> <b>Show head count</b>
+            </button>
         </div>
     </div>
     <div id="resourceSummary" class="col-md-12">
@@ -33,7 +37,7 @@
                     </thead>
                     <tbody id="resources">
                         <c:forEach items="${resources}" var="resource">
-                        <tr class="resourceRow" data-toggle="modal" data-target="#resInfo" data-toggle="tooltip" data-placement="top" title="Click me to show Employee Information.">   
+                        <tr class="resourceRow" data-toggle="modal" data-target="#resInfo" data-toggle="tooltip" data-placement="top" title="Click to view resource information">   
                             <input type="hidden" class="resId" value="${resource.empId}"/>
                             <td style="text-align: left;" class="resName"><c:out value="${resource.fname} ${resource.lname}" /></td>						
                             <td><c:out value="${resource.year}" /></td>   
@@ -74,7 +78,9 @@
                                     </div>
                                     <div class="panel-footer">
                                         <div style="text-align: right;">
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                                <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Close</b>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -86,29 +92,20 @@
                     
             <!-- summary Modal -->
                 <div class="modal fade" id="summary" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog-s">
-                        <div class="modal-content-sm">
-                            <div class="modal-body-sm">
-                                <div class="panel panel-primary">  
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="panel panel-primary"> 
                                     <div class="panel-heading">
-                                        <b>Summary</b>
+                                        <b>Resources per Business Unit</b>
                                     </div>
                                     <div class="panel-body">
-                                        <table class="table table-hover">
-                                            <col width="250">
-                                            <col width="118">
-                                            <thead>
-                                                <th style="font-weight: bold; text-align: right;">Total Head Count</th><th><code>${summary.total}</code></th></th>
-                                            </thead>
-                                            <tbody>
-                                                <tr><td style="font-weight: bold; text-align: right;">Employees per Business Unit</td><td></td></tr>
-                                                <tr><td style="text-align: right;">Philippines</td><td id=""><code>${summary.ph}</code></td></tr>
-                                                <tr><td style="text-align: right;">Japan</td><td id=""><code>${summary.jap}</code></td></tr>
-                                                <tr><td style="text-align: right;">Rest of the World</td><td><code>${summary.row}</code></td></tr>
-                                                <tr><td style="text-align: right;">Alliance</td><td><code>${summary.alli}</code></td></tr>
-                                                <tr><td style="font-weight: bold; text-align: right;">Unassigned</td><td><code>${summary.unassigned}</code></td></tr>
-                                            </tbody>
-                                        </table>
+                                        <div id="chartContainer" style="height:390px;"></div>
+                                        <input id="phVal" type="hidden" value="${summary.ph}">
+                                        <input id="jpVal" type="hidden" value="${summary.jap}">
+                                        <input id="rwVal" type="hidden" value="${summary.row}">
+                                        <input id="alVal" type="hidden" value="${summary.alli}">
+                                        <input id="unVal" type="hidden" value="${summary.unassigned}">
                                     </div>
                                     <div class="panel-footer">
                                         <div style="text-align: right;">
@@ -167,7 +164,9 @@
                                     </div>
                                     <div class="panel-footer">
                                         <div style="text-align: right;">
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                                <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Close</b>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -187,6 +186,29 @@
 </div>
 </div><!-- closing div from navigation-->
     </body>
+    
+    <script type="text/javascript">
+    window.onload = function () {
+        var chart = new CanvasJS.Chart("chartContainer",
+        {
+        data: [
+        {
+            type: "pie",
+        dataPoints: [
+        {  y: $("#phVal").val(), indexLabel: "Philippines" },
+        {  y: $("#jpVal").val(), indexLabel: "Japan" },
+        {  y: $("#rwVal").val(), indexLabel: "Rest of the World" },
+        {  y: $("#alVal").val(), indexLabel: "Alliance" },
+        {  y: $("#unVal").val(), indexLabel: "Unassigned" }
+        ]
+        }
+        ]
+    });
+
+        chart.render();
+    }
+    </script>
+    
     <script>
         $(document).ready(function(){
            $("#3").attr("class","active"); 

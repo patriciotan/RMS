@@ -16,6 +16,7 @@
         <link rel="shortcut icon" href='<c:url value="/res/images/mini_alliance.png"/>'>
         <link type="text/css" rel="stylesheet" href='<c:url value="/res/css/sweet-alert.css"/>'>
         
+        <script src='<c:url value="/res/js/canvasjs.min.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/js/jquery.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/js/bootstrap.js"/>' type="text/javascript"></script>
         <script src='<c:url value="/res/sweetalert-master/lib/sweet-alert.js"/>' type="text/javascript"></script>
@@ -40,21 +41,21 @@
         <form id="logoutform" action='<c:url value="logoutSubmit"/>' method="post">
         <div class="collapse navbar-collapse">
             <a class="pull-left" style=" margin-top: 6px;" href="#"><img src="<c:url value="/res/images/asi_logo_white.png"/>" height="40px" alt="alliance logo" /></a>
-            <ul class="nav navbar-nav">
+            <ol class="nav navbar-nav">
                 <li id="0"><a href="dashboard">Dashboard</a></li>
                 <li id="1"><a href="outlook">Project Outlook</a></li>
                 <li id="2"><a href="pSummary">Project Summary</a></li>
                 <li id="3"><a href="rSummary">Resource Summary</a></li>
                 <li id="4"><a href="cSummary">Client Summary</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right" style="margin-right: -124px">
+            </ol>
+            <ol class="nav navbar-nav navbar-right" style="margin-right: -124px">
                 <li class="dropdown navbar-right">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">${sessVar} <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
+                    <ol class="dropdown-menu">
                         <li><a id="logoutlink" href="#" style="color: graytext">Sign out</a></li>
-                    </ul>
+                    </ol>
                 </li>
-            </ul>
+            </ol>
         </div><!--/.nav-collapse -->
         </form>
     </div><!--/.container -->

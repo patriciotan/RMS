@@ -1,13 +1,19 @@
 <%@include file="navigation.jsp" %>
 <div id="bodiv">
-    <div class="row" style="margin-top: -2%;">
-        <div style="float: left; width: 80%; margin-left: 1.2%;">
-            <h3><a href="pSummary">Project Summary</a> / Tasks for ${projectName} || Project Duration: ${start} to ${end}</h3>
+    <div class="row page-header" style="margin-top: 0%;">
+        <div style="float: left; width: 91%;">
+            <ol class="breadcrumb">
+                <li><a href="pSummary">Project Summary</a></li>
+                <li class="active">${projectName}</li>
+                <li>${start} to ${end}</li>
+            </ol>
             <input type="hidden" id="startDate" value="${start}" />
             <input type="hidden" id="endDate" value="${end}" />
         </div>
-        <div style="float: left;margin-left:5%; margin-right: -10px; margin-top: 12px;">
-            <button type="button" class="btn btn-lg btn-primary addOption" data-toggle="modal" data-target="#addTask">Add new task</button>
+        <div style="float: left;" class="pull-right">
+            <button type="button" class="btn btn-primary addOption" data-toggle="modal" data-target="#addTask">
+                <span style="color: #333333" class="glyphicon glyphicon-plus" aria-hidden="true"></span> <b>New task</b>
+            </button>
         </div>
     </div>
     <div id="resourceSummary" class="col-md-12">

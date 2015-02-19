@@ -1,12 +1,16 @@
 <%@include file="navigation.jsp"%>
 
 <div id="bodiv">
-    <div class="row" style="margin-top: -2%;">
-        <div style="float: left; width: 20%; margin-left: 2.3%;">
-            <h2>Client Summary</h2>
+    <div class="row page-header" style="margin-top: 0%;">
+        <div style="float: left; width: 90%;">
+            <ol class="breadcrumb">
+                <li class="active">Client Summary</li>
+            </ol>
         </div>
-        <div style="float: left; margin-left: 65.7%; margin-top: 12px;">
-            <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#addClient">New Client</button>
+        <div style="float: left;" class="pull-right">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addClient">
+                <span style="color: #333333" class="glyphicon glyphicon-plus" aria-hidden="true"></span> <b>New client</b>
+            </button>
         </div>
     </div>
     <br/>
@@ -33,7 +37,9 @@
                     <td><c:out value="${client.end}" /></td>
                     <td><c:out value="${client.projectStatus}" /></td>
                     <td>
-                        <button class="btn btn-primary viewRm" data-toggle="modal" data-target="#viewRemarks">View Remarks</button>
+                        <button class="btn btn-primary viewRm" data-toggle="modal" data-target="#viewRemarks">
+                            <span style="color: #333333" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <b>Remarks</b>
+                        </button>
                         <input type="hidden" class="remarkss" value="<c:out value='${client.remarks}' />"/>
                     </td>
                 </tr>
@@ -66,8 +72,12 @@
                             <div class="panel-footer">
                                 <div style="text-align: right">
                                     <input value="Outlook" name="reference" hidden="hidden">
-                                    <input class="btn btn-success" id="add-but" type="submit" value="Submit">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-success" id="add-but" type="submit">
+                                        <span style="color: #333333" class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> <b>Submit</b>
+                                    </button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Cancel</b>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -92,7 +102,9 @@
                         </div>
                         <div class="panel-footer">
                             <div style="text-align: right">
-                                <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                    <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Close</b>
+                                </button>
                             </div>
                         </div>
                     </div>

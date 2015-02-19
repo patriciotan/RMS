@@ -4,12 +4,16 @@
 <%@include file="navigation.jsp" %>
 
 <div id="bodiv">
-    <div class="row" style="margin-top: -2%;">
-        <div style="float: left; width: 20%; margin-left: 2.3%;">
-            <h2>Project Summary</h2>
+    <div class="row page-header" style="margin-top: 0%;">
+        <div style="float: left; width: 89%;">
+            <ol class="breadcrumb">
+                <li class="active">Project Summary</li>
+            </ol>
         </div>
-        <div style="float: left; margin-left: 65%; margin-right: -10px; margin-top: 12px;">
-            <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target="#addProject">New project</button>
+        <div style="float: left;" class="pull-right">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProject">
+                <span style="color: #333333" class="glyphicon glyphicon-plus" aria-hidden="true"></span> <b>New project</b>
+            </button>
         </div>
     </div>
     <div id="projectSummary" class="col-md-12">
@@ -33,7 +37,7 @@
                 <tr>
                     <form class="specificProject" action='<c:url value="openProject"/>' method="get">
                         <input type="hidden" name="getId" class="projId" value="${project.projectId}"/>
-                        <td class="projectName"><a class="projectnamelink"  data-toggle="tooltip" data-placement="top" title="Click me to open project contents."><c:out value="${project.name}" /></a></td>
+                        <td class="projectName"><a href="" class="projectnamelink" data-toggle="tooltip" data-placement="top" title="Click to view project tasks"><c:out value="${project.name}" /></a></td>
                     </form>
                     <td class="clientN"><c:out value="${project.clientName}" /></td>
                     <td style="display:none" class="clientI"><c:out value="${project.clientId}" /></td>
@@ -42,8 +46,12 @@
                     <td class="projType"><c:out value="${project.type}" /></td>
                     <td class="bUnit"><c:out value="${project.bUnit}" /></td>
                     <td class="mileSto"><c:out value="${project.milestone}" /></td>
-                    <td><button class="btn btn-warning editOption" data-toggle="modal" data-target="#editProject">Edit</button></td>
-                    <td><button id="deleteButton3" class="btn btn-danger end" data-toggle="modal" data-target="#endProject">End</button></td>
+                    <td><button class="btn btn-warning editOption" data-toggle="modal" data-target="#editProject">
+                            <span style="color: #333333" class="glyphicon glyphicon-pencil" aria-hidden="true"></span> <b>Edit</b>
+                        </button></td>
+                    <td><button id="deleteButton3" class="btn btn-danger end" data-toggle="modal" data-target="#endProject">
+                            <span style="color: #333333" class="glyphicon glyphicon-trash" aria-hidden="true"></span> <b>End</b>
+                        </button></td>
                 </tr>
                 </c:forEach>
             </tbody>
@@ -110,8 +118,12 @@
                                 <div style="text-align: right">
                                     <input value="Ongoing" name="status" hidden="hidden">
                                     <input value="Summary" name="reference" hidden="hidden">
-                                    <input class="btn btn-success" id="add-but1" type="submit" value="Submit">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-success" id="add-but1" type="submit">
+                                        <span style="color: #333333" class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> <b>Submit</b>
+                                    </button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Cancel</b>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -177,8 +189,12 @@
                             </div>
                             <div class="panel-footer">
                                 <div style="text-align: right">
-                                    <input class="btn btn-success" id="add-but2" type="submit" value="Save">
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal">Cancel</button>
+                                    <button class="btn btn-success" id="add-but2" type="submit">
+                                        <span style="color: #333333" class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> <b>Save</b>
+                                    </button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Cancel</b>
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -208,8 +224,12 @@
                             </div>
                             <div class="panel-footer">
                                 <div style="text-align: right;">
-                                    <input class="btn btn-success" id="add-but" type="submit" value="Yes"/>&nbsp;
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal">No</button>
+                                    <button class="btn btn-success" id="add-but" type="submit">
+                                        <span style="color: #333333" class="glyphicon glyphicon-ok" aria-hidden="true"></span> <b>Yes</b>
+                                    </button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>No</b>
+                                    </button>
                                 </div>
                             </div>
                         </form>

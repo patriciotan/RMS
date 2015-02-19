@@ -181,6 +181,36 @@ public class RMSController {
         return resources;
     }
     
+    public List getUnderloadWhole() throws Exception{
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
+        Calendar c = Calendar.getInstance();
+        Date now = c.getTime();
+        int year = c.get(Calendar.YEAR);
+        String month = sdf.format(now);
+        month=month.toLowerCase();
+        if(month.equals("december")){
+            month=month.substring(0,4);
+        }else{
+            month=month.substring(0,3);
+        }
+        List<Employee> employees = getEmployees();
+        List<Resource> resources=new ArrayList<>();
+        for(int i=0;i<employees.size();i++)
+        {
+            ResultSet rs = dbModel.getTotalResources(employees.get(i).getEmpId(),year);
+            Resource resource = new Resource();
+            rs.next();
+            resource.setFname(employees.get(i).getFname());
+            resource.setMname(employees.get(i).getMname());
+            resource.setLname(employees.get(i).getLname());
+            resource.setJan((float) (Math.round(rs.getFloat(month)*100.0)));
+            if(resource.getJan()>0 && resource.getJan()<100){
+                resources.add(resource);
+            }
+        }
+        return resources;
+    }
+    
     public List getOverload() throws Exception{
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
         Calendar c = Calendar.getInstance();
@@ -429,7 +459,7 @@ public class RMSController {
         
         if(request.getSession().getAttribute("userType")!=null&&request.getSession().getAttribute("userType").equals("Manager")){
             mav.addObject("title","RMS - Dashboard");
-            mav.addObject("underload",getUnderload());
+            mav.addObject("underload",getUnderloadWhole());
             mav.addObject("clients",getClient());
             mav.addObject("projects",projects);
             mav.addObject("unPro",getNextUnpro());
