@@ -65,8 +65,8 @@
                         <form id="add" name="add" action='<c:url value="addClient"/>' method="post" modelAttribute="client">
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <label for="">Name</label>
-                                    <input class="form-control" autocomplete="off" required="required"  type="text" name="name" maxlength="30" pattern=".{4,30}" title="4 to 30 Characters" />
+                                    <label for="">Name<font style="margin-left:20px;display:none;" color="red" id="cerror1"></font></label>
+                                    <input class="form-control" autocomplete="off" required="required"  type="text" name="name" id="cname1" maxlength="30" pattern=".{4,30}" title="4 to 30 Characters" />
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -119,6 +119,25 @@
         $(document).ready(function(){
             $("#4").attr("class","active");
             $("#clientSummary").dataTable();
+           
+           
+            $("#cname1").change(function(){
+                $("#cerror1").html("");
+                $.ajax({
+                    url:'clientExists.htm',
+                    type:'post',
+                    data:{'name':$(this).val()},
+                    success:function(data,status){
+                        if(data=="true"){
+                            $("#cerror1").css("display","true");
+                            $("#cerror1").text("Client Name Already Exist!");
+                            $("#add-but").attr("disabled","true");
+                        }else{
+                            $("#add-but").removeAttr("disabled");
+                        }
+                    }
+                });
+            });
            
             $("#clientSummary").on("click",".viewRm",function(){
                 $("#remarksArea").html($(this).next().val());

@@ -20,7 +20,7 @@
         <div class="row">
             <c:forEach items="${tasks}" var="task">
                 <div>
-                    <div class="taskName" style="background-color:#2e2e2e;color:white;padding:5px;" data-toggle="tooltip" data-placement="top" title="Click me to show task contents, click me again to hide task contents.">
+                    <div class="taskName" style="background-color:#2e2e2e;color:white;padding:5px;" data-toggle="tooltip" data-placement="top" title="Click me to show/hide task contents.">
                         <h5>
                             TASK NAME: <b class="tName"><c:out value="${task.name}" /></b>    
                             TASK STATUS: <b class="tStatus"><c:out value="${task.status}" /></b>

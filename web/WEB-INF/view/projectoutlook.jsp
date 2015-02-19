@@ -68,15 +68,15 @@
                         <form id="add" name="add" action='<c:url value="addOutlook"/>' method="post" modelAttribute="project">
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <label for="">Name</label>
+                                    <label for="">Name<font style="margin-left:20px;display:none;" color="red" id="error1"></font></label>
                                     <input class="form-control" autocomplete="off" required="required" id="name1" type="text" name="name" maxlength="30" pattern=".{4,30}" title="4 to 30 Characters">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Start Date</label>
+                                    <label for="">Start Date<font style="margin-left:20px;display:none;" color="red" id="error2"></font></label>
                                     <input class="form-control" type="date"  required="required" name="start" id="start1">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">End Date</label>
+                                    <label for="">End Date<font style="margin-left:20px;display:none;" color="red" id="error3"></font></label>
                                     <input class="form-control" type="date"  required="required" name="end" id="end1">
                                 </div>
                                 <div class="form-group">
@@ -146,15 +146,15 @@
                             <input type="hidden" name="projectId" id="editProjId"/>
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <label for="">Name</label>
+                                    <label for="">Name<font style="margin-left:20px;display:none;" color="red" id="edit1"></font></label>
                                     <input class="form-control" autocomplete="off" required="required" id="field1" type="text" name="name" maxlength="30" pattern=".{4,30}" title="4 to 30 Characters">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Start Date</label>
+                                    <label for="">Start Date<font style="margin-left:20px;display:none;" color="red" id="edit2"></font></label>
                                     <input class="form-control" type="date" id="field2" required="required" name="start">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">End Date</label>
+                                    <label for="">End Date<font style="margin-left:20px;display:none;" color="red" id="edit3"></font></label>
                                     <input class="form-control" type="date" id="field3" required="required" name="end">
                                 </div>
                                 <div class="form-group">
@@ -250,18 +250,125 @@
                $("#delProjId").val($(this).parent().siblings(".projId").val()); 
                  $("#delName").text($(this).parent().siblings(".projectName").text());
             });
-           
             
-            
-            $("#add-but2").click(function(event){
-                 if($("#field2").val()>$("#field3").val()){
-                     alert("End date should be greater than start date.");
-                     event.preventDefault();
-                 }
+            $("#name1").change(function(){
+                $("#error1").html("");
+                $.ajax({
+                    url:'nameExists.htm',
+                    type:'post',
+                    data:{'name':$(this).val()},
+                    success:function(data,status){
+                        if(data=="true"){
+                            $("#error1").css("display","true");
+                            $("#error1").text("Name Already Exist!");
+                            $("#add-but1").attr("disabled","true");
+                        }else{
+                            if($("#error2").html()==""&&$("#error3").html()==""){
+                                $("#add-but1").removeAttr("disabled");
+                            }
+                        }
+                    }
+                });
             });
+            
+            $("#start1").change(function(){
+                $("#error2").html("");
+                $("#end1").change();
+                var startDate = new Date($(this).val()); 
+                var todaysDate = new Date();
+                if(startDate<=todaysDate){
+                    $("#error2").css("display","true");
+                    $("#error2").text("Start date should be greater than today.");
+                    $("#add-but1").attr("disabled","true");
+                }else{
+                    if($("#error1").html()==""&&$("#error3").html()==""){
+                        $("#add-but1").removeAttr("disabled");
+                    }
+                }
+            });
+            
+            $("#end1").change(function(){
+                $("#error3").html("");
+                var startDate = new Date($("#start1").val());
+                var endDate = new Date($(this).val());
+                if(startDate>endDate){
+                    $("#error3").css("display","true");
+                    $("#error3").text("End date should be after or equal the start date.");
+                    $("#add-but1").attr("disabled","true");
+                }else{
+                    if($("#error1").html()==""&&$("#error2").html()==""){
+                        $("#add-but1").removeAttr("disabled");
+                    }
+                }
+            });
+            
+            var selectedEditName="";
+            $("#field1").change(function(){
+                $("#edit1").html("");
+                if(selectedEditName!=$(this).val()){
+                    $.ajax({
+                        url:'nameExists.htm',
+                        type:'post',
+                        data:{'name':$(this).val()},
+                        success:function(data,status){
+                            if(data=="true"){
+                                $("#edit1").css("display","true");
+                                $("#edit1").text("Name Already Exist!");
+                                $("#add-but2").attr("disabled","true");
+                            }else{
+                                if($("#edit2").html()==""&&$("#edit3").html()==""){
+                                    $("#add-but2").removeAttr("disabled");
+                                }
+                            }
+                        }
+                    });
+                }else{
+                    if($("#edit2").html()==""&&$("#edit3").html()==""){
+                        $("#add-but2").removeAttr("disabled");
+                    }
+                }
+            });
+            
+            $("#field2").change(function(){
+                $("#edit2").html("");
+                $("#field3").change();
+                var startDate = new Date($(this).val()); 
+                var todaysDate = new Date();
+                if(startDate<=todaysDate){
+                    $("#edit2").css("display","true");
+                    $("#edit2").text("Start date should be greater than today.");
+                    $("#add-but2").attr("disabled","true");
+                }else{
+                    if($("#edit1").html()==""&&$("#edit3").html()==""){
+                        $("#add-but2").removeAttr("disabled");
+                    }
+                }
+            });
+            
+            $("#field3").change(function(){
+                $("#edit3").html("");
+                var startDate = new Date($("#field2").val());
+                var endDate = new Date($(this).val());
+                if(startDate>endDate){
+                    $("#edit3").css("display","true");
+                    $("#edit3").text("End date should be after or equal the start date.");
+                    $("#add-but2").attr("disabled","true");
+                }else{
+                    if($("#edit1").html()==""&&$("#edit2").html()==""){
+                        $("#add-but2").removeAttr("disabled");
+                    }
+                }
+            });
+            
+            
            
            $("#projects").on("click",".editButton",function(){
-              $("#editProjId").val($(this).parent().siblings(".projId").val()); 
+               selectedEditName=$(this).parent().siblings(".projectName").text();
+               $("#add-but2").removeAttr("disabled");
+               $("#edit1").html("");
+               $("#edit2").html("");
+               $("#edit3").html("");
+               $("#editProjId").val($(this).parent().siblings(".projId").val()); 
                $("#field1").val($(this).parent().siblings(".projectName").text());
                $("#field2").val($(this).parent().siblings(".startDate").text());
                $("#field3").val($(this).parent().siblings(".endDate").text());
