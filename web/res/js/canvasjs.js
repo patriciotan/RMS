@@ -1880,25 +1880,25 @@
                 setButtonState(_this, _this._resetButton, "reset");
         }
 
-        if (typeof (defaultOptions.Chart.creditHref) === "undefined") {
-            this.creditHref = "http://canvasjs.com/";
-            this.creditText = "CanvasJS.com";
-        } else {
-            var creditTextChanged = this.updateOption("creditText");
-            var creditHrefChanged = this.updateOption("creditHref");
-        }
-
-        if (this.renderCount === 0 || (creditTextChanged || creditHrefChanged)) {
-            this._creditLink.setAttribute("href", this.creditHref);
-            this._creditLink.innerHTML = this.creditText;
-        }
-
-        if (this.creditHref && this.creditText) {
-            if (!this._creditLink.parentElement)
-                this._canvasJSContainer.appendChild(this._creditLink);
-        }
-        else if (this._creditLink.parentElement)
-            this._canvasJSContainer.removeChild(this._creditLink);
+//        if (typeof (defaultOptions.Chart.creditHref) === "undefined") {
+//            this.creditHref = "http://canvasjs.com/";
+//            this.creditText = "CanvasJS.com";
+//        } else {
+//            var creditTextChanged = this.updateOption("creditText");
+//            var creditHrefChanged = this.updateOption("creditHref");
+//        }
+//
+//        if (this.renderCount === 0 || (creditTextChanged || creditHrefChanged)) {
+//            this._creditLink.setAttribute("href", this.creditHref);
+//            this._creditLink.innerHTML = this.creditText;
+//        }
+//
+//        if (this.creditHref && this.creditText) {
+//            if (!this._creditLink.parentElement)
+//                this._canvasJSContainer.appendChild(this._creditLink);
+//        }
+//        else if (this._creditLink.parentElement)
+//            this._canvasJSContainer.removeChild(this._creditLink);
 
         if (this._options.toolTip && this._toolTip._options !== this._options.toolTip)
             this._toolTip._options = this._options.toolTip

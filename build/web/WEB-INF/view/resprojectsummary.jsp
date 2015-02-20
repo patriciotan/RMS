@@ -5,7 +5,7 @@
             <ol class="breadcrumb">
                 <li><a href="pSummary">Project Summary</a></li>
                 <li class="active">${projectName}</li>
-                <li class="pull-right">Duration: <code>${start} to ${end}</code></li>
+                <li class="pull-right">Duration <code>${start}</code> to <code>${end}</code></li>
             </ol>
             <input type="hidden" id="startDate" value="${start}" />
             <input type="hidden" id="endDate" value="${end}" />
@@ -23,11 +23,9 @@
                     <li><a href="#" onClick ="$('#respSummary').tableExport({type:'xml',escape:'false'});"> <img src='<c:url value="/res/images/xml.png"/>' width='16px'> XML</a></li>
                     <li><a href="#" onClick ="$('#respSummary').tableExport({type:'sql'});"> <img src='<c:url value="/res/images/sql.png"/>' width='16px'> SQL</a></li>
                     <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#respSummary').tableExport({type:'excel',escape:'false'});"> <img src='<c:url value="/res/images/xls.png"/>' width='16px'> XLS</a></li>
                     <li><a href="#" onClick ="$('#respSummary').tableExport({type:'csv',escape:'false'});"> <img src='<c:url value="/res/images/csv.png"/>' width='16px'> CSV</a></li>
                     <li><a href="#" onClick ="$('#respSummary').tableExport({type:'txt',escape:'false'});"> <img src='<c:url value="/res/images/txt.png"/>' width='16px'> TXT</a></li>
-                    <li class="divider"></li>	
-                    <li><a href="#" onClick ="$('#respSummary').tableExport({type:'excel',escape:'false'});"> <img src='<c:url value="/res/images/xls.png"/>' width='16px'> XLS</a></li>
-                    <li><a href="#" onClick ="$('#respSummary').tableExport({type:'pdf',escape:'false'});"> <img src='<c:url value="/res/images/pdf.png"/>' width='16px'> PDF</a></li>
                 </ul>
             </div>
             <button type="button" class="btn btn-primary addOption" data-toggle="modal" data-target="#addTask">
@@ -74,21 +72,21 @@
                                 <tr>
                                     <th style="display:none;"></th>
                                     <th style="display:none;"></th>
-                                    <th>Name</th>
-                                    <th>Year</th>
-                                    <th>Jan</th>
-                                    <th>Feb</th>
-                                    <th>Mar</th>
-                                    <th>Apr</th>
-                                    <th>May</th>
-                                    <th>Jun</th>
-                                    <th>Jul</th>
-                                    <th>Aug</th>
-                                    <th>Sep</th>
-                                    <th>Oct</th>
-                                    <th>Nov</th>
-                                    <th>Dec</th>
-                                    <th>Performance</th>
+                                    <th style="text-align: left"><b>Name</b></th>
+                                    <th style="text-align: left"><b>Year</b></th>
+                                    <th style="text-align: left"><b>Jan</b></th>
+                                    <th style="text-align: left"><b>Feb</b></th>
+                                    <th style="text-align: left"><b>Mar</b></th>
+                                    <th style="text-align: left"><b>Apr</b></th>
+                                    <th style="text-align: left"><b>May</b></th>
+                                    <th style="text-align: left"><b>Jun</b></th>
+                                    <th style="text-align: left"><b>Jul</b></th>
+                                    <th style="text-align: left"><b>Aug</b></th>
+                                    <th style="text-align: left"><b>Sep</b></th>
+                                    <th style="text-align: left"><b>Oct</b></th>
+                                    <th style="text-align: left"><b>Nov</b></th>
+                                    <th style="text-align: left"><b>Dec</b></th>
+                                    <th style="text-align: left"><b>Performance</b></th>
                                 </tr>
                             </thead>
                             <tbody class="resources">

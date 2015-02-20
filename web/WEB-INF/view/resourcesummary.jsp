@@ -20,11 +20,9 @@
                     <li><a href="#" onClick ="$('#resSummary').tableExport({type:'xml',escape:'false'});"> <img src='<c:url value="/res/images/xml.png"/>' width='16px'> XML</a></li>
                     <li><a href="#" onClick ="$('#resSummary').tableExport({type:'sql'});"> <img src='<c:url value="/res/images/sql.png"/>' width='16px'> SQL</a></li>
                     <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#resSummary').tableExport({type:'excel',escape:'false'});"> <img src='<c:url value="/res/images/xls.png"/>' width='16px'> XLS</a></li>
                     <li><a href="#" onClick ="$('#resSummary').tableExport({type:'csv',escape:'false'});"> <img src='<c:url value="/res/images/csv.png"/>' width='16px'> CSV</a></li>
                     <li><a href="#" onClick ="$('#resSummary').tableExport({type:'txt',escape:'false'});"> <img src='<c:url value="/res/images/txt.png"/>' width='16px'> TXT</a></li>
-                    <li class="divider"></li>	
-                    <li><a href="#" onClick ="$('#resSummary').tableExport({type:'excel',escape:'false'});"> <img src='<c:url value="/res/images/xls.png"/>' width='16px'> XLS</a></li>
-                    <li><a href="#" onClick ="$('#resSummary').tableExport({type:'pdf',escape:'false'});"> <img src='<c:url value="/res/images/pdf.png"/>' width='16px'> PDF</a></li>
                 </ul>
             </div>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#summary">
@@ -38,20 +36,20 @@
                 <table id="resSummary" class="display">   
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Year</th>
-                            <th>Jan</th>
-                            <th>Feb</th>
-                            <th>Mar</th>
-                            <th>Apr</th>
-                            <th>May</th>
-                            <th>Jun</th>
-                            <th>Jul</th>
-                            <th>Aug</th>
-                            <th>Sep</th>
-                            <th>Oct</th>
-                            <th>Nov</th>
-                            <th>Dec</th>
+                            <th style="text-align: left"><b>Name</b></th>
+                            <th style="text-align: left"><b>Year</b></th>
+                            <th style="text-align: left"><b>Jan</b></th>
+                            <th style="text-align: left"><b>Feb</b></th>
+                            <th style="text-align: left"><b>Mar</b></th>
+                            <th style="text-align: left"><b>Apr</b></th>
+                            <th style="text-align: left"><b>May</b></th>
+                            <th style="text-align: left"><b>Jun</b></th>
+                            <th style="text-align: left"><b>Jul</b></th>
+                            <th style="text-align: left"><b>Aug</b></th>
+                            <th style="text-align: left"><b>Sep</b></th>
+                            <th style="text-align: left"><b>Oct</b></th>
+                            <th style="text-align: left"><b>Nov</b></th>
+                            <th style="text-align: left"><b>Dec</b></th>
                         </tr>
                     </thead>
                     <tbody id="resources">
@@ -59,19 +57,19 @@
                         <tr class="resourceRow" data-toggle="modal" data-target="#resInfo" data-toggle="tooltip" data-placement="top" title="Click to view resource information">   
                             <input type="hidden" class="resId" value="${resource.empId}"/>
                             <td style="text-align: left;" class="resName"><c:out value="${resource.fname} ${resource.lname}" /></td>						
-                            <td><c:out value="${resource.year}" /></td>   
-                            <td><c:out value="${resource.jan}" /></td>   
-                            <td><c:out value="${resource.feb}" /></td>   
-                            <td><c:out value="${resource.mar}" /></td>   
-                            <td><c:out value="${resource.apr}" /></td>   
-                            <td><c:out value="${resource.may}" /></td>   
-                            <td><c:out value="${resource.jun}" /></td>   
-                            <td><c:out value="${resource.jul}" /></td>   
-                            <td><c:out value="${resource.aug}" /></td>   
-                            <td><c:out value="${resource.sep}" /></td>   
-                            <td><c:out value="${resource.oct}" /></td>   
-                            <td><c:out value="${resource.nov}" /></td>   
-                            <td><c:out value="${resource.dece}" /></td>
+                            <td style="text-align: left"><c:out value="${resource.year}" /></td>   
+                            <td style="text-align: left"><c:out value="${resource.jan}" /></td>   
+                            <td style="text-align: left"><c:out value="${resource.feb}" /></td>   
+                            <td style="text-align: left"><c:out value="${resource.mar}" /></td>   
+                            <td style="text-align: left"><c:out value="${resource.apr}" /></td>   
+                            <td style="text-align: left"><c:out value="${resource.may}" /></td>   
+                            <td style="text-align: left"><c:out value="${resource.jun}" /></td>   
+                            <td style="text-align: left"><c:out value="${resource.jul}" /></td>   
+                            <td style="text-align: left"><c:out value="${resource.aug}" /></td>   
+                            <td style="text-align: left"><c:out value="${resource.sep}" /></td>   
+                            <td style="text-align: left"><c:out value="${resource.oct}" /></td>   
+                            <td style="text-align: left"><c:out value="${resource.nov}" /></td>   
+                            <td style="text-align: left"><c:out value="${resource.dece}" /></td>
                         </tr>
                         </c:forEach>
                     </tbody>
@@ -254,6 +252,7 @@
             {
                 type: "pie",
                 showInLegend: true,
+                toolTipContent: "{y} - #percent %",
                 dataPoints: [
                     {  y: ${summary.ph}, legendText:"Philippines", indexLabel: "Philippines" },
                     {  y: ${summary.jap}, legendText:"Japan", indexLabel: "Japan" },

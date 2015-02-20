@@ -22,7 +22,7 @@
                         <li class="list-group-item" style="padding-left:5px;padding-right:5px;height:60px;">
                             <code>${ul.fname} ${ul.lname}</code>
                             <div class="progress progress-striped active">
-                                <div class="progress-bar-danger progress-bar" style="min-width: 1em;" role="progressbar" aria-valuenow=${ul.jan} aria-valuemin="0" aria-valuemax="100" width="">
+                                <div class="progress-bar" style="min-width: 1em;" role="progressbar" aria-valuenow=${ul.jan} aria-valuemin="0" aria-valuemax="100" width="">
                                     ${ul.jan}
                                 </div>
                             </div>

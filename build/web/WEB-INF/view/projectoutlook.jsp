@@ -20,11 +20,9 @@
                     <li><a href="#" onClick ="$('#projOutlook').tableExport({type:'xml',escape:'false'});"> <img src='<c:url value="/res/images/xml.png"/>' width='16px'> XML</a></li>
                     <li><a href="#" onClick ="$('#projOutlook').tableExport({type:'sql'});"> <img src='<c:url value="/res/images/sql.png"/>' width='16px'> SQL</a></li>
                     <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#projOutlook').tableExport({type:'excel',escape:'false'});"> <img src='<c:url value="/res/images/xls.png"/>' width='16px'> XLS</a></li>
                     <li><a href="#" onClick ="$('#projOutlook').tableExport({type:'csv',escape:'false'});"> <img src='<c:url value="/res/images/csv.png"/>' width='16px'> CSV</a></li>
                     <li><a href="#" onClick ="$('#projOutlook').tableExport({type:'txt',escape:'false'});"> <img src='<c:url value="/res/images/txt.png"/>' width='16px'> TXT</a></li>
-                    <li class="divider"></li>	
-                    <li><a href="#" onClick ="$('#projOutlook').tableExport({type:'excel',escape:'false'});"> <img src='<c:url value="/res/images/xls.png"/>' width='16px'> XLS</a></li>
-                    <li><a href="#" onClick ="$('#projOutlook').tableExport({type:'pdf',escape:'false'});"> <img src='<c:url value="/res/images/pdf.png"/>' width='16px'> PDF</a></li>
                 </ul>
             </div>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProject">
@@ -36,13 +34,13 @@
         <table id="projOutlook" class="display" data-show-export="true">
             <thead>
                 <tr>
-                    <th style="text-align: center">Name</th>
-                    <th style="text-align: center">Start Date</th>
-                    <th style="text-align: center">End Date</th>
-                    <th style="text-align: center">Type</th>
-                    <th style="text-align: center">Status</th>
-                    <th style="text-align: center">Business Unit</th>
-                    <th style="text-align: center">Resources Needed</th>
+                    <th style="text-align: left"><b>Name</b></th>
+                    <th style="text-align: left"><b>Start Date</b></th>
+                    <th style="text-align: left"><b>End Date</b></th>
+                    <th style="text-align: left"><b>Type</b></th>
+                    <th style="text-align: left"><b>Status</b></th>
+                    <th style="text-align: left"><b>Business Unit</b></th>
+                    <th style="text-align: left"><b>Resources Needed</b></th>
                     <th style="width:75px;"></th>
                     <th style="width:100px;"></th>
                 </tr>
@@ -51,13 +49,13 @@
                 <c:forEach items="${projects}" var="project">
                 <tr>
                     <input type="hidden" class="projId" value="${project.projectId}"/>
-                    <td class="projectName"><c:out value="${project.name}" /></td>
-                    <td class="startDate"><c:out value="${project.start}" /></td>
-                    <td class="endDate"><c:out value="${project.end}" /></td>
-                    <td class="projType"><c:out value="${project.type}" /></td>
-                    <td class="projStat"><c:out value="${project.status}" /></td>
-                    <td class="bUnit"><c:out value="${project.bUnit}" /></td>
-                    <td class="resNeeded"><c:out value="${project.resNeeded}" /></td>
+                    <td style="text-align: left" class="projectName"><c:out value="${project.name}" /></td>
+                    <td style="text-align: left" class="startDate"><c:out value="${project.start}" /></td>
+                    <td style="text-align: left" class="endDate"><c:out value="${project.end}" /></td>
+                    <td style="text-align: left" class="projType"><c:out value="${project.type}" /></td>
+                    <td style="text-align: left" class="projStat"><c:out value="${project.status}" /></td>
+                    <td style="text-align: left" class="bUnit"><c:out value="${project.bUnit}" /></td>
+                    <td style="text-align: left" class="resNeeded"><c:out value="${project.resNeeded}" /></td>
                     <td>
                         <button class="btn btn-warning editButton" data-toggle="modal" data-target="#editProject">
                             <span style="color: #333333" class="glyphicon glyphicon-pencil" aria-hidden="true"></span> <b>Edit</b>

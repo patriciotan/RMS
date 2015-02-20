@@ -22,11 +22,9 @@
                     <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'xml',escape:'false'});"> <img src='<c:url value="/res/images/xml.png"/>' width='16px'> XML</a></li>
                     <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'sql'});"> <img src='<c:url value="/res/images/sql.png"/>' width='16px'> SQL</a></li>
                     <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'excel',escape:'false'});"> <img src='<c:url value="/res/images/xls.png"/>' width='16px'> XLS</a></li>
                     <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'csv',escape:'false'});"> <img src='<c:url value="/res/images/csv.png"/>' width='16px'> CSV</a></li>
                     <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'txt',escape:'false'});"> <img src='<c:url value="/res/images/txt.png"/>' width='16px'> TXT</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'excel',escape:'false'});"> <img src='<c:url value="/res/images/xls.png"/>' width='16px'> XLS</a></li>
-                    <li><a href="#" onClick ="$('#clientSummary').tableExport({type:'pdf',escape:'false'});"> <img src='<c:url value="/res/images/pdf.png"/>' width='16px'> PDF</a></li>
                 </ul>
             </div>
             <br/><br/>
@@ -34,11 +32,11 @@
         <table id="clientSummary" class="display">
             <thead>
                 <tr>
-                    <th style="text-align: center">Project Name</th>
-                    <th style="text-align: center">Current Milestone</th>
-                    <th style="text-align: center">Resource Count</th>
-                    <th style="text-align: center">End Date</th>
-                    <th style="text-align: center">Status</th>
+                    <th style="text-align: left"><b>Project Name</b></th>
+                    <th style="text-align: left"><b>Current Milestone</b></th>
+                    <th style="text-align: left"><b>Resource Count</b></th>
+                    <th style="text-align: left"><b>End Date</b></th>
+                    <th style="text-align: left"><b>Status</b></th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -47,11 +45,11 @@
                 <c:forEach items="${clients}" var="client">
                 <tr>
                     <input type="hidden" class="projid" value="<c:out value='${client.projId}' />"/>
-                    <td class="projName"><c:out value="${client.projectName}" /></td>
-                    <td><c:out value="${client.mileStone}" /></td>
-                    <td><c:out value="${client.resCount}" /></td>
-                    <td><c:out value="${client.end}" /></td>
-                    <td><c:out value="${client.projectStatus}" /></td>
+                    <td style="text-align: left" class="projName"><c:out value="${client.projectName}" /></td>
+                    <td style="text-align: left"><c:out value="${client.mileStone}" /></td>
+                    <td style="text-align: left"><c:out value="${client.resCount}" /></td>
+                    <td style="text-align: left"><c:out value="${client.end}" /></td>
+                    <td style="text-align: left"><c:out value="${client.projectStatus}" /></td>
                     <td>
                         <button class="btn btn-success viewRm" data-toggle="modal" data-target="#viewRemarks">
                             <span style="color: #333333" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <b>View remarks</b>
@@ -93,7 +91,9 @@
                             <div class="panel-footer">
                                 <div style="text-align: right">
                                     <input type="hidden" id="myprojid" name="projId" value=""/>
-                                    <input class="btn btn-success" id="add-but" type="submit" value="Save">
+                                    <button class="btn btn-success" id="add-but" type="submit">
+                                        <span style="color: #333333" class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> <b>Save</b>
+                                    </button>
                                     <button class="btn btn-danger" type="button" data-dismiss="modal">
                                         <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Cancel</b>
                                     </button>

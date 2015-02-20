@@ -25,11 +25,9 @@
                     <li><a href="#" onClick ="$('#effortTable').tableExport({type:'xml',escape:'false'});"> <img src='<c:url value="/res/images/xml.png"/>' width='16px'> XML</a></li>
                     <li><a href="#" onClick ="$('#effortTable').tableExport({type:'sql'});"> <img src='<c:url value="/res/images/sql.png"/>' width='16px'> SQL</a></li>
                     <li class="divider"></li>
+                    <li><a href="#" onClick ="$('#effortTable').tableExport({type:'excel',escape:'false'});"> <img src='<c:url value="/res/images/xls.png"/>' width='16px'> XLS</a></li>
                     <li><a href="#" onClick ="$('#effortTable').tableExport({type:'csv',escape:'false'});"> <img src='<c:url value="/res/images/csv.png"/>' width='16px'> CSV</a></li>
                     <li><a href="#" onClick ="$('#effortTable').tableExport({type:'txt',escape:'false'});"> <img src='<c:url value="/res/images/txt.png"/>' width='16px'> TXT</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#" onClick ="$('#effortTable').tableExport({type:'excel',escape:'false'});"> <img src='<c:url value="/res/images/xls.png"/>' width='16px'> XLS</a></li>
-                    <li><a href="#" onClick ="$('#effortTable').tableExport({type:'pdf',escape:'false'});"> <img src='<c:url value="/res/images/pdf.png"/>' width='16px'> PDF</a></li>
                 </ul>
             </div>
             <br/><br/>
@@ -37,11 +35,11 @@
         <table class="table table-striped" id="effortTable">
             <thead>
                 <tr>
-                    <th>Task Name</th>
-                    <th>Project Name</th>
-                    <th>Year</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
+                    <th style="text-align: left"><b>Task Name</b></th>
+                    <th style="text-align: left"><b>Project Name</b></th>
+                    <th style="text-align: left"><b>Year</b></th>
+                    <th style="text-align: left"><b>Start Date</b></th>
+                    <th style="text-align: left"><b>End Date</b></th>
                     <th style="display:none;">Year</th>
                     <th style="display:none;">Jan</th>
                     <th style="display:none;">Feb</th>
@@ -55,20 +53,20 @@
                     <th style="display:none;">Oct</th>
                     <th style="display:none;">Nov</th>
                     <th style="display:none;">Dec</th>
-                    <th>Performance</th>
-                    <th>View</th>
-                    <th>Add</th>
+                    <th style="text-align: left"><b>Performance</b></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <c:forEach items="${projects}" var="project">
                     <tr class="effortRow">
                         <input type="hidden" class="taskid" value="${project.taskId}"/>
-                        <td class="taskName"><c:out value="${project.taskName}" /></td>
-                        <td class="projectName"><c:out value="${project.name}" /></td>
-                        <td><c:out value="${project.year}" /></td>
-                        <td><c:out value="${project.start}" /></td>
-                        <td><c:out value="${project.end}" /></td>
+                        <td style="text-align: left" class="taskName"><c:out value="${project.taskName}" /></td>
+                        <td style="text-align: left" class="projectName"><c:out value="${project.name}" /></td>
+                        <td style="text-align: left"><c:out value="${project.year}" /></td>
+                        <td style="text-align: left"><c:out value="${project.start}" /></td>
+                        <td style="text-align: left"><c:out value="${project.end}" /></td>
                         <td style="display:none;" class="hYear"><c:out value="${project.year}" /></td>
                         <td style="display:none;" class="h1"><c:out value="${project.jan}" /></td>
                         <td style="display:none;" class="h2"><c:out value="${project.feb}" /></td>
@@ -82,7 +80,7 @@
                         <td style="display:none;" class="h10"><c:out value="${project.oct}" /></td>
                         <td style="display:none;" class="h11"><c:out value="${project.nov}" /></td>
                         <td style="display:none;" class="h12"><c:out value="${project.dece}" /></td>
-                        <td><c:out value="${project.performance}" /></td>
+                        <td style="text-align: left"><c:out value="${project.performance}" /></td>
                         <td>
                             <div class="btn-group dropup">
                                 <button type="button" class="btn btn-success" disabled>
