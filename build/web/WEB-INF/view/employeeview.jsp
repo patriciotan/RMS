@@ -37,6 +37,7 @@
                 <tr>
                     <th style="text-align: left"><b>Task Name</b></th>
                     <th style="text-align: left"><b>Project Name</b></th>
+                    <th style="text-align: left"><b>Status</b></th>
                     <th style="text-align: left"><b>Year</b></th>
                     <th style="text-align: left"><b>Start Date</b></th>
                     <th style="text-align: left"><b>End Date</b></th>
@@ -64,6 +65,7 @@
                         <input type="hidden" class="taskid" value="${project.taskId}"/>
                         <td style="text-align: left" class="taskName"><c:out value="${project.taskName}" /></td>
                         <td style="text-align: left" class="projectName"><c:out value="${project.name}" /></td>
+                        <td style="text-align: left" class="projStats"><c:out value="${project.status}" /></td>
                         <td style="text-align: left"><c:out value="${project.year}" /></td>
                         <td style="text-align: left"><c:out value="${project.start}" /></td>
                         <td style="text-align: left"><c:out value="${project.end}" /></td>

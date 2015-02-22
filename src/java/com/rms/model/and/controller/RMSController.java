@@ -24,7 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class RMSController {
     
-    RMSModel dbModel = new RMSModel();
+    RMSModel dbModel = null;
      
     public List getOutlook() throws Exception {
         ResultSet rs = dbModel.getOutlook();
@@ -77,10 +77,11 @@ public class RMSController {
             project.setProjectId(rs.getInt("project_id"));
             project.setName(rs.getString("name"));
             project.setType(rs.getString("type"));
-            project.setStatus(rs.getString("status"));
+            //project.setStatus(rs.getString("status"));
             project.setbUnit(rs.getString("business_unit"));
             task=dbModel.getTask(rs.getInt("task_id"));
             if(task.next()){
+                project.setStatus(task.getString("status"));
                 project.setTaskId(rs.getInt("task_id"));
                 project.setTaskName(task.getString("name"));
                 project.setStart(task.getString("start_date"));
@@ -403,6 +404,7 @@ public class RMSController {
     
     @RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
     public ModelAndView loginSubmit(@ModelAttribute("user")User user, ModelMap model,HttpServletRequest request) throws Exception {
+        dbModel = new RMSModel();
         ModelAndView mav = new ModelAndView("login"); 
         String errorMsg = ""; 
         if(dbModel.canLogin(user.getUsername(), user.getPassword()))
@@ -435,6 +437,7 @@ public class RMSController {
     @RequestMapping(value = "/logoutSubmit", method = RequestMethod.POST)
     public ModelAndView logoutSubmit(ModelMap model,HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView("redirect:/login");
+        dbModel.closeConn();
         request.getSession().invalidate();
         return mav;
     }
@@ -469,24 +472,7 @@ public class RMSController {
         return mav;
     } 
     
-    //With Alert
-//    @RequestMapping(name="/dashboardAlert", method = RequestMethod.GET)
-//    public ModelAndView viewDashboard(@RequestParam("alert")int alert,HttpServletRequest request) throws Exception {  
-//        ModelAndView mav = new ModelAndView("dashboard");
-//        List<Project> projects = getSummary(); 
-//        
-//        if(request.getSession().getAttribute("userType")!=null&&request.getSession().getAttribute("userType").equals("Manager")){
-//            mav.addObject("title","RMS - Dashboard");
-//            mav.addObject("underload",getUnderload());
-//            mav.addObject("clients",getClient());
-//            mav.addObject("projects",projects);
-//            mav.addObject("unPro",getNextUnpro());
-//            mav.addObject("alertVal",alert);
-//        }else{
-//            mav=new ModelAndView("redirect:/login"); 
-//        }
-//        return mav;
-//    } 
+   
     
     @RequestMapping("/outlook")
     public ModelAndView viewOutlook(HttpServletRequest request) throws Exception { 

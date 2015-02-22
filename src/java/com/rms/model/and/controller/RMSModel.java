@@ -23,11 +23,13 @@ public class RMSModel {
 //    DataSource ds;
     
     String JDBC_DRIVER="com.mysql.jdbc.Driver";
+//    String DB_URL="jdbc:mysql://mysql17973-alliancerms.jelastic.skali.net/rms";
+//    String USER="root";
+//    String PASS="mIkJTyx1FJ";
     String DB_URL="jdbc:mysql://localhost/rms";
     String USER="root";
     String PASS="";
     String sql;
-    PreparedStatement ps;
     Statement st;
     Connection con;
     ResultSet rs=null;
@@ -41,8 +43,17 @@ public class RMSModel {
             e.printStackTrace();
         }
     }
+    
+    
+    public void closeConn() throws Exception{
+        rs.close();
+        st.close();
+        con.close();
+    }
+    
     public boolean canLogin(String username, String password) throws Exception {
-        sql = "select * from user where binary username=? and binary password=?";
+        PreparedStatement ps;
+        sql = "select * from user where binary username=? and binary password=MD5(?)";
         System.out.println(sql);
         ps = con.prepareStatement(sql);
         ps.setString(1, username);
@@ -55,6 +66,7 @@ public class RMSModel {
     }
     
     public boolean nameExists(String name) throws Exception {
+        PreparedStatement ps;
         sql = "select * from project where name=?";
         ps = con.prepareStatement(sql);
         ps.setString(1, name);
@@ -66,6 +78,7 @@ public class RMSModel {
     }
     
     public boolean clientExists(String name) throws Exception {
+        PreparedStatement ps;
         sql = "select * from client where name=?";
         ps = con.prepareStatement(sql);
         ps.setString(1, name);
@@ -77,7 +90,8 @@ public class RMSModel {
     }
     
     public ResultSet getUser(String username, String password) throws Exception{
-        sql = "select * from user where binary username=? and binary password=?";
+        PreparedStatement ps;
+        sql = "select * from user where binary username=? and binary password=MD5(?)";
         ps = con.prepareStatement(sql);
         ps.setString(1, username);
         ps.setString(2, password);
@@ -108,7 +122,7 @@ public class RMSModel {
             rs= st.executeQuery("SELECT LAST_INSERT_ID() as last");
             rs.next();
             System.out.println(rs.getInt("last"));
-            sql = "insert into user (client_id,username,password,type) VALUES ("+rs.getInt("last")+",'"+name+"','user','Client')";
+            sql = "insert into user (client_id,username,password,type) VALUES ("+rs.getInt("last")+",'"+name+"',MD5('user'),'Client')";
             if(st.executeUpdate(sql)>0)
                 return true;
             return false;
@@ -126,6 +140,7 @@ public class RMSModel {
     
     public ResultSet getFeedbacks(int taskId) throws Exception
     {
+        PreparedStatement ps;
         sql = "select feedback.*,resource.* from feedback join resource on resource.resource_id = feedback.added_by where task_id=? order by feedback.added_date desc";
         ps = con.prepareStatement(sql);
         ps.setInt(1, taskId);
@@ -145,6 +160,7 @@ public class RMSModel {
     
     public ResultSet getOutlook() throws Exception
     {
+        PreparedStatement ps;
         sql = "select * from project where reference=? and status!=? order by added_date desc";
         ps = con.prepareStatement(sql);
         ps.setString(1, "Outlook");
@@ -156,6 +172,7 @@ public class RMSModel {
     
     public ResultSet getSummary() throws Exception
     {
+        PreparedStatement ps;
         sql = "select * from project where reference=? and status!=? order by added_date desc";
         ps = con.prepareStatement(sql);
         ps.setString(1, "Summary");
@@ -167,6 +184,7 @@ public class RMSModel {
     
     public ResultSet getEmployees() throws Exception
     {
+        PreparedStatement ps;
         sql = "select * from resource order by first_name asc";
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
@@ -176,6 +194,7 @@ public class RMSModel {
     
     public ResultSet getEmployeesNotTask(int taskId) throws Exception
     {
+        PreparedStatement ps;
         sql = "SELECT * FROM resource WHERE resource_id NOT IN (SELECT resource.resource_id FROM resource JOIN effort ON effort.resource_id=resource.resource_id WHERE effort.task_id=?)";
         ps = con.prepareStatement(sql);
         ps.setInt(1, taskId);
@@ -186,6 +205,7 @@ public class RMSModel {
     
     public ResultSet getResource(int resId) throws Exception
     {
+        PreparedStatement ps;
         sql = "SELECT resource.*,effort.* FROM resource JOIN effort ON resource.resource_id = effort.resource_id WHERE resource.resource_id=?";
         System.out.println(sql);
         ps = con.prepareStatement(sql);
@@ -197,6 +217,7 @@ public class RMSModel {
     
     public ResultSet getMyProjects(int resId) throws Exception
     {
+        PreparedStatement ps;
         sql = "SELECT project.*,effort.* FROM project JOIN effort ON project.project_id = effort.project_id WHERE effort.resource_id=? and reference=? and status!=? order by project.added_date desc";
         System.out.println(sql);
         ps = con.prepareStatement(sql);
@@ -210,6 +231,7 @@ public class RMSModel {
     
     public ResultSet getTotalResources(int resId,int year) throws Exception
     {
+        PreparedStatement ps;
         sql = "SELECT COALESCE(effort.year,?) as year,SUM(effort.jan) as jan,SUM(effort.feb) as feb,SUM(effort.mar) as mar,SUM(effort.apr) as apr,SUM(effort.may) as may,SUM(effort.jun) as jun,SUM(effort.jul) as jul,SUM(effort.aug) as aug,SUM(effort.sep) as sep,SUM(effort.oct) as oct,SUM(effort.nov) as nov,SUM(effort.dece) as dece FROM resource JOIN effort ON resource.resource_id= effort.resource_id WHERE resource.resource_id = ? AND effort.year=?";
         System.out.println(sql);
         ps = con.prepareStatement(sql);
@@ -222,6 +244,7 @@ public class RMSModel {
     }
     
     public ResultSet getSpecificEmployeeTotalEffort(int year,int resId) throws Exception{
+        PreparedStatement ps;
         sql = "SELECT SUM(jan) as jan,SUM(feb) as feb,SUM(mar) as mar,SUM(apr) as apr,SUM(may) as may,SUM(jun) as jun,SUM(jul) as jul,SUM(aug) as aug,SUM(sep) as sep,SUM(oct) as oct,SUM(nov) as nov,SUM(dece) as dece FROM effort WHERE resource_id=? AND year=?";
         ps = con.prepareStatement(sql);
         ps.setInt(1,resId);
@@ -233,6 +256,7 @@ public class RMSModel {
     
     public ResultSet getSpecificEmployee(int id) throws Exception
     {
+        PreparedStatement ps;
         sql = "select * from resource WHERE resource_id=?";
         ps = con.prepareStatement(sql);
         ps.setInt(1,id);
@@ -243,6 +267,7 @@ public class RMSModel {
     
     public ResultSet getResourcesTasks(int taskId) throws Exception
     {
+        PreparedStatement ps;
         sql = "SELECT resource.*,effort.* FROM resource JOIN effort ON resource.resource_id = effort.resource_id WHERE effort.task_id = ?";
         System.out.println(sql);
         ps = con.prepareStatement(sql);
@@ -254,6 +279,7 @@ public class RMSModel {
     
     public ResultSet getTasksProjects(int projId) throws Exception
     {
+        PreparedStatement ps;
         sql = "SELECT * FROM task WHERE project_id=?";
         System.out.println(sql);
         ps = con.prepareStatement(sql);
@@ -265,6 +291,7 @@ public class RMSModel {
         
     public ResultSet getEmployeeProjects(int resId) throws Exception
     {
+        PreparedStatement ps;
         sql="SELECT DISTINCT project_id FROM `effort` WHERE resource_id=?";
         ps = con.prepareStatement(sql);
         ps.setInt(1, resId);
@@ -275,6 +302,7 @@ public class RMSModel {
     
     public String getProjectName(int projId) throws Exception
     {
+        PreparedStatement ps;
         sql="SELECT * FROM `project` WHERE project_id=?";
         ps = con.prepareStatement(sql);
         ps.setInt(1, projId);
@@ -285,6 +313,7 @@ public class RMSModel {
     
     public ResultSet getProject(int projId) throws Exception
     {
+        PreparedStatement ps;
         sql="SELECT * FROM `project` WHERE project_id=?";
         ps = con.prepareStatement(sql);
         ps.setInt(1, projId);
@@ -335,6 +364,7 @@ public class RMSModel {
     
     public boolean editResource(int effortId,int performance,int year, float jan, float feb, float mar, float apr, float may, float jun, float jul, float aug, float sep, float oct, float nov, float dece) throws Exception
     {
+        PreparedStatement ps;
         sql="UPDATE effort SET jan=?, feb=?, mar=?, apr=?, may=?, jun=?, jul=?, aug=?, sep=?, oct=?, nov=?, dece=?, performance=? WHERE effort_id=? AND year=?";
         ps = con.prepareStatement(sql);
         ps.setFloat(1,jan);
@@ -359,6 +389,7 @@ public class RMSModel {
     
     public boolean deleteResource(int taskId,int empId) throws Exception
     {
+        PreparedStatement ps;
         sql="DELETE FROM effort WHERE task_id=? AND resource_id=?";
         ps = con.prepareStatement(sql);
         ps.setInt(1,taskId);
@@ -369,6 +400,7 @@ public class RMSModel {
     }
     
     public int getTotalResources() throws Exception{
+        PreparedStatement ps;
         sql = "SELECT COUNT(*) as total FROM resource";
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
@@ -377,6 +409,7 @@ public class RMSModel {
     }
     
     public int getTotalAlliance() throws Exception{
+        PreparedStatement ps;
         sql = "SELECT COUNT(*) as alli FROM resource WHERE business_unit='Alliance'";
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
@@ -385,6 +418,7 @@ public class RMSModel {
     }
     
     public int getTotalRow() throws Exception{
+        PreparedStatement ps;
         sql = "SELECT COUNT(*) as row FROM resource WHERE business_unit='ROW'";
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
@@ -393,6 +427,7 @@ public class RMSModel {
     }
     
     public int getTotalJapan() throws Exception{
+        PreparedStatement ps;
         sql = "SELECT COUNT(*) as jap FROM resource WHERE business_unit='JP Independent'";
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
@@ -401,6 +436,7 @@ public class RMSModel {
     }
     
     public int getTotalPhilippines() throws Exception{
+        PreparedStatement ps;
         sql = "SELECT COUNT(*) as ph FROM resource WHERE business_unit='Local'";
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
@@ -409,6 +445,7 @@ public class RMSModel {
     }
     
     public int getNumberOfUnassigned()throws Exception{
+        PreparedStatement ps;
         int x=0,a=getTotalResources(),b;
         sql = "SELECT COUNT(DISTINCT resource.resource_id) as nanan FROM resource JOIN effort ON resource.resource_id=effort.resource_id";
         ps = con.prepareStatement(sql);
@@ -422,6 +459,7 @@ public class RMSModel {
     
     //for PM's
     public ResultSet getClientProject() throws Exception{
+        PreparedStatement ps;
         sql = "select client.name as cname,project.* from client JOIN project ON client.client_id=project.client_id";
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
@@ -431,6 +469,7 @@ public class RMSModel {
     
     //for CLIENT
     public ResultSet getClientProject(int client_id) throws Exception{
+        PreparedStatement ps;
         sql = "select client.name as cname,project.* from client JOIN project ON client.client_id=project.client_id WHERE client.client_id=?";
         ps = con.prepareStatement(sql);
         ps.setInt(1,client_id);
@@ -440,6 +479,7 @@ public class RMSModel {
     }
     
     public ResultSet getClient() throws Exception{
+        PreparedStatement ps;
         sql = "select * FROM client ORDER BY added_date desc";
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
@@ -448,6 +488,7 @@ public class RMSModel {
     }
     
     public ResultSet getSpecificClient(int id) throws Exception{
+        PreparedStatement ps;
         sql = "select * from client where client_id="+id;
         ps = con.prepareStatement(sql);
         rs = ps.executeQuery();
@@ -464,6 +505,7 @@ public class RMSModel {
     }
     
     public boolean deleteTask(int projId,int taskId) throws Exception{
+        PreparedStatement ps;
         sql = "DELETE FROM task where task_id=?";
         System.out.println(sql+taskId);
         ps = con.prepareStatement(sql);
@@ -476,6 +518,7 @@ public class RMSModel {
     }
     
     public void deleteResourcesInTask(int projId,int taskId) throws Exception{
+        PreparedStatement ps;
         sql= "DELETE FROM effort where task_id=? AND project_id=?";
         System.out.println(sql+taskId+"--"+projId);
         ps = con.prepareStatement(sql);
@@ -485,6 +528,7 @@ public class RMSModel {
     }
     
     public boolean editTask(int taskId, String name, String status) throws Exception{
+        PreparedStatement ps;
         sql = "UPDATE task SET name=?, status=? WHERE task_id=?";
         System.out.println(sql+taskId);
         ps = con.prepareStatement(sql);
@@ -497,6 +541,7 @@ public class RMSModel {
     }
     
     public int getNumberOfResourcesProject(int projId) throws Exception{
+        PreparedStatement ps;
         sql = "SELECT COUNT(DISTINCT resource_id) as cnt FROM effort WHERE project_id=?";
         ps = con.prepareStatement(sql);
         ps.setInt(1, projId);
@@ -506,6 +551,7 @@ public class RMSModel {
     }
     
     public ResultSet getTask(int taskid) throws Exception{
+        PreparedStatement ps;
         sql = "SELECT * FROM task WHERE task_id=?";
         ps = con.prepareStatement(sql);
         ps.setInt(1, taskid);
