@@ -212,52 +212,22 @@ public class RMSController {
         return resources;
     }
     
-    public List getOverload() throws Exception{
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
-        Calendar c = Calendar.getInstance();
-        Date now = c.getTime();
-        int year = c.get(Calendar.YEAR);
-        String month = sdf.format(now);
-        month=month.toLowerCase();
-        if(month.equals("december")){
-            month=month.substring(0,4);
-        }else{
-            month=month.substring(0,3);
-        }
-        List<Employee> employees = getEmployees();
-        List<Resource> resources=new ArrayList<>();
-        for(int i=0;i<employees.size();i++)
-        {
-            ResultSet rs = dbModel.getTotalResources(employees.get(i).getEmpId(),year);
-            Resource resource = new Resource();
-            rs.next();
-            resource.setFname(employees.get(i).getFname());
-            resource.setMname(employees.get(i).getMname());
-            resource.setLname(employees.get(i).getLname());
-            resource.setJan((float) (Math.round(rs.getFloat(month)*100.0)/100.0));
-            if(resource.getJan()>=1.0){
-                resources.add(resource);
-            }
-        }
-        return resources;
-    }
-    
-    public List getNextUnres() throws Exception {
-        List<Project> resources = getResources(); 
-        List<Project> unRes = new ArrayList<>(); 
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar c = Calendar.getInstance();
-        int month = c.get(Calendar.MONTH);
-        for(Project resource: resources){
-            Date dpmonth = sdf.parse(resource.getEnd());
-            c.setTime(dpmonth);
-            int pmonth = c.get(Calendar.MONTH);
-            if(pmonth == month) 
-                unRes.add(resource);
-        }
-        return unRes;
-    }
+//    public List getNextUnres() throws Exception {
+//        List<Project> resources = getResources(); 
+//        List<Project> unRes = new ArrayList<>(); 
+//        
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Calendar c = Calendar.getInstance();
+//        int month = c.get(Calendar.MONTH);
+//        for(Project resource: resources){
+//            Date dpmonth = sdf.parse(resource.getEnd());
+//            c.setTime(dpmonth);
+//            int pmonth = c.get(Calendar.MONTH);
+//            if(pmonth == month) 
+//                unRes.add(resource);
+//        }
+//        return unRes;
+//    }
     
     
     public ResourceSummary getRSummary(){
@@ -326,21 +296,40 @@ public class RMSController {
         return clients;
     }
     
-    public List getNextUnpro() throws Exception {
+    public List getUnpro() throws Exception {
         List<Project> projects = getSummary(); 
         List<Project> unPro = new ArrayList<>(); 
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar c = Calendar.getInstance();
+        Date date = sdf.parse(sdf.format(c.getTime()));
         int month = c.get(Calendar.MONTH);
         for(Project project: projects){
+            Date pdate = sdf.parse(project.getEnd());
             Date dpmonth = sdf.parse(project.getEnd());
             c.setTime(dpmonth);
             int pmonth = c.get(Calendar.MONTH);
-            if(pmonth == month) 
-                unPro.add(project);
+            if(pdate.after(date)) {
+                if(pmonth == month) 
+                    unPro.add(project);
+            }
         }
         return unPro;
+    }
+    
+    public List getOvpro() throws Exception {
+        List<Project> projects = getSummary(); 
+        List<Project> ovPro = new ArrayList<>(); 
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        Date date = sdf.parse(sdf.format(c.getTime()));
+        for(Project project: projects){
+            Date pdate = sdf.parse(project.getEnd());
+            if(date.after(pdate)) 
+                ovPro.add(project);
+        }
+        return ovPro;
     }
     
     public List getTasks(int projid) throws Exception{
@@ -419,11 +408,11 @@ public class RMSController {
                 mav = new ModelAndView("redirect:/dashboard");
             }
             else if(rs.getString("type").equals("Employee")){
-                request.getSession(true).setAttribute("resId",rs.getInt("resource_id"));
+                request.getSession(true).setAttribute("resId",rs.getInt("type_id"));
                 mav = new ModelAndView("redirect:/employeeView"); 
             }
             else if(rs.getString("type").equals("Client")){
-                request.getSession(true).setAttribute("clientId",rs.getInt("client_id"));
+                request.getSession(true).setAttribute("clientId",rs.getInt("type_id"));
                 mav = new ModelAndView("redirect:/clientView"); 
             }
         }
@@ -465,7 +454,10 @@ public class RMSController {
             mav.addObject("underload",getUnderloadWhole());
             mav.addObject("clients",getClient());
             mav.addObject("projects",projects);
-            mav.addObject("unPro",getNextUnpro());
+            if(!getUnpro().isEmpty())
+                mav.addObject("unPro",getUnpro());
+            if(!getOvpro().isEmpty())
+                mav.addObject("ovPro",getOvpro());
         }else{
             mav=new ModelAndView("redirect:/login"); 
         }
@@ -508,9 +500,20 @@ public class RMSController {
     public ModelAndView viewPSummary(HttpServletRequest request) throws Exception {   
         ModelAndView mav = new ModelAndView("projectsummary"); 
         if(request.getSession().getAttribute("userType")!=null&&request.getSession().getAttribute("userType").equals("Manager")){
+            SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
+            Calendar c = Calendar.getInstance();
+            Date now = c.getTime();
+            String month = sdf.format(now);
+            int year = c.get(Calendar.YEAR);
             mav.addObject("title","RMS - Project Summary");
             mav.addObject("projects", getSummary());
             mav.addObject("clients",getClient());
+            mav.addObject("year",year);
+            mav.addObject("month",month);
+            if(!getUnpro().isEmpty())
+                mav.addObject("unPro",getUnpro());
+            if(!getOvpro().isEmpty())
+                mav.addObject("ovPro",getOvpro());
         }else{
             mav=new ModelAndView("redirect:/login"); 
         }
@@ -577,7 +580,6 @@ public class RMSController {
             mav.addObject("year",year);
             mav.addObject("month",month);
             mav.addObject("underload",getUnderload());
-            mav.addObject("overload",getOverload());
         }else{
             mav=new ModelAndView("redirect:/login"); 
         }
@@ -729,10 +731,21 @@ public class RMSController {
         Date now = c.getTime();
         int updated_by = (int) request.getSession().getAttribute("userId");
         String updated_date = sdf.format(now);
-        System.out.println("------CLIENT ID IS-----"+project.getClientId());
+//        System.out.println("------CLIENT ID IS-----"+project.getClientId());
         if(dbModel.editSummary(project.getName(),project.getClientId(),project.getStart(),project.getEnd(),project.getType(),project.getbUnit(),project.getProjectId(),project.getMilestone(),updated_by,updated_date))
         {
             mav = new ModelAndView("redirect:/pSummary"); 
+        }
+        return mav;
+    } 
+    
+    @RequestMapping(value = "/editTaskStat", method = RequestMethod.POST)
+    public ModelAndView editStatus(@ModelAttribute("task")Task task, ModelMap model, HttpServletRequest request) throws Exception {
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
+        System.out.println(task.getTaskId()+" "+task.getStatus());
+        if(dbModel.editStatus(task.getTaskId(),task.getStatus()))
+        {
+            mav = new ModelAndView("redirect:/employeeView"); 
         }
         return mav;
     } 

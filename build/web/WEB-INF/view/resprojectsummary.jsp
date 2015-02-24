@@ -37,13 +37,14 @@
         <div class="row">
             <c:forEach items="${tasks}" var="task">
                 <div>
-                    <div class="taskName" style="background-color:#2e2e2e;color:white;padding: 5px 5px 5px 40px;" data-toggle="tooltip" data-placement="top" title="Click to show/hide task details">
-                        <table border="0" style="width:60%;">
+                    <div class="taskName" style="background-color:#2e2e2e;color:white;padding: 5px 20px 5px 20px;" data-toggle="tooltip" data-placement="top" title="Click to show / hide task details">
+                        <table border="0" style="width:100%;">
                             <tr>
                                 <td>Name <code class="tName"><c:out value="${task.name}" /></code></td>
                                 <td>Status <code class="tStatus"><c:out value="${task.status}" /></code></td>
-                                <td>Start <code><c:out value="${task.start}" /></code></td>
-                                <td>End <code><c:out value="${task.end}" /></code></td>
+                                <td style="width: 50%;text-align: center">Click to show / hide task details</td>
+                                <td style="text-align: right">End <code><c:out value="${task.end}" /></code></td>
+                                <td style="text-align: right">Start <code><c:out value="${task.start}" /></code></td>
                             </tr>
                         </table>
                     </div>
@@ -91,7 +92,7 @@
                             </thead>
                             <tbody class="resources">
                                 <c:forEach items="${task.resources}" var="resource">
-                                <tr class="resourceRow" data-toggle="modal" data-target="#editResource" data-toggle="tooltip" data-placement="top" title="Click to edit/delete resource">  
+                                <tr class="resourceRow" data-toggle="modal" data-target="#editResource" data-toggle="tooltip" data-placement="top" title="Click to edit / delete resource">  
                                     <td style="display:none;"><input type="hidden" class="resoId" value="${resource.empId}"/></td>
                                     <td style="display:none;"><input type="hidden" class="resoEId" value="${resource.effortId}"/></td>
                                     <td style="text-align: left;" class="aResource"><c:out value="${resource.fname} ${resource.lname}" /></td>						
@@ -496,11 +497,6 @@
                $("#end1").change(); 
             });
            
-           
-           
-           
-           
-           
            $("#resourceSummary").on('click',".viewFeedback",function(){
                 $("#viewFbTable").html("");
                 $("#vfName").text($(this).parent().parent().parent().parent().parent().siblings().find(".tName").text());
@@ -556,7 +552,7 @@
                 
                 $("#effortId").val($(this).children().children(".resoEId").val());
                 $("#eId").val($(this).children().children(".resoId").val());
-                $("#eResource").html($(this).children(".aResource").text()); 
+                $("#eResource").html($(this).children(".aResource").text());
                 $("#eTId").val($(this).parent().parent().parent().parent().parent().find(".taskId").val());
                 $("#eYear").val(yearSelected);
                 $("#e1").val($(this).children(".resoJan").text());

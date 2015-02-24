@@ -15,24 +15,36 @@
     <div class="row">
         <div class="col-md-4 col-sm-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><a href="rSummary" class="pull-right">View more</a> <h5><b>Under loaded resources for February</b></h5></div>
+                <div class="panel-heading"><a href="pSummary" class="pull-right">View more</a> <h5><b>Projects ending this month</b></h5></div>
                 <div class="panel-body">
-                    <ul id="underl" class="list-group">
-                        <c:forEach items="${underload}" var="ul">
-                        <li class="list-group-item" style="padding-left:5px;padding-right:5px;height:60px;">
-                            <code>${ul.fname} ${ul.lname}</code>
-                            <div class="progress progress-striped active">
-                                <div class="progress-bar" style="min-width: 1em;" role="progressbar" aria-valuenow=${ul.jan} aria-valuemin="0" aria-valuemax="100" width="">
-                                    ${ul.jan}
-                                </div>
-                            </div>
-                        </li>
-                        </c:forEach>
-                    </ul>
+                    <div>
+                        <ol class="list-group">
+                            <c:forEach end="4" items="${unPro}" var="up">
+                            <li class="list-group-item">
+                                <span class="badge">${up.end}</span>
+                                <code>${up.name}</code>
+                            </li>
+                            </c:forEach>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading"><a href="pSummary" class="pull-right">View more</a> <h5><b>Overdue projects</b></h5></div>
+                <div class="panel-body">
+                    <div>
+                        <ol class="list-group">
+                            <c:forEach end="4" items="${ovPro}" var="op">
+                            <li class="list-group-item">
+                                <span class="badge">${op.end}</span>
+                                <code>${op.name}</code>
+                            </li>
+                            </c:forEach>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
-
         <div class="col-md-4 col-sm-6">
             <div class="well"> 
                 <form class="form">
@@ -53,29 +65,31 @@
                 <br/>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading"><a href="cSummary" class="pull-right">View more</a> <h5><b>Latest clients added</b></h5></div>
+                <div class="panel-heading"><a href="rSummary" class="pull-right">View more</a> <h5><b>Under loaded resources for February</b></h5></div>
                 <div class="panel-body">
-                    <div>
-                        <ol class="list-group">
-                            <c:forEach end="2" items="${clients}" var="client">
-                            <li class="list-group-item">
-                                <span class="badge">${client.addedDate}</span>
-                                <code>${client.name}</code>
-                            </li>
-                            </c:forEach>
-                        </ol>
-                    </div>
+                    <ul id="underl" class="list-group">
+                        <c:forEach end="4" items="${underload}" var="ul">
+                        <li class="list-group-item" style="padding-left:5px;padding-right:5px;height:60px;">
+                            <code>${ul.fname} ${ul.lname}</code>
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar" style="min-width: 1em;" role="progressbar" aria-valuenow=${ul.jan} aria-valuemin="0" aria-valuemax="100" width="">
+                                    ${ul.jan}
+                                </div>
+                            </div>
+                        </li>
+                        </c:forEach>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <div class="col-md-4 col-sm-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><a href="pSummary" class="pull-right">View more</a> <h5><b>Latest projects added</b></h5></div>
+                <div class="panel-heading"><a href="pSummary" class="pull-right">View more</a> <h5><b>Newest projects</b></h5></div>
                 <div class="panel-body">
                     <div>
                         <ol class="list-group">
-                            <c:forEach end="2" items="${projects}" var="project">
+                            <c:forEach end="4" items="${projects}" var="project">
                             <li class="list-group-item">
                                 <span class="badge">${project.addedDate}</span>
                                 <code>${project.name}</code>
@@ -86,14 +100,14 @@
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading"><a href="pSummary" class="pull-right">View more</a> <h5><b>Projects ending this month</b></h5></div>
+                <div class="panel-heading"><a href="cSummary" class="pull-right">View more</a> <h5><b>Newest clients</b></h5></div>
                 <div class="panel-body">
                     <div>
                         <ol class="list-group">
-                            <c:forEach end="2" items="${unPro}" var="up">
+                            <c:forEach end="4" items="${clients}" var="client">
                             <li class="list-group-item">
-                                <span class="badge">${up.end}</span>
-                                <code>${up.name}</code>
+                                <span class="badge">${client.addedDate}</span>
+                                <code>${client.name}</code>
                             </li>
                             </c:forEach>
                         </ol>

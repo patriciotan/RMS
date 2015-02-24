@@ -353,6 +353,14 @@ public class RMSModel {
         return false;
     }
     
+    public boolean editStatus(int taskId,String status) throws Exception {
+        sql = "UPDATE task SET status='"+status+"' WHERE task_id="+taskId;
+        System.out.println(sql);
+        if(st.executeUpdate(sql) > 0)
+            return true;
+        return false;
+    }
+    
     public boolean assignResource(int empId,int taskId,int projId, int year, float jan, float feb, float mar, float apr, float may, float jun, float jul, float aug, float sep, float oct, float nov, float dece) throws Exception
     {
         sql = "insert into effort (project_id,task_id,resource_id,year,jan,feb,mar,apr,may,jun,jul,aug,sep,oct,nov,dece) values ("+projId+","+taskId+","+empId+","+year+","+jan+","+feb+","+mar+","+apr+","+may+","+jun+","+jul+","+aug+","+sep+","+oct+","+nov+","+dece+")";

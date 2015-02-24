@@ -110,8 +110,8 @@
             <!-- summary Modal -->
                 <div class="modal fade" id="summary" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-body">
+                        <div class="modal-content-sm">
+                            <div class="modal-body-sm">
                                 <div class="panel panel-primary"> 
                                     <div class="panel-heading">
                                         <b>Resources per Business Unit</b>
@@ -140,41 +140,23 @@
             
             <!-- reminder Modal -->
                 <div class="modal fade" id="reminder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" style="width: 50%;">
+                    <div class="modal-dialog modal-lg" style="width: 30%;">
                         <div class="modal-content-sm">
                             <div class="modal-body-sm">
-                                <div class="panel panel-primary">  
-                                    <div class="panel-heading">
-                                        <b>Resources Load Reminder for ${month} ${year}</b>
-                                    </div>
+                                <div class="panel panel-primary"> 
                                     <div class="panel-body">
-                                        <div class="col-md-6">
+                                        <div>
+                                            <b>Under loaded resources for ${month} ${year}</b><br/><br/>
                                             <table class="table table-hover display tablee">
                                                 <thead>
-                                                    <th style="text-align: left">Under load Employees</th>
-                                                    <th style="text-align: right">Max effort</th>
+                                                    <th style="text-align: left">Resources</th>
+                                                    <th style="width: 70%;text-align: right">Total effort</th>
                                                 </thead>
                                                 <tbody>
                                                     <c:forEach items="${underload}" var="ul">
                                                     <tr>   
                                                         <td style="text-align: left;" class="resName"><c:out value="${ul.fname} ${ul.lname}" /></td>						
                                                         <td style="text-align: right"><c:out value="${ul.jan}" /></td>
-                                                    </tr>
-                                                    </c:forEach>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <table class="table table-hover display tablee">
-                                                <thead>
-                                                    <th style="text-align: left">Full load Employees</th>
-                                                    <th style="text-align: right">Max effort</th>
-                                                </thead>
-                                                <tbody>
-                                                    <c:forEach items="${overload}" var="ol">
-                                                    <tr>   
-                                                        <td style="text-align: left;" class="resName"><c:out value="${ol.fname} ${ol.lname}" /></td>						
-                                                        <td style="text-align: right"><c:out value="${ol.jan}" /></td>   
                                                     </tr>
                                                     </c:forEach>
                                                 </tbody>
@@ -193,7 +175,7 @@
                         </div>
                     </div>
                 </div>
-            <!-- reminder Modal -->  
+            <!-- reminder Modal -->
             
             
             
@@ -213,7 +195,7 @@
            $('#reminder').modal('show');
            $(".resourceRow").tooltip();
            $('.tablee').DataTable({
-                "order": [[ 1, "desc" ]],
+                "order": [[ 1, "asc" ]],
                 "scrollCollapse": true,
                 "paging":         false,
                 "bInfo":          false,

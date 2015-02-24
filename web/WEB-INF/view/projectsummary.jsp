@@ -256,10 +256,76 @@
         </div>
     </div>
     <!-- End modal for end project-->
+            
+    <!-- reminder Modal -->
+        <div class="modal fade" id="reminder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" style="width: 50%;">
+                <div class="modal-content-sm">
+                    <div class="modal-body-sm">
+                        <div class="panel panel-primary">
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                    <b>Projects ending in ${month} ${year}</b><br/><br/>
+                                    <table class="table table-hover display tablee">
+                                        <thead>
+                                            <th style="text-align: left">Projects</th>
+                                            <th style="width: 70%;text-align: right">End date</th>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach items="${unPro}" var="up">
+                                            <tr>   
+                                                <td style="text-align: left;"><c:out value="${up.name}" /></td>						
+                                                <td style="text-align: right"><c:out value="${up.end}" /></td>
+                                            </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <b>Overdue projects</b><br/><br/>
+                                    <table class="table table-hover display tablee">
+                                        <thead>
+                                            <th style="text-align: left">Projects</th>
+                                            <th style="width: 70%;text-align: right">End date</th>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach items="${ovPro}" var="op">
+                                            <tr>   
+                                                <td style="text-align: left;"><c:out value="${op.name}" /></td>						
+                                                <td style="text-align: right"><c:out value="${op.end}" /></td>
+                                            </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div style="text-align: right;">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Close</b>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- reminder Modal --> 
+            
+            
     <script>
         $(document).ready(function(){
             $("#2").attr("class","active"); 
             $("#projSummary").dataTable();
+           $('#reminder').modal('show');
+           $('.tablee').DataTable({
+                "order": [[ 1, "asc" ]],
+                "scrollCollapse": true,
+                "paging":         false,
+                "bInfo":          false,
+                "bFilter":        false
+            });
             $(".projectnamelink").tooltip();
             
             $("#name1").change(function(){
