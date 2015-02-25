@@ -35,6 +35,7 @@
         <table class="table table-striped" id="effortTable">
             <thead>
                 <tr>
+                    <th style="display: none"></th>
                     <th style="text-align: left"><b>Task Name</b></th>
                     <th style="text-align: left"><b>Project Name</b></th>
                     <th style="text-align: left"><b>Status</b></th>
@@ -61,11 +62,14 @@
             </thead>
             <tbody class="tasks">
                 <c:forEach items="${projects}" var="project">
-                    <tr class="taskRow" data-toggle="modal" data-target="#editStatus" data-toggle="tooltip" data-placement="top" title="Click to view resource information">   
-                        <input type="hidden" class="taskid" value="${project.taskId}"/>
+                    <tr>   
+<!--                        <input type="text" class="taskId" value="${project.taskId}"/>-->
+                        <td style="display:none" class="taskId"><c:out value="${project.taskId}" /></td>
                         <td style="text-align: left" class="taskName"><c:out value="${project.taskName}" /></td>
                         <td style="text-align: left" class="projectName"><c:out value="${project.name}" /></td>
-                        <td style="text-align: left" class="projStats"><c:out value="${project.status}" /></td>
+                        <td style="text-align: left" class="projStats">
+                            <a href="" class="projStatslink" data-toggle="modal" data-target="#editStatus" data-toggle="tooltip" data-placement="top" title="Click to edit project status"><c:out value="${project.status}" /></a>
+                        </td>
                         <td style="text-align: left"><c:out value="${project.year}" /></td>
                         <td style="text-align: left"><c:out value="${project.start}" /></td>
                         <td style="text-align: left"><c:out value="${project.end}" /></td>
@@ -180,10 +184,11 @@
                 <div class="modal-body-sm">
                     <div class="panel panel-primary">  
                         <div class="panel-heading">
-                            <b>Edit Status for <code id="tName"></code></b>
+                            <b>Edit Status for <code id="taskName"></code></b>
                         </div>
-                        <form id="edit" name="edit" action='<c:url value="editTaskStat"/>' method="post" modelAttribute="task">
-                            <input type="hidden" name="taskId" id="editTaskId" />
+                        <form id="edit" name="edit" action='<c:url value="editTask"/>' method="post" modelAttribute="task">
+                            <input type="hidden" name="taskId" id="tId" />
+                            <input type="hidden" name="name" id="tName" />
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Status</label>
@@ -295,6 +300,7 @@
         $(document).ready(function(){
             $("#1").attr("class","active"); 
             $("#effortTable").dataTable();
+            $(".projStatslink").tooltip();
 
             $("#taskSummary").on("click",".viewEffort",function(){
                 $("#TaskName").text($(this).parent().parent().parent().parent().siblings(".taskName").text());
@@ -304,13 +310,15 @@
                 }
             });
             
-            $(".tasks").on("click",".taskRow",function(){
-                $("#tName").html($(this).children(".taskName").text());
-                $("#tStatus").val($(this).children(".projStats").text());
+            $(".tasks").on("click",".projStatslink",function(){
+                $("#taskName").html($(this).parent().parent().children(".taskName").text());
+                $("#tStatus").val($(this).text());
+                $("#tName").val($(this).parent().parent().children(".taskName").text());
+                $("#tId").val($(this).parent().parent().children(".taskId").text());
             });
             
             $("#taskSummary").on('click',".addFeedback",function(){
-                $("#myTaskid").val($(this).parent().siblings(".taskid").val());
+                $("#myTaskid").val($(this).parent().siblings(".taskId").text());
                 $("#aFeed").text($(this).parent().siblings(".projectName").text()+"/"+$(this).parent().siblings(".taskName").text());
             });
 
@@ -320,7 +328,7 @@
                 $.ajax({
                     url:'getFeedbacks.htm',
                     type:'post',
-                    data:{'taskId': $(this).parent().parent().parent().parent().parent().find(".taskid").val()},
+                    data:{'taskId': $(this).parent().parent().parent().parent().parent().find(".taskId").text()},
                     success:function(data){
                         var x = data.toString();
                         var parts = x.split("@");

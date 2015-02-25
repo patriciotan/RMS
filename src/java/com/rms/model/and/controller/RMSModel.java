@@ -149,13 +149,24 @@ public class RMSModel {
         return rs;
     }
     
-    public boolean updateRemarks(int projId, String remarks) throws Exception
-    {
-        sql = "UPDATE project SET remarks='"+remarks+"' WHERE project_id="+projId;
+    public boolean addRemarks(int projId, String subject, String content, int added_by, String added_date) throws Exception {
+        sql = "insert into remarks (project_id,subject,content,added_by,added_date) values ("+projId+",'"+subject+"','"+content+"',"+added_by+",'"+added_date+"')";
         System.out.println(sql);
         if(st.executeUpdate(sql) > 0)
             return true;
         return false;
+    }
+    
+    public ResultSet getRemarks(int projId) throws Exception
+    {
+        PreparedStatement ps;
+        sql = "select remarks.*,client.* from remarks join client on client.client_id = remarks.added_by where project_id=? order by remarks.added_date desc";
+        System.out.println(sql+" "+projId);
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, projId);
+        rs = ps.executeQuery();
+        
+        return rs;
     }
     
     public ResultSet getOutlook() throws Exception

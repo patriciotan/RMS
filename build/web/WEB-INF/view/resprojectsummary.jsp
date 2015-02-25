@@ -202,7 +202,7 @@
                                                 <th>Dec</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="addResTable">
+                                        <tbody id="addResTable" class="effBody" data-toggle="tooltip" data-placement="top" title="0.0 = No effort, 1.0 = 100% effort">
 
                                         </tbody>
                                     </table>
@@ -276,7 +276,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
+                                            <tr class="effRow" data-toggle="tooltip" data-placement="top" title="0.0 = No effort, 1.0 = 100% effort">
                                                 <td><input type="number" name="year" style="width:55px;" id="eYear" readonly/></td>
                                                 <td><input type="number" name="jan" style="width:55px;" value="0" min="0" step="0.1" id="e1"/></td>
                                                 <td><input type="number" name="feb" style="width:55px;" value="0" min="0" step="0.1" id="e2"/></td>
@@ -479,6 +479,8 @@
            $(".resProjects").dataTable();
            $(".taskName").tooltip();
            $(".resourceRow").tooltip();
+           $(".effRow").tooltip();
+           $(".effBody").tooltip();
            
            $("#end1").change(function(){
                 $("#error2").html("");

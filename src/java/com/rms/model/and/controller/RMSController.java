@@ -739,17 +739,6 @@ public class RMSController {
         return mav;
     } 
     
-    @RequestMapping(value = "/editTaskStat", method = RequestMethod.POST)
-    public ModelAndView editStatus(@ModelAttribute("task")Task task, ModelMap model, HttpServletRequest request) throws Exception {
-        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
-        System.out.println(task.getTaskId()+" "+task.getStatus());
-        if(dbModel.editStatus(task.getTaskId(),task.getStatus()))
-        {
-            mav = new ModelAndView("redirect:/employeeView"); 
-        }
-        return mav;
-    } 
-    
     @RequestMapping(value = "/addClient", method = RequestMethod.POST)
     public ModelAndView addClient(@ModelAttribute("client")Client client, ModelMap model, HttpServletRequest request) throws Exception {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
@@ -780,16 +769,6 @@ public class RMSController {
         return mav;
     } 
     
-    @RequestMapping(value = "/updateRemarks", method = RequestMethod.POST)
-    public ModelAndView updateRemarks(@ModelAttribute("remarks")Remarks remarks, ModelMap model) throws Exception {
-        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
-        if(dbModel.updateRemarks(remarks.getProjId(),remarks.getRemarks()))
-        {
-            mav = new ModelAndView("redirect:/clientView"); 
-        }
-        return mav;
-    }
-    
     @RequestMapping(value = "/getFeedbacks")
     public @ResponseBody String getFeedbacks(@RequestParam("taskId")int taskId, ModelMap model) throws Exception {
         ResultSet rs = dbModel.getFeedbacks(taskId);
@@ -817,6 +796,48 @@ public class RMSController {
         feedbacks += "@";
         feedbacks += i;
         return feedbacks;
+    }
+    
+    @RequestMapping(value = "/addRemarks", method = RequestMethod.POST)
+    public ModelAndView addRemarks(@ModelAttribute("remarks")Remarks remarks, ModelMap model, HttpServletRequest request) throws Exception {
+        ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Add Project Failed");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        Date now = c.getTime();
+        int created_by = (int) request.getSession().getAttribute("clientId");
+        String created_date = sdf.format(now);
+        if(dbModel.addRemarks(remarks.getProjId(),remarks.getSubject(),remarks.getContent(),created_by,created_date))
+        {
+            mav = new ModelAndView("redirect:/clientView"); 
+        }
+        return mav;
+    } 
+    
+    @RequestMapping(value = "/getRemarks")
+    public @ResponseBody String getRemarks(@RequestParam("projId")int projId, ModelMap model) throws Exception {
+        ResultSet rs = dbModel.getRemarks(projId);
+        String remark = "",remarks = "";
+        int i = 0;
+        while(rs.next()) {
+            remark = "";
+            remark += rs.getString("subject");
+            remark += "%";
+            remark += rs.getString("content");
+            remark += "%";
+            remark += rs.getInt("added_by");
+            remark += "%";
+            remark += rs.getString("name");
+            remark += "%";
+            remark += rs.getString("added_date");
+            
+            remarks += remark;
+            remarks += "$";
+            i++;
+        }
+        System.out.println("------------asdf"+remarks);
+        remarks += "@";
+        remarks += i;
+        return remarks;
     }
     
     @RequestMapping(value = "/assignResource", method = RequestMethod.POST)
