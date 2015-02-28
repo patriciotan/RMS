@@ -617,6 +617,8 @@
                             var wait = Math.round((1-res[i])*10)/10;
                             var finall = Math.round((wait+parseFloat($("#e"+i).val()))*10)/10; 
                             $("#e"+i).attr("max",finall);
+                            $("#e"+i).tooltip('destroy');
+                            $("#e"+i).tooltip({'trigger':'focus','placement':"bottom", 'title':" Maximum effort for the selected month is "+finall+"."});
                         }
                     },  
                         error : function(e) {  
@@ -712,6 +714,8 @@
                             if(i>=startMonth && i<=end){
                                 $(".month"+i).removeAttr("readonly");
                                 $(".month"+i).attr("max",Math.round( (1-res[i]) * 10 ) / 10);
+                                var z=Math.round( (1-res[i]) * 10 ) / 10;
+                                $(".month"+i).tooltip({'trigger':'focus','placement':"bottom" ,'title':" Maximum effort for the selected month is "+z+"."});
                             }
                         }
                         

@@ -930,13 +930,23 @@ public class RMSController {
     @RequestMapping(value = "/checkProjectTask")
     public @ResponseBody String checkProjectTask(@RequestParam("id")int id, ModelMap model) throws Exception
     {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         ResultSet rs =null;
         String emp="0";
+        String latestTask = null;
+        Date latest = null,next = null;
         rs = dbModel.getTasksProjects(id);
         if(rs.next()){
             emp="1";
+            latest = sdf.parse(rs.getString("end_date"));
+            while(rs.next()){
+                next = sdf.parse(rs.getString("end_date"));
+                if(next.after(latest)){
+                    latest=next;
+                }
+            }
         }
-        return emp;
+        return emp+"%-."+sdf.format(latest);
     }
     
     @RequestMapping(value = "/getEmployeesNotTask")

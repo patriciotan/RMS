@@ -437,13 +437,12 @@
                     type:'post',
                     data:{'id':$(this).parent().siblings(".projId").val()},
                     success:function(data,status){
-                        var x = data.toString();
-                        if(x=="1"){
+                        var half = data.split("%-.");
+                        if(half[0]=="1"){
                             $("#field2").attr("readonly","true");
-                            $("#field3").attr("readonly","true");
+                            $("#field3").attr("min",half[1]);
                         }else{
                             $("#field2").removeAttr("readonly");
-                            $("#field3").removeAttr("readonly");
                         }
                     }
                 });
