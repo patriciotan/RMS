@@ -13,7 +13,15 @@ package com.rms.model.and.controller;
 public class Client {
     
     private String name,addedDate,projectName,mileStone,end,projectStatus,remarks;
-    private int clientId,addedBy,resCount,projId;
+    private int clientId,addedBy,resCount,projId,rmcount;
+
+    public int getRmcount() {
+        return rmcount;
+    }
+
+    public void setRmcount(int rmcount) {
+        this.rmcount = rmcount;
+    }
 
     public int getProjId() {
         return projId;

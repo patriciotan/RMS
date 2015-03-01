@@ -36,6 +36,7 @@
             <thead>
                 <tr>
                     <th style="text-align: left"><b>Client Name</b></th>
+                    <th style="display:none"></th>
                     <th style="text-align: left"><b>Project Name</b></th>
                     <th style="text-align: left"><b>Current Milestone</b></th>
                     <th style="text-align: left"><b>Resource Count</b></th>
@@ -48,14 +49,16 @@
                 <c:forEach items="${clients}" var="client">
                 <tr>
                     <td style="text-align: left" class="clientName"><c:out value="${client.name}" /></td>
+                    <td style="display:none" class="projId"><c:out value="${client.projId}" /></td>
                     <td style="text-align: left" class="projName"><c:out value="${client.projectName}" /></td>
                     <td style="text-align: left"><c:out value="${client.mileStone}" /></td>
                     <td style="text-align: left"><c:out value="${client.resCount}" /></td>
                     <td style="text-align: left"><c:out value="${client.end}" /></td>
                     <td style="text-align: left"><c:out value="${client.projectStatus}" /></td>
                     <td>
-                        <button class="btn btn-success viewRm" data-toggle="modal" data-target="#viewRemarks">
+                        <button class="btn btn-success viewRemarks" data-toggle="modal" data-target="#viewRemarks">
                             <span style="color: #333333" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <b>Remarks</b>
+                            &nbsp;<span class="badge">${client.rmcount}</span>
                         </button>
                         <input type="hidden" class="remarkss" value="<c:out value='${client.remarks}' />"/>
                     </td>
@@ -104,22 +107,44 @@
         </div>
     </div>
     <!-- End modal for add client-->
-
+    
     <!-- Start modal for view remarks-->            
     <div class="modal fade" id="viewRemarks" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog-l">
             <div class="modal-content-sm">
                 <div class="modal-body-sm">
                     <div class="panel panel-primary">  
                         <div class="panel-heading">
-                            <b>Remarks of <code id="viewName"></code></b>
+                            <b>Remarks of <code id="vRem"></code></b>
                         </div>
                         <div class="panel-body">
-                            <p id="remarksArea"></p>
+                            <table class="table table-hover rms">
+                                <thead>
+                                    <tr>
+                                        <th style="display: none;"></th>
+                                        <th style="text-align: left;" width="200px">Subject</th>
+                                        <th style="text-align: left;">Content</th>
+                                        <th style="text-align: right;" width="200px">Added by</th>
+                                        <th style="text-align: right;" width="100px">Added on</th>
+                                        <th width="200px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="viewRmTable">
+
+                                </tbody>
+                            </table>
                         </div>
                         <div class="panel-footer">
+                            <div style="float: left">
+                                <button class="btn btn-primary readAllRm">
+                                    <span style="color: #333333" class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <b>Mark all as read</b>
+                                </button>
+                                <button class="btn btn-success unreadAllRm">
+                                    <span style="color: #333333" class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <b>Mark all as unread</b>
+                                </button>
+                            </div>
                             <div style="text-align: right">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                <button class="btn btn-danger" onclick="location.reload(true)" data-dismiss="modal">
                                     <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Close</b>
                                 </button>
                             </div>
@@ -136,7 +161,9 @@
         $(document).ready(function(){
             $("#4").attr("class","active");
             $("#clientSummary").dataTable();
-           
+            
+            if($(".badge").html() == '0')
+                $(".badge").css("display","none");
            
             $("#cname1").change(function(){
                 $("#cerror1").html("");
@@ -155,11 +182,105 @@
                     }
                 });
             });
-           
-            $("#clientSummary").on("click",".viewRm",function(){
-                $("#remarksArea").html($(this).next().val());
-                $("#viewName").text($(this).parent().siblings(".projName").text());
+
+            $("#clientsSummary").on('click',".viewRemarks",function(){
+//                $("#viewRmTable").html("");
+                $("#vRem").text($(this).parent().siblings(".projName").text());
+                $.ajax({
+                    url:'getRemarks.htm',
+                    type:'post',
+                    data:{'projId': $(this).parent().siblings(".projId").text()},
+                    success:function(data){
+                        var x = data.toString();
+                        var parts = x.split("@");
+                        var row = parts[0].split("$");
+                        for(var i = 0; i < parseInt(parts[1]); i ++){
+                            var rec = row[i].split("%");
+                            if(rec[5] == '1') {
+                                $("#viewRmTable").append("<tr>" +
+                                                            "<td class='idRm' style='display:none;'>"+rec[6]+"</td>" +
+                                                            "<td style='text-align:left;color:red;'>"+rec[0]+"</td>" +
+                                                            "<td style='text-align:left;color:red;'><p>"+rec[1]+"</p></td>" +
+                                                            "<td style='text-align:right;color:red;'>"+rec[3]+"</td>" +
+                                                            "<td style='text-align:right;color:red;'>"+rec[4]+"</td>" +
+                                                            "<td><button class='btn btn-warning readRm'>" +
+                                                                "<span style='color: #333333' class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> <b>Mark as read</b>" +
+                                                            "</button></td>" +
+                                                        "</tr>");
+                            }
+                            else {
+                                $("#viewRmTable").append("<tr>" +
+                                                            "<td class='idRm' style='display:none;'>"+rec[6]+"</td>" +
+                                                            "<td style='text-align: left;'>"+rec[0]+"</td>" +
+                                                            "<td style='text-align: left;'><p>"+rec[1]+"</p></td>" +
+                                                            "<td style='text-align: right;'>"+rec[3]+"</td>" +
+                                                            "<td style='text-align: right;'>"+rec[4]+"</td>" +
+                                                            "<td><button class='btn btn-warning unreadRm'>" +
+                                                                "<span style='color: #333333' class='glyphicon glyphicon-eye-close' aria-hidden='true'></span> <b>Mark as unread</b>" +
+                                                            "</button></td>" +
+                                                        "</tr>");
+                            }
+                        }
+                    },  
+                        error : function(e) {  
+                        alert('Error: ' + e);   
+                    }
+                }); 
             });
+            
+            $(".readAllRm").click(function(){
+                $.ajax({
+                    url:'readAllRm.htm',
+                    success:function(){
+                        $(".viewRemarks").click();
+                    },  
+                        error : function(e) {  
+                        alert('Error: ' + e);   
+                    }
+                });
+            });
+            
+            $(".unreadAllRm").click(function(){
+                $.ajax({
+                    url:'unreadAllRm.htm',
+                    success:function(){
+                        $(".viewRemarks").click();
+                    },  
+                        error : function(e) {  
+                        alert('Error: ' + e);   
+                    }
+                });
+            });
+           
+           $(".rms").on('click',".readRm",function(){
+               var id = $(this).parent().siblings(".idRm").text();
+               $.ajax({
+                    url:'readRemarks.htm',
+                    type:'post',
+                    data:{'id':id},
+                    success:function(){
+                        $(".viewRemarks").click();
+                    },  
+                        error : function(e) {  
+                        alert('Error: ' + e);   
+                    }
+                });
+           });
+           
+           $(".rms").on('click',".unreadRm",function(){
+               var id = $(this).parent().siblings(".idRm").text();
+               $.ajax({
+                    url:'unreadRemarks.htm',
+                    type:'post',
+                    data:{'id':id},
+                    success:function(){
+                        $(".viewRemarks").click();
+                    },  
+                        error : function(e) {  
+                        alert('Error: ' + e);   
+                    }
+                });
+           });
         });
     </script>
 </html>

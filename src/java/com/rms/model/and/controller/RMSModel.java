@@ -149,6 +149,82 @@ public class RMSModel {
         return rs;
     }
     
+    public int getFbCount() throws Exception
+    {
+        PreparedStatement ps;
+        sql = "select count(*) as count from feedback where flag='1'";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        rs.first();
+        return rs.getInt("count");
+    }
+    
+    public int getRmCount() throws Exception
+    {
+        PreparedStatement ps;
+        sql = "select count(*) as count from remarks where flag='1'";
+        ps = con.prepareStatement(sql);
+        rs = ps.executeQuery();
+        rs.first();
+        return rs.getInt("count");
+    }
+    
+    public void readAllFb() throws Exception
+    {
+        sql = "update feedback set flag='0'";
+        System.out.println(sql);
+        st.executeUpdate(sql);
+    }
+    
+    public void unreadAllFb() throws Exception
+    {
+        sql = "update feedback set flag='1'";
+        System.out.println(sql);
+        st.executeUpdate(sql);
+    }
+    
+    public void readFeedback(int id) throws Exception
+    {
+        sql = "update feedback set flag='0' where feedback_id="+id;
+        System.out.println(sql);
+        st.executeUpdate(sql);
+    }
+    
+    public void unreadFeedback(int id) throws Exception
+    {
+        sql = "update feedback set flag='1' where feedback_id="+id;
+        System.out.println(sql);
+        st.executeUpdate(sql);
+    }
+    
+    public void readAllRm() throws Exception
+    {
+        sql = "update remarks set flag='0'";
+        System.out.println(sql);
+        st.executeUpdate(sql);
+    }
+    
+    public void unreadAllRm() throws Exception
+    {
+        sql = "update remarks set flag='1'";
+        System.out.println(sql);
+        st.executeUpdate(sql);
+    }
+    
+    public void readRemarks(int id) throws Exception
+    {
+        sql = "update remarks set flag='0' where remarks_id="+id;
+        System.out.println(sql);
+        st.executeUpdate(sql);
+    }
+    
+    public void unreadRemarks(int id) throws Exception
+    {
+        sql = "update remarks set flag='1' where remarks_id="+id;
+        System.out.println(sql);
+        st.executeUpdate(sql);
+    }
+    
     public boolean addRemarks(int projId, String subject, String content, int added_by, String added_date) throws Exception {
         sql = "insert into remarks (project_id,subject,content,added_by,added_date) values ("+projId+",'"+subject+"','"+content+"',"+added_by+",'"+added_date+"')";
         System.out.println(sql);
@@ -292,6 +368,30 @@ public class RMSModel {
     {
         PreparedStatement ps;
         sql = "SELECT * FROM task WHERE project_id=?";
+        System.out.println(sql);
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, projId);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
+    
+    public ResultSet getTaskFbcount(int taskId) throws Exception
+    {
+        PreparedStatement ps;
+        sql = "SELECT COUNT(*) as count FROM feedback WHERE task_id=? and flag='1'";
+        System.out.println(sql);
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, taskId);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
+    
+    public ResultSet getProjRmcount(int projId) throws Exception
+    {
+        PreparedStatement ps;
+        sql = "SELECT COUNT(*) as count FROM remarks WHERE project_id=? and flag='1'";
         System.out.println(sql);
         ps = con.prepareStatement(sql);
         ps.setInt(1, projId);

@@ -10,7 +10,15 @@ package com.rms.model.and.controller;
  */
 public class Feedback {
     private String subject, content, created_date, resName;
-    private int created_by,taskId;
+    private int created_by,taskId,flag;
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
+    }
 
     public String getResName() {
         return resName;

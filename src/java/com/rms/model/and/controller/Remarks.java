@@ -10,7 +10,15 @@ package com.rms.model.and.controller;
  */
 public class Remarks {
     private String subject, content, created_date, clientName;
-    private int projId, created_by;
+    private int projId, created_by, flag;
+
+    public int getFlag() {
+        return flag;
+    }
+
+    public void setFlag(int flag) {
+        this.flag = flag;
+    }
 
     public String getClientName() {
         return clientName;

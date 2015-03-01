@@ -117,7 +117,44 @@
         </div>
     </div>
     </div>
-</div>
+</div>  
+            
+            <!-- reminder Modal -->
+                <div class="modal fade" id="reminder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" style="width: 20%;">
+                        <div class="modal-content-sm">
+                            <div class="modal-body-sm">
+                                <div class="panel panel-primary"> 
+                                    <div class="panel-body">
+                                        <div>
+                                            <b>Notifications</b><br/><br/>
+                                            <table>
+                                                <tr>   
+                                                    <td>
+                                                        You have <span class="badge">${fbcount}</span> unread feedbacks!
+                                                    </td>						
+                                                </tr>
+                                                <tr>   
+                                                    <td><br/>
+                                                        You have <span class="badge">${rmcount}</span> unread remarks!
+                                                    </td>	
+                                                </tr>
+                                            </table><br/>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <div style="text-align: right;">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                                <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Close</b>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- reminder Modal -->
 
 <!-- Start modal for add project-->                
     <div class="modal fade" id="addProject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -234,6 +271,7 @@
     <script>
         $(document).ready(function(){
             $("#0").attr("class","active");
+           $('#reminder').modal('show');
             
             $("#cname1").change(function(){
                 $("#cerror1").html("");

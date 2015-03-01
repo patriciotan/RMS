@@ -247,17 +247,20 @@ public class RMSController {
     
     //for the PM view
     public List getCSummary() throws Exception{
-        ResultSet rs = dbModel.getClientProject();
+        ResultSet rs = dbModel.getClientProject(),ras=null;
         ArrayList<Client> clients=new ArrayList<>();
         while(rs.next()){
             Client c = new Client();
             c.setName(rs.getString("cname"));
             c.setProjectName(rs.getString("name"));
+            c.setProjId(rs.getInt("project_id"));
             c.setMileStone(rs.getString("milestone"));
             c.setResCount(dbModel.getNumberOfResourcesProject(rs.getInt("project_id")));
             c.setEnd(rs.getString("end_date"));
             c.setProjectStatus(rs.getString("status"));
-            c.setRemarks(rs.getString("remarks"));
+            ras = dbModel.getProjRmcount(c.getProjId());
+            ras.next();
+            c.setRmcount(ras.getInt("count"));
             clients.add(c);
         }
         return clients;
@@ -276,7 +279,6 @@ public class RMSController {
             c.setResCount(dbModel.getNumberOfResourcesProject(rs.getInt("project_id")));
             c.setEnd(rs.getString("end_date"));
             c.setProjectStatus(rs.getString("status"));
-            c.setRemarks(rs.getString("remarks"));
             clients.add(c);
         }
         return clients;
@@ -333,7 +335,7 @@ public class RMSController {
     }
     
     public List getTasks(int projid) throws Exception{
-        ResultSet rs = null,zac=null;
+        ResultSet rs = null,zac=null,ras=null;
         rs=dbModel.getTasksProjects(projid);
         List<Task> tasks=new ArrayList<Task>();
         while(rs.next()){
@@ -344,6 +346,9 @@ public class RMSController {
             a.setName(rs.getString("name"));
             a.setStart(rs.getString("start_date"));
             a.setEnd(rs.getString("end_date"));
+            ras = dbModel.getTaskFbcount(a.getTaskId());
+            ras.next();
+            a.setFbcount(ras.getInt("count"));
             zac = dbModel.getResourcesTasks(a.getTaskId());
             while(zac.next()){
                 Resource resource = new Resource();
@@ -447,7 +452,8 @@ public class RMSController {
     @RequestMapping("/dashboard")
     public ModelAndView viewDashboard(HttpServletRequest request) throws Exception {  
         ModelAndView mav = new ModelAndView("dashboard");
-        List<Project> projects = getSummary(); 
+        List<Project> projects = getSummary();
+        int count[] = new int[2];
         
         if(request.getSession().getAttribute("userType")!=null&&request.getSession().getAttribute("userType").equals("Manager")){
             mav.addObject("title","RMS - Dashboard");
@@ -458,6 +464,10 @@ public class RMSController {
                 mav.addObject("unPro",getUnpro());
             if(!getOvpro().isEmpty())
                 mav.addObject("ovPro",getOvpro());
+            count[0] = dbModel.getFbCount();
+            count[1] = dbModel.getRmCount();
+            mav.addObject("fbcount",count[0]);
+            mav.addObject("rmcount",count[1]);
         }else{
             mav=new ModelAndView("redirect:/login"); 
         }
@@ -787,6 +797,10 @@ public class RMSController {
             feedback += rs.getString("last_name");
             feedback += "%";
             feedback += rs.getString("added_date");
+            feedback += "%";
+            feedback += rs.getInt("flag");
+            feedback += "%";
+            feedback += rs.getInt("feedback_id");
             
             feedbacks += feedback;
             feedbacks += "$";
@@ -796,6 +810,46 @@ public class RMSController {
         feedbacks += "@";
         feedbacks += i;
         return feedbacks;
+    }
+    
+    @RequestMapping(value = "/readAllFb")
+    public @ResponseBody void readAllFb(ModelMap model) throws Exception {
+        dbModel.readAllFb();
+    }
+    
+    @RequestMapping(value = "/unreadAllFb")
+    public @ResponseBody void unreadAllFb(ModelMap model) throws Exception {
+        dbModel.unreadAllFb();
+    }
+    
+    @RequestMapping(value = "/readFeedback")
+    public @ResponseBody void readFeedback(@RequestParam("id")int id, ModelMap model) throws Exception {
+        dbModel.readFeedback(id);
+    }
+    
+    @RequestMapping(value = "/unreadFeedback")
+    public @ResponseBody void unreadFeedback(@RequestParam("id")int id, ModelMap model) throws Exception {
+        dbModel.unreadFeedback(id);
+    }
+    
+    @RequestMapping(value = "/readAllRm")
+    public @ResponseBody void readAllRm(ModelMap model) throws Exception {
+        dbModel.readAllRm();
+    }
+    
+    @RequestMapping(value = "/unreadAllRm")
+    public @ResponseBody void unreadAllRm(ModelMap model) throws Exception {
+        dbModel.unreadAllRm();
+    }
+    
+    @RequestMapping(value = "/readRemarks")
+    public @ResponseBody void readRemarks(@RequestParam("id")int id, ModelMap model) throws Exception {
+        dbModel.readRemarks(id);
+    }
+    
+    @RequestMapping(value = "/unreadRemarks")
+    public @ResponseBody void unreadRemarks(@RequestParam("id")int id, ModelMap model) throws Exception {
+        dbModel.unreadRemarks(id);
     }
     
     @RequestMapping(value = "/addRemarks", method = RequestMethod.POST)
@@ -829,6 +883,10 @@ public class RMSController {
             remark += rs.getString("name");
             remark += "%";
             remark += rs.getString("added_date");
+            remark += "%";
+            remark += rs.getInt("flag");
+            remark += "%";
+            remark += rs.getInt("remarks_id");
             
             remarks += remark;
             remarks += "$";

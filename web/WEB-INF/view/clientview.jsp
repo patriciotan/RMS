@@ -45,7 +45,6 @@
             <tbody id="clientsTable">
                 <c:forEach items="${clients}" var="client">
                 <tr>
-<!--                    <input type="hidden" class="projid" value="<c:out value='${client.projId}' />"/>-->
                     <td style="display:none" class="projId"><c:out value="${client.projId}" /></td>
                     <td style="text-align: left" class="projName"><c:out value="${client.projectName}" /></td>
                     <td style="text-align: left"><c:out value="${client.mileStone}" /></td>

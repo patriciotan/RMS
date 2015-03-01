@@ -13,8 +13,16 @@ import java.util.List;
  */
 public class Task {
     private String name,start,end,status;
-    private int taskId,projectId;
+    private int taskId,projectId,fbcount;
     public List<Resource> resources = new ArrayList<Resource>();
+
+    public int getFbcount() {
+        return fbcount;
+    }
+
+    public void setFbcount(int fbcount) {
+        this.fbcount = fbcount;
+    }
     
     public String getStatus() {
         return status;

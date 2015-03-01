@@ -55,17 +55,22 @@
                         <br/>
                         <div style="float: left;">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <span style="color: #333333" class="glyphicon glyphicon-tasks" aria-hidden="true"></span> <b>Task actions</b> <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href="#" class="editOption" data-toggle="modal" data-target="#editTask">Edit task</a></li>
                                     <li><a href="#" class="assignOption" data-toggle="modal" data-target="#assign">Assign new resource</a></li>
-                                    <li><a href="#" class="viewFeedback" data-toggle="modal" data-target="#viewFeedback">View feedback</a></li>
                                     <li class="divider"></li>
                                     <li><a href="#" class="deleteOption" data-toggle="modal" data-target="#deleteTask">Delete task</a></li>
                                 </ul>
                             </div>
+                        </div>
+                        <div style="float: left;" class="pull-right">
+                            <button class="btn btn-success viewFeedback" data-toggle="modal" data-target="#viewFeedback">
+                                <span style="color: #333333" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <b>Feedbacks</b>
+                                &nbsp;<span class="badge">${task.fbcount}</span>
+                            </button>
                         </div>
                         <br/><br/><br/>
                         <table id="respSummary" class="resProjects" class="display">   
@@ -438,16 +443,18 @@
                 <div class="modal-body-sm">
                     <div class="panel panel-primary">  
                         <div class="panel-heading">
-                            <b>Feedbacks of ${projectName}/<code id="vfName"></code></b>
+                            <b>Feedbacks of ${projectName} - <code id="vfName"></code></b>
                         </div>
                         <div class="panel-body">
-                            <table class="table table-hover">
+                            <table class="table table-hover fbs">
                                 <thead>
                                     <tr>
+                                        <th style="display: none;"></th>
                                         <th style="text-align: left;" width="200px">Subject</th>
                                         <th style="text-align: left;">Content</th>
                                         <th style="text-align: right;" width="200px">Added by</th>
                                         <th style="text-align: right;" width="100px">Added on</th>
+                                        <th width="200px"></th>
                                     </tr>
                                 </thead>
                                 <tbody id="viewFbTable">
@@ -456,8 +463,16 @@
                             </table>
                         </div>
                         <div class="panel-footer">
+                            <div style="float: left">
+                                <button class="btn btn-primary readAllFb">
+                                    <span style="color: #333333" class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <b>Mark all as read</b>
+                                </button>
+                                <button class="btn btn-success unreadAllFb">
+                                    <span style="color: #333333" class="glyphicon glyphicon-eye-close" aria-hidden="true"></span> <b>Mark all as unread</b>
+                                </button>
+                            </div>
                             <div style="text-align: right">
-                                <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                <button class="btn btn-danger" onclick="location.reload(true)" type="button" data-dismiss="modal">
                                     <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Close</b>
                                 </button>
                             </div>
@@ -481,6 +496,9 @@
            $(".resourceRow").tooltip();
            $(".effRow").tooltip();
            $(".effBody").tooltip();
+            
+            if($(".badge").html() == '0')
+                $(".badge").css("display","none");
            
            $("#end1").change(function(){
                 $("#error2").html("");
@@ -501,11 +519,11 @@
            
            $("#resourceSummary").on('click',".viewFeedback",function(){
                 $("#viewFbTable").html("");
-                $("#vfName").text($(this).parent().parent().parent().parent().parent().siblings().find(".tName").text());
+                $("#vfName").text($(this).parent().parent().siblings().find(".tName").text());
                 $.ajax({
                     url:'getFeedbacks.htm',
                     type:'post',
-                    data:{'taskId': $(this).parent().parent().parent().parent().parent().siblings(".taskId").val()},
+                    data:{'taskId': $(this).parent().parent().siblings(".taskId").val()},
                     success:function(data){
                         var x = data.toString();
                         var parts = x.split("@");
@@ -513,12 +531,30 @@
 //                        alert("subject: "+rec[0]+", content: "+rec[1]+", res id: "+rec[2]+", date added: "+rec[3]);
                         for(var i = 0; i < parseInt(parts[1]); i ++){
                             var rec = row[i].split("%");
-                            $("#viewFbTable").append("<tr>" +
-                                                        "<td style='text-align: left;'>"+rec[0]+"</td>" +
-                                                        "<td style='text-align: left;'><p>"+rec[1]+"</p></td>" +
-                                                        "<td style='text-align: right;'>"+rec[3]+"</td>" +
-                                                        "<td style='text-align: right;'>"+rec[4]+"</td>" +
-                                                    "</tr>");
+                            if(rec[5] == '1') {
+                                $("#viewFbTable").append("<tr>" +
+                                                            "<td class='idFb' style='display:none;'>"+rec[6]+"</td>" +
+                                                            "<td style='text-align:left;color:red;'>"+rec[0]+"</td>" +
+                                                            "<td style='text-align:left;color:red;'><p>"+rec[1]+"</p></td>" +
+                                                            "<td style='text-align:right;color:red;'>"+rec[3]+"</td>" +
+                                                            "<td style='text-align:right;color:red;'>"+rec[4]+"</td>" +
+                                                            "<td><button class='btn btn-warning readFb'>" +
+                                                                "<span style='color: #333333' class='glyphicon glyphicon-eye-open' aria-hidden='true'></span> <b>Mark as read</b>" +
+                                                            "</button></td>" +
+                                                        "</tr>");
+                            }
+                            else {
+                                $("#viewFbTable").append("<tr>" +
+                                                            "<td class='idFb' style='display:none;'>"+rec[6]+"</td>" +
+                                                            "<td style='text-align: left;'>"+rec[0]+"</td>" +
+                                                            "<td style='text-align: left;'><p>"+rec[1]+"</p></td>" +
+                                                            "<td style='text-align: right;'>"+rec[3]+"</td>" +
+                                                            "<td style='text-align: right;'>"+rec[4]+"</td>" +
+                                                            "<td><button class='btn btn-warning unreadFb'>" +
+                                                                "<span style='color: #333333' class='glyphicon glyphicon-eye-close' aria-hidden='true'></span> <b>Mark as unread</b>" +
+                                                            "</button></td>" +
+                                                        "</tr>");
+                            }
                         }
                     },  
                         error : function(e) {  
@@ -526,6 +562,60 @@
                     }
                 }); 
             });
+            
+            $(".readAllFb").click(function(){
+                $.ajax({
+                    url:'readAllFb.htm',
+                    success:function(){
+                        $(".viewFeedback").click();
+                    },  
+                        error : function(e) {  
+                        alert('Error: ' + e);   
+                    }
+                });
+            });
+            
+            $(".unreadAllFb").click(function(){
+                $.ajax({
+                    url:'unreadAllFb.htm',
+                    success:function(){
+                        $(".viewFeedback").click();
+                    },  
+                        error : function(e) {  
+                        alert('Error: ' + e);   
+                    }
+                });
+            });
+           
+           $(".fbs").on('click',".readFb",function(){
+               var id = $(this).parent().siblings(".idFb").text();
+               $.ajax({
+                    url:'readFeedback.htm',
+                    type:'post',
+                    data:{'id':id},
+                    success:function(){
+                        $(".viewFeedback").click();
+                    },  
+                        error : function(e) {  
+                        alert('Error: ' + e);   
+                    }
+                });
+           });
+           
+           $(".fbs").on('click',".unreadFb",function(){
+               var id = $(this).parent().siblings(".idFb").text();
+               $.ajax({
+                    url:'unreadFeedback.htm',
+                    type:'post',
+                    data:{'id':id},
+                    success:function(){
+                        $(".viewFeedback").click();
+                    },  
+                        error : function(e) {  
+                        alert('Error: ' + e);   
+                    }
+                });
+           });
            
            $(".taskName").click(function(){
                $(".content").slideUp();
