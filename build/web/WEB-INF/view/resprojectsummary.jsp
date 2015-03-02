@@ -37,14 +37,14 @@
         <div class="row">
             <c:forEach items="${tasks}" var="task">
                 <div>
-                    <div class="taskName" style="background-color:#2e2e2e;color:white;padding: 5px 20px 5px 20px;" data-toggle="tooltip" data-placement="top" title="Click to show / hide task details">
+                    <div class="taskName" style="background-color:#2e2e2e;color:white;padding: 5px 20px 5px 20px;border: " data-toggle="tooltip" data-placement="top" title="Click to show / hide task details">
                         <table border="0" style="width:100%;">
                             <tr>
-                                <td>Name <code class="tName"><c:out value="${task.name}" /></code></td>
-                                <td>Status <code class="tStatus"><c:out value="${task.status}" /></code></td>
+                                <td style="width: 14%;">Name <code class="tName"><c:out value="${task.name}" /></code></td>
+                                <td style="width: 12%;">Status <code class="tStatus"><c:out value="${task.status}" /></code></td>
                                 <td style="width: 50%;text-align: center">Click to show / hide task details</td>
-                                <td style="text-align: right">End <code><c:out value="${task.end}" /></code></td>
-                                <td style="text-align: right">Start <code><c:out value="${task.start}" /></code></td>
+                                <td style="text-align: right;width: 12%;">End <code><c:out value="${task.end}" /></code></td>
+                                <td style="text-align: right;width: 12%;">Start <code><c:out value="${task.start}" /></code></td>
                             </tr>
                         </table>
                     </div>
@@ -496,9 +496,12 @@
            $(".resourceRow").tooltip();
            $(".effRow").tooltip();
            $(".effBody").tooltip();
+           $(".taskName").css("border","3px solid gray");
             
-            if($(".badge").html() == '0')
-                $(".badge").css("display","none");
+            $(".content").each(function(i){
+                if(this.find(".badge").html() == '0')
+                    this.find(".badge").css("display","none");
+            });
            
            $("#end1").change(function(){
                 $("#error2").html("");

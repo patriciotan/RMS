@@ -184,7 +184,7 @@
             });
 
             $("#clientsSummary").on('click',".viewRemarks",function(){
-//                $("#viewRmTable").html("");
+                $("#viewRmTable").html("");
                 $("#vRem").text($(this).parent().siblings(".projName").text());
                 $.ajax({
                     url:'getRemarks.htm',
