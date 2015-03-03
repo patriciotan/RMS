@@ -58,9 +58,10 @@
                     <td>
                         <button class="btn btn-success viewRemarks" data-toggle="modal" data-target="#viewRemarks">
                             <span style="color: #333333" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <b>Remarks</b>
+                            <c:if test="${client.rmcount!=0}">
                             &nbsp;<span class="badge">${client.rmcount}</span>
+                            </c:if>
                         </button>
-                        <input type="hidden" class="remarkss" value="<c:out value='${client.remarks}' />"/>
                     </td>
                 </tr>
                 </c:forEach>
@@ -161,9 +162,6 @@
         $(document).ready(function(){
             $("#4").attr("class","active");
             $("#clientSummary").dataTable();
-            
-            if($(".badge").html() == '0')
-                $(".badge").css("display","none");
            
             $("#cname1").change(function(){
                 $("#cerror1").html("");
@@ -228,59 +226,59 @@
                 }); 
             });
             
-            $(".readAllRm").click(function(){
-                $.ajax({
-                    url:'readAllRm.htm',
-                    success:function(){
-                        $(".viewRemarks").click();
-                    },  
-                        error : function(e) {  
-                        alert('Error: ' + e);   
-                    }
-                });
-            });
-            
-            $(".unreadAllRm").click(function(){
-                $.ajax({
-                    url:'unreadAllRm.htm',
-                    success:function(){
-                        $(".viewRemarks").click();
-                    },  
-                        error : function(e) {  
-                        alert('Error: ' + e);   
-                    }
-                });
-            });
-           
-           $(".rms").on('click',".readRm",function(){
-               var id = $(this).parent().siblings(".idRm").text();
-               $.ajax({
-                    url:'readRemarks.htm',
-                    type:'post',
-                    data:{'id':id},
-                    success:function(){
-                        $(".viewRemarks").click();
-                    },  
-                        error : function(e) {  
-                        alert('Error: ' + e);   
-                    }
-                });
-           });
-           
-           $(".rms").on('click',".unreadRm",function(){
-               var id = $(this).parent().siblings(".idRm").text();
-               $.ajax({
-                    url:'unreadRemarks.htm',
-                    type:'post',
-                    data:{'id':id},
-                    success:function(){
-                        $(".viewRemarks").click();
-                    },  
-                        error : function(e) {  
-                        alert('Error: ' + e);   
-                    }
-                });
-           });
+                                            $(".readAllRm").click(function(){
+                                                $.ajax({
+                                                    url:'readAllRm.htm',
+                                                    success:function(){
+                                                        $(".viewRemarks").click();
+                                                    },  
+                                                        error : function(e) {  
+                                                        alert('Error: ' + e);   
+                                                    }
+                                                });
+                                            });
+
+                                            $(".unreadAllRm").click(function(){
+                                                $.ajax({
+                                                    url:'unreadAllRm.htm',
+                                                    success:function(){
+                                                        $(".viewRemarks").click();
+                                                    },  
+                                                        error : function(e) {  
+                                                        alert('Error: ' + e);   
+                                                    }
+                                                });
+                                            });
+
+                                           $(".rms").on('click',".readRm",function(){
+                                               var id = $(this).parent().siblings(".idRm").text();
+                                               $.ajax({
+                                                    url:'readRemarks.htm',
+                                                    type:'post',
+                                                    data:{'id':id},
+                                                    success:function(){
+                                                        $(".viewRemarks").click();
+                                                    },  
+                                                        error : function(e) {  
+                                                        alert('Error: ' + e);   
+                                                    }
+                                                });
+                                           });
+
+                                           $(".rms").on('click',".unreadRm",function(){
+                                               var id = $(this).parent().siblings(".idRm").text();
+                                               $.ajax({
+                                                    url:'unreadRemarks.htm',
+                                                    type:'post',
+                                                    data:{'id':id},
+                                                    success:function(){
+                                                        $(".viewRemarks").click();
+                                                    },  
+                                                        error : function(e) {  
+                                                        alert('Error: ' + e);   
+                                                    }
+                                                });
+                                           });
         });
     </script>
 </html>

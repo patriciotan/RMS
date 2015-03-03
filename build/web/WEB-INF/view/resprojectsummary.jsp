@@ -69,7 +69,9 @@
                         <div style="float: left;" class="pull-right">
                             <button class="btn btn-success viewFeedback" data-toggle="modal" data-target="#viewFeedback">
                                 <span style="color: #333333" class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> <b>Feedbacks</b>
+                                <c:if test="${task.fbcount!=0}">
                                 &nbsp;<span class="badge">${task.fbcount}</span>
+                                </c:if>
                             </button>
                         </div>
                         <br/><br/><br/>
@@ -498,10 +500,10 @@
            $(".effBody").tooltip();
            $(".taskName").css("border","3px solid gray");
             
-            $(".content").each(function(i){
-                if(this.find(".badge").html() == '0')
-                    this.find(".badge").css("display","none");
-            });
+//            $(".content").each(function(i){
+//                if(this.find(".badge").html() == '0')
+//                    this.find(".badge").css("display","none");
+//            });
            
            $("#end1").change(function(){
                 $("#error2").html("");
@@ -566,60 +568,60 @@
                 }); 
             });
             
-            $(".readAllFb").click(function(){
-                $.ajax({
-                    url:'readAllFb.htm',
-                    success:function(){
-                        $(".viewFeedback").click();
-                    },  
-                        error : function(e) {  
-                        alert('Error: ' + e);   
-                    }
-                });
-            });
-            
-            $(".unreadAllFb").click(function(){
-                $.ajax({
-                    url:'unreadAllFb.htm',
-                    success:function(){
-                        $(".viewFeedback").click();
-                    },  
-                        error : function(e) {  
-                        alert('Error: ' + e);   
-                    }
-                });
-            });
-           
-           $(".fbs").on('click',".readFb",function(){
-               var id = $(this).parent().siblings(".idFb").text();
-               $.ajax({
-                    url:'readFeedback.htm',
-                    type:'post',
-                    data:{'id':id},
-                    success:function(){
-                        $(".viewFeedback").click();
-                    },  
-                        error : function(e) {  
-                        alert('Error: ' + e);   
-                    }
-                });
-           });
-           
-           $(".fbs").on('click',".unreadFb",function(){
-               var id = $(this).parent().siblings(".idFb").text();
-               $.ajax({
-                    url:'unreadFeedback.htm',
-                    type:'post',
-                    data:{'id':id},
-                    success:function(){
-                        $(".viewFeedback").click();
-                    },  
-                        error : function(e) {  
-                        alert('Error: ' + e);   
-                    }
-                });
-           });
-           
+                                            $(".readAllFb").click(function(){
+                                                $.ajax({
+                                                    url:'readAllFb.htm',
+                                                    success:function(){
+                                                        $(".viewFeedback").click();
+                                                    },  
+                                                        error : function(e) {  
+                                                        alert('Error: ' + e);   
+                                                    }
+                                                });
+                                            });
+
+                                            $(".unreadAllFb").click(function(){
+                                                $.ajax({
+                                                    url:'unreadAllFb.htm',
+                                                    success:function(){
+                                                        $(".viewFeedback").click();
+                                                    },  
+                                                        error : function(e) {  
+                                                        alert('Error: ' + e);   
+                                                    }
+                                                });
+                                            });
+
+                                           $(".fbs").on('click',".readFb",function(){
+                                               var id = $(this).parent().siblings(".idFb").text();
+                                               $.ajax({
+                                                    url:'readFeedback.htm',
+                                                    type:'post',
+                                                    data:{'id':id},
+                                                    success:function(){
+                                                        $(".viewFeedback").click();
+                                                    },  
+                                                        error : function(e) {  
+                                                        alert('Error: ' + e);   
+                                                    }
+                                                });
+                                           });
+
+                                           $(".fbs").on('click',".unreadFb",function(){
+                                               var id = $(this).parent().siblings(".idFb").text();
+                                               $.ajax({
+                                                    url:'unreadFeedback.htm',
+                                                    type:'post',
+                                                    data:{'id':id},
+                                                    success:function(){
+                                                        $(".viewFeedback").click();
+                                                    },  
+                                                        error : function(e) {  
+                                                        alert('Error: ' + e);   
+                                                    }
+                                                });
+                                           });
+
            $(".taskName").click(function(){
                $(".content").slideUp();
                $(this).siblings(".content").slideToggle();

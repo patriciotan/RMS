@@ -68,7 +68,13 @@
                         <td style="text-align: left" class="taskName"><c:out value="${project.taskName}" /></td>
                         <td style="text-align: left" class="projectName"><c:out value="${project.name}" /></td>
                         <td style="text-align: left" class="projStats">
-                            <a href="" class="projStatslink" data-toggle="modal" data-target="#editStatus" data-toggle="tooltip" data-placement="top" title="Click to edit project status"><c:out value="${project.status}" /></a>
+                            <c:out value="${project.status}" />
+                            <c:if test="${project.status=='Assigned'}">
+                                <button class="btn btn-success changeDone btn-xs" data-toggle="modal" data-target="#editTask">Change To Done</button>
+                            </c:if>
+                            <c:if test="${project.status!='Assigned'}">
+                                <button class="btn btn-success disabled btn-xs">Change To Done</button>
+                            </c:if>
                         </td>
                         <td style="text-align: left"><c:out value="${project.year}" /></td>
                         <td style="text-align: left"><c:out value="${project.start}" /></td>
@@ -177,48 +183,6 @@
         </div>
     <!-- End modal for view effort -->  
     
-    <!-- Start modal for edit task-->            
-    <div class="modal fade" id="editStatus" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content-sm">
-                <div class="modal-body-sm">
-                    <div class="panel panel-primary">  
-                        <div class="panel-heading">
-                            <b>Edit Status for <code id="taskName"></code></b>
-                        </div>
-                        <form id="edit" name="edit" action='<c:url value="editTask"/>' method="post" modelAttribute="task">
-                            <input type="hidden" name="taskId" id="tId" />
-                            <input type="hidden" name="name" id="tName" />
-                            <div class="panel-body">
-                                <div class="form-group">
-                                    <label for="">Status</label>
-                                    <select class="form-control" id="tStatus" name="status" required="required">
-                                        <option disabled="true" selected default></option>
-                                        <option value="Assigned">Assigned</option>
-                                        <option value="Done">Done</option>
-                                        <option value="Tested">Tested</option>
-                                        <option value="Accepted">Accepted</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="panel-footer">
-                                <div style="text-align: right">
-                                    <button class="btn btn-success" id="add-but" type="submit">
-                                        <span style="color: #333333" class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> <b>Save</b>
-                                    </button>
-                                    <button class="btn btn-danger" type="button" data-dismiss="modal">
-                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Cancel</b>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End modal for edit task-->
-    
     <!-- Start modal for add feedback-->                
     <div class="modal fade" id="addFeedback" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -296,11 +260,46 @@
     </div>
     <!-- End modal for view feedbacks-->
     
+    <!-- Start modal for edit task-->            
+    <div class="modal fade" id="editTask" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog-s">
+            <div class="modal-content-sm">
+                <div class="modal-body-sm">
+                    <div class="panel panel-primary">  
+                        <div class="panel-heading">
+                            <b>Edit Task</b>
+                        </div>
+                        <form name="edit" action='<c:url value="editTask"/>' method="post" modelAttribute="task">
+                            <div class="panel-body">
+                                <div class="form-group" style="text-align: center;">
+                                    <label>Are you sure you want to edit  <code id="eTask"></code> status to Done?</label>
+                                    <input type="hidden" name="name" id="editName"/>
+                                    <input type="hidden" name="status" id="editStatus" value="Done"/>
+                                    <input type="hidden" name="taskId" id="editId"/>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div style="text-align: right;">
+                                    <button class="btn btn-success" id="add-but" type="submit">
+                                        <span style="color: #333333" class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> <b>Yes</b>
+                                    </button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>No</b>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End modal for edit task-->  
+    
     <script>
         $(document).ready(function(){
             $("#1").attr("class","active"); 
             $("#effortTable").dataTable();
-            $(".projStatslink").tooltip();
 
             $("#taskSummary").on("click",".viewEffort",function(){
                 $("#TaskName").text($(this).parent().parent().parent().parent().siblings(".taskName").text());
@@ -309,12 +308,10 @@
                     $(".v"+i).text($(this).parent().parent().parent().parent().siblings(".h"+i).text());
                 }
             });
-            
-            $(".tasks").on("click",".projStatslink",function(){
-                $("#taskName").html($(this).parent().parent().children(".taskName").text());
-                $("#tStatus").val($(this).text());
-                $("#tName").val($(this).parent().parent().children(".taskName").text());
-                $("#tId").val($(this).parent().parent().children(".taskId").text());
+            $("#taskSummary").on('click',".changeDone",function(){
+                $("#eTask").text($(this).parent().siblings(".taskName").text());
+                $("#editName").val($(this).parent().siblings(".taskName").text());
+                $("#editId").val($(this).parent().siblings(".taskId").text());
             });
             
             $("#taskSummary").on('click',".addFeedback",function(){
