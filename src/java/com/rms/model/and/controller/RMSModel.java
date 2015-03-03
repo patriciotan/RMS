@@ -141,7 +141,7 @@ public class RMSModel {
     public ResultSet getFeedbacks(int taskId) throws Exception
     {
         PreparedStatement ps;
-        sql = "select feedback.*,resource.* from feedback join resource on resource.resource_id = feedback.added_by where task_id=? order by feedback.added_date desc";
+        sql = "select feedback.*,resource.* from feedback join resource on resource.resource_id = feedback.added_by where task_id=?";
         ps = con.prepareStatement(sql);
         ps.setInt(1, taskId);
         rs = ps.executeQuery();
