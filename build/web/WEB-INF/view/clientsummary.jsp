@@ -183,6 +183,8 @@
 
             $("#clientsSummary").on('click',".viewRemarks",function(){
                 $("#viewRmTable").html("");
+                $("clicked").removeClass("clicked");
+                $(this).addClass("clicked");
                 $("#vRem").text($(this).parent().siblings(".projName").text());
                 $.ajax({
                     url:'getRemarks.htm',
@@ -230,7 +232,7 @@
                                                 $.ajax({
                                                     url:'readAllRm.htm',
                                                     success:function(){
-                                                        $(".viewRemarks").click();
+                                                        $(".clicked").click();
                                                     },  
                                                         error : function(e) {  
                                                         alert('Error: ' + e);   
@@ -242,7 +244,7 @@
                                                 $.ajax({
                                                     url:'unreadAllRm.htm',
                                                     success:function(){
-                                                        $(".viewRemarks").click();
+                                                        $(".clicked").click();
                                                     },  
                                                         error : function(e) {  
                                                         alert('Error: ' + e);   
@@ -257,7 +259,7 @@
                                                     type:'post',
                                                     data:{'id':id},
                                                     success:function(){
-                                                        $(".viewRemarks").click();
+                                                        $(".clicked").click();
                                                     },  
                                                         error : function(e) {  
                                                         alert('Error: ' + e);   
@@ -272,7 +274,7 @@
                                                     type:'post',
                                                     data:{'id':id},
                                                     success:function(){
-                                                        $(".viewRemarks").click();
+                                                        $(".clicked").click();
                                                     },  
                                                         error : function(e) {  
                                                         alert('Error: ' + e);   

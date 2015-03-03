@@ -524,6 +524,8 @@
            
            $("#resourceSummary").on('click',".viewFeedback",function(){
                 $("#viewFbTable").html("");
+                $("clicked").removeClass("clicked");
+                $(this).addClass("clicked");
                 $("#vfName").text($(this).parent().parent().siblings().find(".tName").text());
                 $.ajax({
                     url:'getFeedbacks.htm',
@@ -572,7 +574,7 @@
                                                 $.ajax({
                                                     url:'readAllFb.htm',
                                                     success:function(){
-                                                        $(".viewFeedback").click();
+                                                        $(".clicked").click();
                                                     },  
                                                         error : function(e) {  
                                                         alert('Error: ' + e);   
@@ -584,7 +586,7 @@
                                                 $.ajax({
                                                     url:'unreadAllFb.htm',
                                                     success:function(){
-                                                        $(".viewFeedback").click();
+                                                        $(".clicked").click();
                                                     },  
                                                         error : function(e) {  
                                                         alert('Error: ' + e);   
@@ -599,7 +601,7 @@
                                                     type:'post',
                                                     data:{'id':id},
                                                     success:function(){
-                                                        $(".viewFeedback").click();
+                                                        $(".clicked").click();
                                                     },  
                                                         error : function(e) {  
                                                         alert('Error: ' + e);   
@@ -614,7 +616,7 @@
                                                     type:'post',
                                                     data:{'id':id},
                                                     success:function(){
-                                                        $(".viewFeedback").click();
+                                                        $(".clicked").click();
                                                     },  
                                                         error : function(e) {  
                                                         alert('Error: ' + e);   
