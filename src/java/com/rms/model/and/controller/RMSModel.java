@@ -376,6 +376,62 @@ public class RMSModel {
         return rs;
     }
     
+    public String getTaskName(int taskId) throws Exception
+    {
+        PreparedStatement ps;
+        sql = "SELECT * FROM task WHERE task_id=?";
+        System.out.println(sql);
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, taskId);
+        rs = ps.executeQuery();
+        rs.first();
+        return rs.getString("name");
+    }
+    
+    public String getAdminEmail() throws Exception
+    {
+        PreparedStatement ps;
+        sql = "SELECT * FROM user WHERE type=?";
+        System.out.println(sql);
+        ps = con.prepareStatement(sql);
+        ps.setString(1, "Manager");
+        rs = ps.executeQuery();
+        rs.first();
+        return rs.getString("email");
+    }
+    
+    public void updateEmail(String email) throws Exception
+    {
+        sql = "update user set email='"+email+"' where type='Manager'";
+        System.out.println(sql);
+        st.executeUpdate(sql);
+    }
+    
+    public String getResName(int id) throws Exception
+    {
+        PreparedStatement ps;
+        sql = "SELECT * FROM resource WHERE resource_id=?";
+        System.out.println(sql);
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, id);
+        rs = ps.executeQuery();
+        rs.first();
+        String name = rs.getString("first_name")+" "+rs.getString("last_name");
+        return name;
+    }
+    
+    public String getCliName(int id) throws Exception
+    {
+        PreparedStatement ps;
+        sql = "SELECT * FROM client WHERE client_id=?";
+        System.out.println(sql);
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, id);
+        rs = ps.executeQuery();
+        rs.first();
+        return rs.getString("name");
+    }
+    
     public ResultSet getTaskFbcount(int taskId) throws Exception
     {
         PreparedStatement ps;

@@ -9,6 +9,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${title}</title>
+        <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css'>
         <link href='<c:url value="/res/css/bootstrap.css"/>' type="text/css" rel="stylesheet">
         <link href='<c:url value="/res/sweetalert-master/lib/sweet-alert.css"/>' type="text/css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href='<c:url value="/res/css/dataTables.css"/>'>
@@ -52,6 +53,7 @@
                 <li id="2"><a href="pSummary">Project Summary</a></li>
                 <li id="3"><a href="rSummary">Resource Summary</a></li>
                 <li id="4"><a href="cSummary">Client Summary</a></li>
+                <li id="5"><a href="about">About</a></li>
             </ol>
             <ol class="nav navbar-nav navbar-right" style="margin-right: -124px">
                 <li class="dropdown navbar-right">

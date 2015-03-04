@@ -5,10 +5,15 @@
 
 <div id="bodiv">
     <div class="row page-header" style="margin-top: 0%;">
-        <div style="float: left; width: 100%;">
+        <div style="float: left; width: 84%;">
             <ol class="breadcrumb">
                 <li class="active">Dashboard</li>
             </ol>
+        </div>
+        <div style="float: left;" class="pull-right">
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#email">
+                <span style="color: #333333" class="glyphicon glyphicon-pencil" aria-hidden="true"></span> <b>Update email address</b>
+            </button>
         </div>
     </div>
     <div id="boards">
@@ -262,6 +267,41 @@
         </div>
     </div>
     <!-- End modal for add client-->
+
+<!-- Start modal for update email-->            
+    <div class="modal fade" id="email" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content-sm">
+                <div class="modal-body-sm">
+                    <div class="panel panel-primary">  
+                        <div class="panel-heading">
+                            <b>Update email address</b>
+                        </div>
+                        <form id="add" name="add" action='<c:url value="updateEmail"/>' method="post">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="">Email address<font style="margin-left:20px;display:none;" color="red" id="cerror1"></font></label>
+                                    <input class="form-control" autocomplete="off" required="required"  type="email" name="email">
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div style="text-align: right">
+                                    <input value="Outlook" name="reference" hidden="hidden">
+                                    <button class="btn btn-success" id="add-but" type="submit">
+                                        <span style="color: #333333" class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> <b>Submit</b>
+                                    </button>
+                                    <button class="btn btn-danger" type="button" data-dismiss="modal">
+                                        <span style="color: #333333" class="glyphicon glyphicon-remove" aria-hidden="true"></span> <b>Cancel</b>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End modal for update email-->
 
 </div>
 </div>

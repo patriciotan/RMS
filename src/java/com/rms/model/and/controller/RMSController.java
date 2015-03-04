@@ -7,8 +7,9 @@ package com.rms.model.and.controller;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import javax.mail.*;
+import javax.mail.internet.*;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.catalina.Session;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,67 +24,67 @@ import org.springframework.web.servlet.ModelAndView;
 public class RMSController {
     
     RMSModel dbModel = null;
+    public final String username = "mictest12345678910@gmail.com";
+    public final String password = "123456789Ten";
+    public final String host = "smtp.gmail.com";
+    public final String port = "587";
     
-//    public void sendEmail(){
-//        Properties props = System.getProperties();
-//        props.put("mail.smtp.starttls.enable", true);
-//        props.put("mail.smtp.host", "smtp.gmail.com");
-//        props.put("mail.smtp.user", "mictest12345678910@gmail.com");
-//        props.put("mail.smtp.password", "123456789Ten");
-//        props.put("mail.smtp.port", "587");
-//        props.put("mail.smtp.auth", true);
-//
-//
-//
-//        Session session = Session.getInstance(props,null);
-//        MimeMessage message = new MimeMessage(session);
-//
-//        System.out.println("Port: "+session.getProperty("mail.smtp.port"));
-//
-//        // Create the email addresses involved
-//        try {
-//            InternetAddress from = new InternetAddress("username");
-//            message.setSubject("Yes we can");
-//            message.setFrom(from);
-//            message.addRecipients(Message.RecipientType.TO, InternetAddress.parse("receivermail"));
-//
-//            // Create a multi-part to combine the parts
-//            Multipart multipart = new MimeMultipart("alternative");
-//
-//            // Create your text message part
-//            BodyPart messageBodyPart = new MimeBodyPart();
-//            messageBodyPart.setText("some text to send");
-//
-//            // Add the text part to the multipart
-//            multipart.addBodyPart(messageBodyPart);
-//
-//            // Create the html part
-//            messageBodyPart = new MimeBodyPart();
-//            String htmlMessage = "Our html text";
-//            messageBodyPart.setContent(htmlMessage, "text/html");
-//
-//
-//            // Add html part to multi part
-//            multipart.addBodyPart(messageBodyPart);
-//
-//            // Associate multi-part with message
-//            message.setContent(multipart);
-//
-//            // Send message
-//            Transport transport = session.getTransport("smtp");
-//            transport.connect("smtp.gmail.com", "username", "password");
-//            System.out.println("Transport: "+transport.toString());
-//            transport.sendMessage(message, message.getAllRecipients());
-//
-//
-//        } catch (AddressException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        } catch (MessagingException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//    }
+    public void sendEmail(String type, String itemName, String userName, String date, String email){
+        Properties props = System.getProperties();
+        props.put("mail.smtp.starttls.enable", true);
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.user", username);
+        props.put("mail.smtp.password", password);
+        props.put("mail.smtp.port", port);
+        props.put("mail.smtp.auth", true);
+
+        Session session = Session.getInstance(props,null);
+        MimeMessage message = new MimeMessage(session);
+
+        System.out.println("Port: "+session.getProperty("mail.smtp.port"));
+
+        // Create the email addresses involved
+        try {
+            InternetAddress from = new InternetAddress(username);
+            message.setSubject("New "+type);
+            message.setFrom(from);
+            message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+
+            // Create a multi-part to combine the parts
+            Multipart multipart = new MimeMultipart("alternative");
+
+            // Create your text message part
+            BodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setText("You have a new notification in RMS!\n\n");
+
+            // Add the text part to the multipart
+            multipart.addBodyPart(messageBodyPart);
+
+            // Create the html part
+            messageBodyPart = new MimeBodyPart();
+            String htmlMessage = "<strong>"+userName+"</strong> has added a <strong>"+type+"</strong> to <strong>"+itemName+"</strong> on <strong>"+date+"</strong>! \nCheck it in RMS now!";
+            messageBodyPart.setContent(htmlMessage, "text/html");
+
+            // Add html part to multi part
+            multipart.addBodyPart(messageBodyPart);
+
+            // Associate multi-part with message
+            message.setContent(multipart);
+
+            // Send message
+            Transport transport = session.getTransport("smtp");
+            transport.connect(host, username, password);
+            System.out.println("Transport: "+transport.toString());
+            transport.sendMessage(message, message.getAllRecipients());
+
+        } catch (AddressException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
      
     public List getOutlook() throws Exception {
         ResultSet rs = dbModel.getOutlook();
@@ -507,7 +508,6 @@ public class RMSController {
         return mav;
     } 
     
-    
     @RequestMapping("/dashboard")
     public ModelAndView viewDashboard(HttpServletRequest request) throws Exception {  
         ModelAndView mav = new ModelAndView("dashboard");
@@ -533,7 +533,12 @@ public class RMSController {
         return mav;
     } 
     
-   
+    @RequestMapping("/about")
+    public ModelAndView viewAbout(HttpServletRequest request) throws Exception {  
+        ModelAndView mav = new ModelAndView("about");
+        mav.addObject("title","RMS - About");
+        return mav;
+    } 
     
     @RequestMapping("/outlook")
     public ModelAndView viewOutlook(HttpServletRequest request) throws Exception { 
@@ -833,10 +838,21 @@ public class RMSController {
         String created_date = sdf.format(now);
         if(dbModel.addFeedback(feedback.getTaskId(),feedback.getSubject(),feedback.getContent(),created_by,created_date))
         {
+            String itemName = dbModel.getTaskName(feedback.getTaskId());
+            String email = dbModel.getAdminEmail();
+            String userName = dbModel.getResName(created_by);
+            sendEmail("feedback", itemName, userName, created_date, email);
             mav = new ModelAndView("redirect:/employeeView"); 
         }
         return mav;
     } 
+    
+    @RequestMapping(value = "/updateEmail")
+    public ModelAndView updateEmail(@RequestParam("email")String email, ModelMap model) throws Exception {
+        dbModel.updateEmail(email);
+        ModelAndView mav = new ModelAndView("redirect:/dashboard"); 
+        return mav;
+    }
     
     @RequestMapping(value = "/getFeedbacks")
     public @ResponseBody String getFeedbacks(@RequestParam("taskId")int taskId, ModelMap model) throws Exception {
@@ -921,6 +937,10 @@ public class RMSController {
         String created_date = sdf.format(now);
         if(dbModel.addRemarks(remarks.getProjId(),remarks.getSubject(),remarks.getContent(),created_by,created_date))
         {
+            String itemName = dbModel.getTaskName(remarks.getProjId());
+            String email = dbModel.getAdminEmail();
+            String userName = dbModel.getCliName(created_by);
+            sendEmail("remarks", itemName, userName, created_date, email);
             mav = new ModelAndView("redirect:/clientView"); 
         }
         return mav;
