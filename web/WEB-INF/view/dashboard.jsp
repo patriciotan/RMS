@@ -11,7 +11,7 @@
             </ol>
         </div>
         <div style="float: left;" class="pull-right">
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#email">
+            <button type="button" class="btn btn-success updateEmail" data-toggle="modal" data-target="#email">
                 <span style="color: #333333" class="glyphicon glyphicon-pencil" aria-hidden="true"></span> <b>Update email address</b>
             </button>
         </div>
@@ -281,7 +281,7 @@
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="">Email address<font style="margin-left:20px;display:none;" color="red" id="cerror1"></font></label>
-                                    <input class="form-control" autocomplete="off" required="required"  type="email" name="email">
+                                    <input class="form-control" id="emailAdd" autocomplete="off" required="required"  type="email" name="email">
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -364,6 +364,17 @@
                         $("#add-but1").removeAttr("disabled");
                     }
                 }
+            });
+            
+            $(".updateEmail").click(function(){
+               $.ajax({
+                  url:'getEmail.htm',
+                  type:'post',
+                  data:{'id':${managerId}},
+                  success:function(data){
+                      $("#emailAdd").val(data);
+                  }
+               });
             });
             
             $("#start1").change(function(){

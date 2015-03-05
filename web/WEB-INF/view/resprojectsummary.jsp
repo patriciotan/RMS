@@ -466,6 +466,7 @@
                         </div>
                         <div class="panel-footer">
                             <div style="float: left">
+                                <input type="hidden" id="idProjFb"/>
                                 <button class="btn btn-primary readAllFb">
                                     <span style="color: #333333" class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <b>Mark all as read</b>
                                 </button>
@@ -527,6 +528,11 @@
                 $("clicked").removeClass("clicked");
                 $(this).addClass("clicked");
                 $("#vfName").text($(this).parent().parent().siblings().find(".tName").text());
+                $("#idProjFb").val($(this).parent().parent().siblings(".taskId").val());
+                $('#viewFeedback').modal({
+                backdrop: 'static',
+                keyboard: false
+                });
                 $.ajax({
                     url:'getFeedbacks.htm',
                     type:'post',
@@ -573,6 +579,8 @@
                                             $(".readAllFb").click(function(){
                                                 $.ajax({
                                                     url:'readAllFb.htm',
+                                                    type:'post',
+                                                    data:{'id': $("#idProjFb").val()},
                                                     success:function(){
                                                         $(".clicked").click();
                                                     },  
@@ -585,6 +593,8 @@
                                             $(".unreadAllFb").click(function(){
                                                 $.ajax({
                                                     url:'unreadAllFb.htm',
+                                                    type:'post',
+                                                    data:{'id': $("#idProjFb").val()},
                                                     success:function(){
                                                         $(".clicked").click();
                                                     },  

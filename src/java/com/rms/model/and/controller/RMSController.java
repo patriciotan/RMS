@@ -523,6 +523,7 @@ public class RMSController {
             mav.addObject("underload",getUnderloadWhole());
             mav.addObject("clients",getClient());
             mav.addObject("projects",projects);
+            mav.addObject("managerId",request.getSession().getAttribute("userId"));
             if(!getUnpro().isEmpty())
                 mav.addObject("unPro",getUnpro());
             if(!getOvpro().isEmpty())
@@ -613,23 +614,6 @@ public class RMSController {
         return mav;
     }  
     
-    //wa nani gamita--2/17
-    @RequestMapping(value = "/resProject", method = RequestMethod.POST)
-    public ModelAndView viewResProject(@ModelAttribute("project")Project project, ModelMap model, HttpServletRequest request) throws Exception {   
-        ModelAndView mav = new ModelAndView("resprojectsummary"); 
-        int id = project.getProjectId();
-        String name = project.getName();
-        if(request.getSession().getAttribute("userType")!=null&&request.getSession().getAttribute("userType").equals("Manager")){
-            mav.addObject("title","RMS - "+name);
-            mav.addObject("projectId", id);
-            mav.addObject("projectName", name);
-            mav.addObject("employees", getEmployees());
-            mav.addObject("tasks",getTasks(id));
-        }else{
-            mav=new ModelAndView("redirect:/login"); 
-        }
-        return mav;
-    }  
     
     @RequestMapping(value = "/openProject", method = RequestMethod.GET)
     public ModelAndView viewOpenProject(@RequestParam("getId") int id, ModelMap model, HttpServletRequest request) throws Exception {   
@@ -824,7 +808,6 @@ public class RMSController {
         Date now = c.getTime();
         int updated_by = (int) request.getSession().getAttribute("userId");
         String updated_date = sdf.format(now);
-//        System.out.println("------CLIENT ID IS-----"+project.getClientId());
         if(dbModel.editSummary(project.getName(),project.getClientId(),project.getStart(),project.getEnd(),project.getType(),project.getbUnit(),project.getProjectId(),project.getMilestone(),updated_by,updated_date))
         {
             mav = new ModelAndView("redirect:/pSummary"); 
@@ -900,20 +883,19 @@ public class RMSController {
             feedbacks += "$";
             i++;
         }
-        System.out.println("------------"+feedbacks);
         feedbacks += "@";
         feedbacks += i;
         return feedbacks;
     }
     
     @RequestMapping(value = "/readAllFb")
-    public @ResponseBody void readAllFb(ModelMap model) throws Exception {
-        dbModel.readAllFb();
+    public @ResponseBody void readAllFb(@RequestParam("id")int id,ModelMap model) throws Exception {
+        dbModel.readAllFb(id);
     }
     
     @RequestMapping(value = "/unreadAllFb")
-    public @ResponseBody void unreadAllFb(ModelMap model) throws Exception {
-        dbModel.unreadAllFb();
+    public @ResponseBody void unreadAllFb(@RequestParam("id")int id,ModelMap model) throws Exception {
+        dbModel.unreadAllFb(id);
     }
     
     @RequestMapping(value = "/readFeedback")
@@ -927,13 +909,13 @@ public class RMSController {
     }
     
     @RequestMapping(value = "/readAllRm")
-    public @ResponseBody void readAllRm(ModelMap model) throws Exception {
-        dbModel.readAllRm();
+    public @ResponseBody void readAllRm(@RequestParam("projectId")int projId,ModelMap model) throws Exception {
+        dbModel.readAllRm(projId);
     }
     
     @RequestMapping(value = "/unreadAllRm")
-    public @ResponseBody void unreadAllRm(ModelMap model) throws Exception {
-        dbModel.unreadAllRm();
+    public @ResponseBody void unreadAllRm(@RequestParam("projectId")int projId,ModelMap model) throws Exception {
+        dbModel.unreadAllRm(projId);
     }
     
     @RequestMapping(value = "/readRemarks")
@@ -990,7 +972,6 @@ public class RMSController {
             remarks += "$";
             i++;
         }
-        System.out.println("------------asdf"+remarks);
         remarks += "@";
         remarks += i;
         return remarks;
@@ -1016,7 +997,6 @@ public class RMSController {
     public ModelAndView editResource(@ModelAttribute("effort")Resource effort, ModelMap model) throws Exception
     {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Edit Resource Failed");
-        System.out.println(effort.getEffortId()+"--"+effort.getYear()+"--"+effort.getJan()+"--"+effort.getFeb()+"--"+effort.getMar()+"--"+effort.getApr()+"--"+effort.getMay());
         if(dbModel.editResource(effort.getEffortId(),effort.getPerformance(),effort.getYear(),effort.getJan(),effort.getFeb(),effort.getMar(),effort.getApr(),effort.getMay(),effort.getJun(),effort.getJul(),effort.getAug(),effort.getSep(),effort.getOct(),effort.getNov(),effort.getDece())){
             mav = new ModelAndView("redirect:/openProject?getId="+effort.getProjId());  
         }
@@ -1027,7 +1007,6 @@ public class RMSController {
     public ModelAndView deleteResource(@ModelAttribute("effort")Effort effort, ModelMap model) throws Exception
     {
         ModelAndView mav = new ModelAndView("addprojectfailed", "title", "RMS - Edit Resource Failed");
-        System.out.println(effort.getTaskId()+"--"+effort.getEmpId());
         if(dbModel.deleteResource(effort.getTaskId(),effort.getEmpId())){
             mav = new ModelAndView("redirect:/openProject?getId="+effort.getProjId());  
         }
@@ -1047,7 +1026,6 @@ public class RMSController {
                 proj=dbModel.getProjectName(ds.getInt("project_id"));
                 emp+="%"+proj;
             }
-            System.out.println(emp);
         }
         return emp;
     }
@@ -1115,6 +1093,17 @@ public class RMSController {
             res+=rs.getInt("resource_id")+"%-."+rs.getString("first_name")+" "+rs.getString("last_name");
             res+="$$$";
         }
+        return res;
+    }
+    
+    @RequestMapping(value = "/getEmail")
+    public @ResponseBody String getEmail(@RequestParam("id")int projId, ModelMap model) throws Exception
+    {
+        ResultSet rs =null;
+        String res="";
+        rs=dbModel.getEmail(projId);
+        rs.next();
+        res=rs.getString("email");
         return res;
     }
     

@@ -16,13 +16,13 @@
                     <h3 style="text-align: center"><b>Irvin</b></h3>
                     <img style="margin-left: 32%" class="img-circle" width="120" height="120" src="<c:url value="/res/images/irvin.png"/>">
                     <h5 style="text-align: center">Developer</h5>
-                    <h5 style="text-align: center"><a href="irvin@gmail.com">irvin@gmail.com</a><br/></h5>
+                    <h5 style="text-align: center"><a href="http://www.flakersking@gmail.com">flakersking@gmail.com</a><br/></h5>
                     <h5 style="text-align: center">
                         <a href="#" class="icon-button twitter"><i class="icon-twitter"></i><span></span></a>
                         <a href="#" class="icon-button facebook"><i class="icon-facebook"></i><span></span></a>
                         <a href="#" class="icon-button google-plus"><i class="icon-google-plus"></i><span></span></a>
                     </h5>
-                    <em><p style="text-align: center">&ldquo;Insert something here!&rdquo;</p></em>
+                    <em><p style="text-align: center">&ldquo;Can you be my compiler? Coz&#39; my life wouldn&#39;t start without you.&rdquo;</p></em>
                 </div>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -60,5 +60,6 @@
     <script>
         $(document).ready(function(){
             $("#5").attr("class","active");
+        });
     </script>
 </html>

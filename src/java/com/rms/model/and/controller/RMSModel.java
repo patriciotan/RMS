@@ -122,7 +122,7 @@ public class RMSModel {
             rs= st.executeQuery("SELECT LAST_INSERT_ID() as last");
             rs.next();
             System.out.println(rs.getInt("last"));
-            sql = "insert into user (client_id,username,password,type) VALUES ("+rs.getInt("last")+",'"+name+"',MD5('user'),'Client')";
+            sql = "insert into user (type_id,username,password,type) VALUES ("+rs.getInt("last")+",'"+name+"',MD5('user'),'Client')";
             if(st.executeUpdate(sql)>0)
                 return true;
             return false;
@@ -169,16 +169,16 @@ public class RMSModel {
         return rs.getInt("count");
     }
     
-    public void readAllFb() throws Exception
+    public void readAllFb(int taskId) throws Exception
     {
-        sql = "update feedback set flag='0'";
+        sql = "update feedback set flag='0' WHERE task_id="+taskId;
         System.out.println(sql);
         st.executeUpdate(sql);
     }
     
-    public void unreadAllFb() throws Exception
+    public void unreadAllFb(int taskId) throws Exception
     {
-        sql = "update feedback set flag='1'";
+        sql = "update feedback set flag='1' WHERE task_id="+taskId;
         System.out.println(sql);
         st.executeUpdate(sql);
     }
@@ -197,16 +197,16 @@ public class RMSModel {
         st.executeUpdate(sql);
     }
     
-    public void readAllRm() throws Exception
+    public void readAllRm(int projId) throws Exception
     {
-        sql = "update remarks set flag='0'";
+        sql = "update remarks set flag='0' WHERE project_id="+projId;
         System.out.println(sql);
         st.executeUpdate(sql);
     }
     
-    public void unreadAllRm() throws Exception
+    public void unreadAllRm(int projId) throws Exception
     {
-        sql = "update remarks set flag='1'";
+        sql = "update remarks set flag='1' WHERE project_id="+projId;
         System.out.println(sql);
         st.executeUpdate(sql);
     }
@@ -730,6 +730,16 @@ public class RMSModel {
         sql = "SELECT * FROM task WHERE task_id=?";
         ps = con.prepareStatement(sql);
         ps.setInt(1, taskid);
+        rs = ps.executeQuery();
+        
+        return rs;
+    }
+    
+    public ResultSet getEmail(int user_id) throws Exception{
+        PreparedStatement ps;
+        sql = "SELECT email FROM user WHERE user_id=?";
+        ps = con.prepareStatement(sql);
+        ps.setInt(1, user_id);
         rs = ps.executeQuery();
         
         return rs;

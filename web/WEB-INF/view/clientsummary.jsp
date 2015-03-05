@@ -137,6 +137,7 @@
                         </div>
                         <div class="panel-footer">
                             <div style="float: left">
+                                <input type="hidden" id="idProjRm"/>
                                 <button class="btn btn-primary readAllRm">
                                     <span style="color: #333333" class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> <b>Mark all as read</b>
                                 </button>
@@ -186,6 +187,11 @@
                 $("clicked").removeClass("clicked");
                 $(this).addClass("clicked");
                 $("#vRem").text($(this).parent().siblings(".projName").text());
+                $("#idProjRm").val($(this).parent().siblings(".projId").text());
+                $('#viewRemarks').modal({
+                backdrop: 'static',
+                keyboard: false
+                });
                 $.ajax({
                     url:'getRemarks.htm',
                     type:'post',
@@ -228,9 +234,13 @@
                 }); 
             });
             
+            
+            
                                             $(".readAllRm").click(function(){
                                                 $.ajax({
                                                     url:'readAllRm.htm',
+                                                    type:'post',
+                                                    data:{'projectId':$("#idProjRm").val()},
                                                     success:function(){
                                                         $(".clicked").click();
                                                     },  
@@ -243,6 +253,8 @@
                                             $(".unreadAllRm").click(function(){
                                                 $.ajax({
                                                     url:'unreadAllRm.htm',
+                                                    type:'post',
+                                                    data:{'projectId':$("#idProjRm").val()},
                                                     success:function(){
                                                         $(".clicked").click();
                                                     },  
