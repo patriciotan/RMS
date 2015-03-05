@@ -9,6 +9,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${title}</title>
+        <link rel='stylesheet prefetch' href='http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css'>
         <link href='<c:url value="/res/css/bootstrap.css"/>' type="text/css" rel="stylesheet">
         <link href='<c:url value="/res/sweetalert-master/lib/sweet-alert.css"/>' type="text/css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href='<c:url value="/res/css/dataTables.css"/>'>
@@ -47,7 +48,7 @@
             <a class="pull-left" style=" margin-top: 6px;" href="#"><img src="<c:url value="/res/images/asi_logo_white.png"/>" height="40px" alt="alliance logo" /></a>
             <ol class="nav navbar-nav">
                 <li id="1"><a href="clientView">My Projects</a></li>
-                <li id="2"><a href="about">About</a></li>
+                <li id="2"><a href="aboutClient">About</a></li>
             </ol>
             <ol class="nav navbar-nav navbar-right" style="margin-right: -124px">
                 <li class="dropdown navbar-right">

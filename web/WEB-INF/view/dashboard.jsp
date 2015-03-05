@@ -51,7 +51,7 @@
             </div>
         </div>
         <div class="col-md-4 col-sm-6">
-            <div class="well"> 
+            <div class="well" style="min-height: 100px;"> 
                 <form class="form">
                     <h5><b>Add new project or client</b></h5>
                     <br/>
@@ -70,7 +70,7 @@
                 <br/>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading"><a href="rSummary" class="pull-right">View more</a> <h5><b>Under loaded resources for February</b></h5></div>
+                <div class="panel-heading"><a href="rSummary" class="pull-right">View more</a> <h5><b>Under loaded resources for ${month}</b></h5></div>
                 <div class="panel-body">
                     <ul id="underl" class="list-group">
                         <c:forEach end="4" items="${underload}" var="ul">

@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@include file="navigation.jsp" %>
+<%@include file="empnavigation.jsp" %>
 
 <div id="bodiv">
     <div class="row page-header" style="margin-top: 0%;">
@@ -59,6 +59,6 @@
 
     <script>
         $(document).ready(function(){
-            $("#5").attr("class","active");
+            $("#2").attr("class","active");
     </script>
 </html>

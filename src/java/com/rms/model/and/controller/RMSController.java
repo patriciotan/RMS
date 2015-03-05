@@ -513,6 +513,10 @@ public class RMSController {
         ModelAndView mav = new ModelAndView("dashboard");
         List<Project> projects = getSummary();
         int count[] = new int[2];
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM");
+        Calendar c = Calendar.getInstance();
+        Date now = c.getTime();
+        String month = sdf.format(now);
         
         if(request.getSession().getAttribute("userType")!=null&&request.getSession().getAttribute("userType").equals("Manager")){
             mav.addObject("title","RMS - Dashboard");
@@ -527,6 +531,7 @@ public class RMSController {
             count[1] = dbModel.getRmCount();
             mav.addObject("fbcount",count[0]);
             mav.addObject("rmcount",count[1]);
+            mav.addObject("month",month);
         }else{
             mav=new ModelAndView("redirect:/login"); 
         }
@@ -536,6 +541,20 @@ public class RMSController {
     @RequestMapping("/about")
     public ModelAndView viewAbout(HttpServletRequest request) throws Exception {  
         ModelAndView mav = new ModelAndView("about");
+        mav.addObject("title","RMS - About");
+        return mav;
+    } 
+    
+    @RequestMapping("/aboutEmp")
+    public ModelAndView viewAboutEmp(HttpServletRequest request) throws Exception {  
+        ModelAndView mav = new ModelAndView("aboutEmp");
+        mav.addObject("title","RMS - About");
+        return mav;
+    } 
+    
+    @RequestMapping("/aboutClient")
+    public ModelAndView viewAboutClient(HttpServletRequest request) throws Exception {  
+        ModelAndView mav = new ModelAndView("aboutClient");
         mav.addObject("title","RMS - About");
         return mav;
     } 

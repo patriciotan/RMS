@@ -22,7 +22,7 @@
                         <a href="#" class="icon-button facebook"><i class="icon-facebook"></i><span></span></a>
                         <a href="#" class="icon-button google-plus"><i class="icon-google-plus"></i><span></span></a>
                     </h5>
-                    <em><p style="text-align: center">Insert something here!</p></em>
+                    <em><p style="text-align: center">&ldquo;Insert something here!&rdquo;</p></em>
                 </div>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -36,7 +36,7 @@
                         <a href="https://www.facebook.com/xanpatan" class="icon-button facebook"><i class="icon-facebook"></i><span></span></a>
                         <a href="https://plus.google.com/u/0/114146712719168854285" class="icon-button google-plus"><i class="icon-google-plus"></i><span></span></a>
                     </h5>
-                    <em><p style="text-align: center">Can you be my private variable? I want to be the only one with access to you.</p></em>
+                    <em><p style="text-align: center">&ldquo;Can you be my private variable? Coz&#39; I want to be the only one with access to you.&rdquo;</p></em>
                 </div>
             </div>
             <div class="col-md-4 col-sm-6">
@@ -50,7 +50,7 @@
                         <a href="#" class="icon-button facebook"><i class="icon-facebook"></i><span></span></a>
                         <a href="#" class="icon-button google-plus"><i class="icon-google-plus"></i><span></span></a>
                     </h5>
-                    <em><p style="text-align: center">Insert something here!</p></em>
+                    <em><p style="text-align: center">&ldquo;Insert something here!&rdquo;</p></em>
                 </div>
             </div>
         </div>
