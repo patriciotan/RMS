@@ -236,7 +236,7 @@ public class RMSModel {
     public ResultSet getRemarks(int projId) throws Exception
     {
         PreparedStatement ps;
-        sql = "select remarks.*,client.* from remarks join client on client.client_id = remarks.added_by where project_id=? order by remarks.added_date desc";
+        sql = "select remarks.*,client.* from remarks join client on client.client_id = remarks.added_by where project_id=?";
         System.out.println(sql+" "+projId);
         ps = con.prepareStatement(sql);
         ps.setInt(1, projId);
