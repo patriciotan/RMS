@@ -1065,10 +1065,13 @@ public class RMSController {
     public @ResponseBody String checkProjectTask(@RequestParam("id")int id, ModelMap model) throws Exception
     {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        ResultSet rs =null;
+        ResultSet rs =null,ds =null;
         String emp="0";
         String latestTask = null;
         Date latest = null,next = null;
+        ds = dbModel.getProject(id);
+        ds.next();
+        latest = sdf.parse(ds.getString("start_date"));
         rs = dbModel.getTasksProjects(id);
         if(rs.next()){
             emp="1";
@@ -1080,6 +1083,7 @@ public class RMSController {
                 }
             }
         }
+        System.out.println(emp+"%-."+sdf.format(latest));
         return emp+"%-."+sdf.format(latest);
     }
     
