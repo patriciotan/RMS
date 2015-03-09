@@ -443,6 +443,7 @@
                             $("#field3").attr("min",half[1]);
                         }else{
                             $("#field2").removeAttr("readonly");
+                            $("#field3").removeAttr("min");
                         }
                     }
                 });
